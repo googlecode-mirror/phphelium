@@ -1,0 +1,9 @@
+* ---------------------------------------------------------------------
+* FILE: header.tmp
+* This is you primary header template file.
+* This will appear at the top of all non-bypassed pages.
+* ---------------------------------------------------------------------
+
+<tmp:header>
+<h1>{$LANG[title]}: <font style="color:green;">{$LANG[subtitle]}</font></h1>
+</tmp:header>

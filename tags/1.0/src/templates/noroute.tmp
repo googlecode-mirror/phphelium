@@ -1,0 +1,9 @@
+* ---------------------------------------------------------------------
+* FILE: noroute.tmp
+* Data for handling bad routing information
+* ---------------------------------------------------------------------
+
+<tmp:noroute>
+<strong style="color:red;">{$LANG[error]}</strong><br />
+{$LANG[norouteBody]}
+</tmp:noroute>
