@@ -1,0 +1,11 @@
+* ---------------------------------------------------------------------
+* FILE: footer.tmp
+* This is you primary footer template file.
+* This will appear at the bottom of all non-bypassed pages.
+* ---------------------------------------------------------------------
+
+<tmp:footer>
+<div id="footer">
+    &copy; {$LANG[copyYear]} {$LANG[author]}
+</div>
+</tmp:footer>
