@@ -8,13 +8,14 @@
  */
 
 class DB {
+    private $pointers = array('master' => false, 'slave' => false);
     private $pointer = false;
     private $trans = false;
     private static $instance;
 
-    function __construct($db=false,$pointer='slave') {
-        if (empty($db) && defined('SLAVE_DB_STRING')) $db = SLAVE_DB_STRING;
-        if (!empty($db)) $this->connect($db,$pointer);
+    function __construct($master=false,$slave=false) {
+        $this->buildPointers($master,$slave);
+        if (!empty($this->pointers['master'])) $this->connect('master');
         return true;
     }
 
@@ -28,6 +29,27 @@ class DB {
 
     /**
      *
+     * function: buildPointers
+     * Setup pointers
+     * @access public
+     * @param string $master
+     * @param string $slave
+     * @return string
+     */
+    public function buildPointers($master=false,$slave=false) {
+        if (!empty($master)) {
+            $this->pointers['master'] = $master;
+
+            if (empty($slave)) $this->pointers['slave'] = $master;
+            else $this->pointers['slave'] = $slave;
+        }
+
+        if (defined('MASTER_DB_STRING') && empty($this->pointers['master'])) $this->pointers['master'] = MASTER_DB_STRING;
+        if (defined('SLAVE_DB_STRING') && empty($this->pointers['slave'])) $this->pointers['slave'] = SLAVE_DB_STRING;
+    }
+
+    /**
+     *
      * function: connect
      * Connect active DB to the right server
      * @access public
@@ -35,10 +57,8 @@ class DB {
      * @param string $pointer
      * @return string
      */
-    public function connect($db=false,$pointer='slave') {
-        if (empty($db) && defined('SLAVE_DB_STRING')) $db = SLAVE_DB_STRING;
-        if (!empty($db)) return $this->point($pointer,$db);
-        else return false;
+    public function connect($pointer='master',$db=false) {
+        return $this->point($pointer,$db);
     }
 
     /**
@@ -50,22 +70,27 @@ class DB {
      * @param string $db
      * @return Object
      */
-    private function point($pointer,$db) {
-        if ($this->pointer == $pointer && !empty($this->instance) && is_resource($this->instance)) return $this->instance;
-        else {
-            $db_parts = explode('@',$db);
+    private function point($pointer,$db=false) {
+        if (empty($this->pointers[$pointer])) $this->buildPointers();
+        if (!empty($db) && empty($this->pointers[$pointer])) $this->pointers[$pointer] = $db;
 
-            $db_connect = explode(';',$db_parts[0]);
-            $db_user = explode(';',$db_parts[1]);
+        if (!empty($this->pointers[$pointer])) {
+            if ($this->pointer == $pointer && !empty($this->instance) && is_resource($this->instance)) return $this->instance;
+            else {
+                $db_parts = explode('@',$this->pointers[$pointer]);
 
-            $this->pointer = $pointer;
-            $this->bridge($db_connect[0],$db_user[0],$db_user[1]);
-            if ($this->instance) {
-                $sdb = ($db_connect[1] ? $db_connect[1] : DEFAULT_DB);
-                mysql_select_db($sdb,$this->instance);
-                return $this->instance;
-            } else return false;
-        }
+                $db_connect = explode(';',$db_parts[0]);
+                $db_user = explode(';',$db_parts[1]);
+
+                $this->pointer = $pointer;
+                $this->bridge($db_connect[0],$db_user[0],$db_user[1]);
+                if ($this->instance) {
+                    $sdb = ($db_connect[1] ? $db_connect[1] : DEFAULT_DB);
+                    mysql_select_db($sdb,$this->instance);
+                    return $this->instance;
+                } else return false;
+            }
+        } else return false;
     }
 
     /**
@@ -118,8 +143,7 @@ class DB {
      * @return null
      */
     public function pointMaster() {
-        if (defined('MASTER_DB_STRING')) return $this->point('master',MASTER_DB_STRING);
-        else return false;
+        return $this->point('master');
     }
 
     /**
@@ -130,8 +154,7 @@ class DB {
      * @return null
      */
     public function pointSlave() {
-        if (defined('SLAVE_DB_STRING')) return $this->point('slave',SLAVE_DB_STRING);
-        else return false;
+        return $this->point('slave');
     }
 
     /**
@@ -304,7 +327,7 @@ class DB {
                 if ($cache === true) $key = 'query['.md5($query).']';
                 else $key = $cache;
 
-                $c = new Cache();
+                $c = Cache::init();
                 $c->set($key,serialize($arr));
             }
 
@@ -328,7 +351,7 @@ class DB {
             if ($cache === true) $key = 'query['.md5($query).']';
             else $key = $cache;
 
-            $c = new Cache();
+            $c = Cache::init();
             if ($row = $c->get($key)) return unserialize($row);
         }
 
@@ -345,7 +368,7 @@ class DB {
                 if ($cache === true) $key = 'query['.md5($query).']';
                 else $key = $cache;
 
-                $cache = new Cache();
+                $cache = Cache::init();
                 $cache->set($key,serialize($row));
             }
 
