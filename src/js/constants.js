@@ -1,0 +1,3 @@
+var Constants = {
+    defaultSearchText: "Search..."
+};

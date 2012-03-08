@@ -1,0 +1,30 @@
+* ---------------------------------------------------------------------
+* FILE: login.tmp
+* User login template
+* ---------------------------------------------------------------------
+
+<tmp:login>
+<form method="POST" action="/login">
+    <div>
+        {$LANG[username]}: <input type="text" name="username" id="username" />
+    </div>
+    <div>
+        {$LANG[password]}: <input type="password" name="password" id="password" />
+    </div>
+    <div>
+        <input type="submit" name="btnSubmit" id="btnSubmit" />
+    </div>
+</form>
+</tmp:login>
+
+<tmp:successLogin>
+<div class="success">
+    {$LANG[successLogin]}
+</div>
+</tmp:successLogin>
+
+<tmp:failLogin>
+<div class="error">
+    {$LANG[errorLogin]}
+</div>
+</tmp:failLogin>

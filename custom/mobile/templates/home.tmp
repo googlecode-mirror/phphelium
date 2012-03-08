@@ -1,0 +1,8 @@
+* ---------------------------------------------------------------------
+* FILE: custom/mobile/home.tmp
+* By default, this is your home page template file for mobile
+* ---------------------------------------------------------------------
+
+<tmp:home>
+<strong>{$LANG[homeHead1]}</strong> {$LANG[home1]}
+</tmp:home>

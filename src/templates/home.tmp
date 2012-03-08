@@ -1,0 +1,56 @@
+* ---------------------------------------------------------------------
+* FILE: home.tmp
+* By default, this is your home page template file
+* ---------------------------------------------------------------------
+
+<tmp:home>
+<div id="navigation">
+    <div class="tab" id="tHome">Home</div>
+    <div class="tab" id="tDocumentation">Documentation</div>
+    <div class="tab" id="tContact">Contact</div>
+</div>
+
+<div class="clear"></div>
+
+<div class="innerContent">
+    <div id="cHome">
+        <div class="floatRight">
+            <a href="javascript:void(0);" id="moreDetails">Popup...</a>
+        </div>
+
+        <h2>{$LANG[homeHead1]}</h2>
+
+        <div style="padding:2em 1em 2em 2em;">
+        {$LANG[home1]}
+        </div>
+
+        <div class="clear"></div>
+
+        <div style="border-top:1px dotted silver; margin-top:2em; padding-top:1.5em;">
+            {$LANG[home2]}
+        </div>
+    </div>
+
+    <div id="cDocumentation">
+        {$documentation}
+    </div>
+    
+    <div id="cContact">
+        {$LANG[contact]}
+    </div>
+</div>
+
+<script type="text/javascript">
+navAssist.prepareNav('navigation','Home');
+
+$('#moreDetails').click(function() {
+    popup.trigger("This Is A Popup","/popup-help/");
+});
+</script>
+</tmp:home>
+
+<tmp:popupHelp>
+<div style="padding:1em;">
+    {$LANG[pop]}
+</div>
+</tmp:popupHelp>

@@ -1,0 +1,162 @@
+/* ------------------------------------------------------------------------
+   This CSS will be changed to suit the needs of the page.
+   All that is below is currently for the default landing page.
+   ------------------------------------------------------------------------ */
+
+body {
+    background:gray;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    color:#474848;
+}
+
+#wrapper {
+    margin:auto auto;
+    background:white;
+    border:1px solid gray;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px #000;
+    margin-top:2em;
+    width:50em;
+    padding:2em;
+}
+
+#header h1 {
+    float:left;
+    color:red;
+    padding-left:0em;
+    vertical-align:top;
+    letter-spacing:1px;
+}
+
+.floatRight {
+    float:right;
+}
+
+#content {
+    padding:0.5em 0 0 0;
+    margin:-1em 0 0 0;
+}
+
+.innerContent {
+    border:1px solid silver;
+    border-radius:10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    padding:1.5em;
+}
+
+#navigation {
+    float:right;
+    margin-top:0.5em;
+    margin-left:0.8em;
+    margin-bottom:0em;
+}
+
+#navigation .tab {
+    border-radius:5px 5px 0 0;
+    background:#eeeeee;
+    padding:0.5em;
+    float:left;
+    border:1px solid silver;
+    border-bottom:0;
+    margin-right:1em;
+    margin-bottom:0;
+    cursor:pointer;
+}
+
+#navigation .tab:hover {
+    background:gray;
+    color:white;
+    border:1px solid gray;
+    border-bottom:0;
+}
+
+#navigation .active {
+    background:silver;
+    border:1px solid gray;
+    border-bottom:0;
+}
+
+label {
+    width:12em;
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+    display: block
+}
+
+.element {
+    padding:0.3em;
+    clear:both;
+}
+
+.button {
+    padding: 5px 10px;
+    display: inline;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    text-shadow: 1px 1px #666;
+}
+
+.button:hover {
+    background-position: 0 center;
+}
+
+.button:active {
+    background-position: 0 top;
+    position: relative;
+    top: 1px;
+    padding: 6px 10px 4px;
+}
+
+input[type="text"], textarea {
+    border:1px solid gray;
+}
+
+input[type="password"], textarea {
+    border:1px solid gray;
+}
+
+#footer {
+    padding:1em 1em 0.2em 1em;
+    text-align:center;
+    font-size:0.9em;
+}
+
+.inputWrapper {
+	border:1px solid silver;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	padding:0.4em 0.3em 0.3em 0.3em;
+	background:white;
+}
+
+div.inputWrapper input {
+	border:0; 
+	background:white; 
+	width:100%; 
+	font-size:1.3em;
+}
+
+div.inputWrapper select {
+	border:0; 
+	background:white; 
+	width:100%; 
+	font-size:1.3em;
+}
+
+div.inputWrapper textarea {
+	border:0; 
+	background:white; 
+	width:100%; 
+	font-size:1.3em;
+}
+
+span.inputWrapper input { border:0; background:white; margin:0.3em; padding:0; max-width:15em; }
+span.inputWrapper select { border:0; background:white; margin:0.3em; }
+span.inputWrapper textarea { border:0; background:white; margin:0.3em; }
