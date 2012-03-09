@@ -8,18 +8,9 @@
  *          recommended cron available in the root directory of this code (file: cron)
  */
 
-require_once('../src/core/DB.php');
-
-// Load initialization settings
-$ini = parse_ini_file('../settings.ini',true);
-if (!empty($ini['database'])) {
-    define('MASTER_DB_STRING',$ini['database']['master']);
-    define('SLAVE_DB_STRING',$ini['database']['slave']);
-    define('DEFAULT_DB',$ini['database']['default']);
-}
-
-if (!empty($ini['database'])) {
-    $db = new DB($ini['database']['slave']);
+require_once('../src/prepare.php');
+if (defined('SLAVE_DB_STRING')) {
+    $db = new DB(SLAVE_DB_STRING);
 
     // Grab all unsent e-mails...
     $sql = 'SELECT * FROM email_queue WHERE sent_date IS NULL;';
