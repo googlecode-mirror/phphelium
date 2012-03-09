@@ -11,7 +11,7 @@ class Language {
     private $language;
 
     function __construct($lang=false) {
-        if (empty($land)) $land = Session::getLanguage();
+        if (empty($lang)) $lang = Session::getLanguage();
         $this->language = $lang;
     }
 

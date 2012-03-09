@@ -21,8 +21,7 @@ class Main extends StaticController {
     }
 
     function action() {
-        $this->tmp()->setTemplate($this->template);
-        return $this->tmp()->render($this->template,true);
+        return $this->tmp($this->template)->render();
     }
 
     function display() {
