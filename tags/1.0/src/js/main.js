@@ -1,3 +1,10 @@
+/*
+ * main.js
+ * Copyright: Bryan Healey 2010, 2011, 2012 (bryan@bryanhealey.com)
+ * License: GNU General Public License (v3)
+ * Purpose: All collected base functionality
+ */
+
 __CARRIAGE = 13;
 
 var navAssist = {
