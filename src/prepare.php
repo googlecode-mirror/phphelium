@@ -164,7 +164,7 @@ function __autoload($class) {
         } elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php')) {
             require_once($root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php');
             return;
-        } elseif (file_exiChecksts($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php')) {
+        } elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php')) {
             require_once($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php');
             return;
         }
