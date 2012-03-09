@@ -19,7 +19,7 @@
         </div>
 
         <h2>{$LANG[homeHead1]}</h2>
-
+        
         <div style="padding:2em 1em 2em 2em;">
         {$LANG[home1]}
         </div>

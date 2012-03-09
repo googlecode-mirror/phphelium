@@ -12,6 +12,8 @@ class Error extends Exception {
     private $logger;
     
     public function __construct($message,$code=false,$severity=false,$filename=false,$lineno=false) {
+        if (empty($code)) $code = E_USER_ERROR;
+        
         $this->message = $message;
         $this->code = $code;
         $this->severity = $severity;

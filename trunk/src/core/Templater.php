@@ -13,6 +13,35 @@ class Templater {
     private static $instance;
     private $root, $template, $chunk, $map, $output, $hide, $data, $inherit, $cache;
 
+    function __construct($root=DEFAULT_TEMPLATE_ROOT) {
+        $this->root = $root;
+        $this->chunk = array();
+        $this->map = array();
+        $this->output = array();
+        $this->hide = array();
+        $this->data = array();
+        $this->inherit = array();
+        $this->cache = array();
+    }
+
+    /**
+     *
+     * function: init
+     * Prepares the templater for work
+     * @access public
+     * @param string $tmp (optional)
+     * @return Templater
+     */
+    public static function init($tmp=null) {
+        if (!isset(self::$instance)) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+
+        if (!empty($tmp)) self::$instance->setTemplate($tmp);
+        return self::$instance;
+    }
+
     /**
      *
      * function: setRoot
@@ -39,7 +68,7 @@ class Templater {
      */
     public function determineRoot() {
         if (!empty($_SERVER['SERVER_NAME'])) {
-            if ($_SERVER['SERVER_NAME'] <> DEFAULT_URI && substr_count($_SERVER['SERVER_NAME'],DEFAULT_URI)) $subChk = str_replace('.'.DEFAULT_URI,'',$_SERVER['SERVER_NAME']);
+            if (defined('DEFAULT_URI') && $_SERVER['SERVER_NAME'] <> DEFAULT_URI && substr_count($_SERVER['SERVER_NAME'],DEFAULT_URI)) $subChk = str_replace('.'.DEFAULT_URI,'',$_SERVER['SERVER_NAME']);
             else $subChk = $_SERVER['SERVER_NAME'];
 
             $tmp = ROOT.'custom/'.$subChk.'/templates/';
@@ -116,36 +145,6 @@ class Templater {
     public function currentTemplate() {
         if ($this->template) return $this->template;
         else return false;
-    }
-
-    function __construct($root=DEFAULT_TEMPLATE_ROOT) {
-        $this->root = $root;
-        $this->chunk = array();
-        $this->map = array();
-        $this->output = array();
-        $this->hide = array();
-        $this->data = array();
-        $this->inherit = array();
-        $this->cache = array();
-    }
-
-    /**
-     *
-     * function: init
-     * Prepares the templater for work
-     * @access public
-     * @param string $tmp (optional)
-     * @return Templater
-     */
-    public static function init($tmp=null) {
-        if (!isset(self::$instance)) {
-            $c = __CLASS__;
-            self::$instance = new $c;
-        }
-
-        $obj = self::$instance;
-        if (!empty($tmp)) $obj->setTemplate($tmp);
-        return $obj;
     }
 
     /**
@@ -604,7 +603,58 @@ class Templater {
                 } else $template = str_replace("{\$".$key."}",(string)$value,(string)$template);
             }
         }
+
+        $template = $this->mapTransforms($template);
+        return $template;
+    }
+
+    /**
+     *
+     * function: mapTransforms
+     * Perform transformations on templating
+     * @access public
+     * @param string $template
+     * @return string
+     */
+    private function mapTransforms($template) {
+        preg_match_all("/\{[$]CURRENCY\[([^}]*)\]\}/si", $template, $currency);
+        if (!empty($currency[1])) {
+            foreach($currency[1] as $t) {
+                if (is_numeric($t)) $template = str_replace('{$CURRENCY['.$t.']}','$'.number_format($t,2,'.',','),$template);
+            }
+        }
+
+        preg_match_all("/\{[$]UPPER\[([^}]*)\]\}/si", $template, $upper);
+        if (!empty($upper[1])) {
+            foreach($upper[1] as $t) {
+                $template = str_replace('{$UPPER['.$t.']}',strtoupper($t),$template);
+            }
+        }
+
+        preg_match_all("/\{[$]LOWER\[([^}]*)\]\}/si", $template, $lower);
+        if (!empty($lower[1])) {
+            foreach($lower[1] as $t) {
+                $template = str_replace('{$LOWER['.$t.']}',strtolower($t),$template);
+            }
+        }
         
+        preg_match_all("/\{[$]TRIM\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $template = str_replace('{$TRIM['.$t.']}',trim($t),$template);
+            }
+        }
+        
+        preg_match_all("/\{[$]DATE\[([^}]*)\]\}/si", $template, $date);
+        if (!empty($date[1])) {
+            foreach($date[1] as $t) {
+                $tp = explode(',',$t);
+                if (!is_numeric($tp[1])) $tp[1] = strtotime($tp[1]);
+                
+                $template = str_replace('{$DATE['.$t.']}',(string)date(str_replace('\'','',$tp[0]),$tp[1]),$template);
+            }
+        }
+
         return $template;
     }
 

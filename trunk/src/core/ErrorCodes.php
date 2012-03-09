@@ -21,14 +21,12 @@ class ErrorCodes extends StaticController {
     }
 
     function action() {
-        $this->tmp()->setTemplate($this->template);
-
+        return $this->tmp($this->template)->render();
     }
 
     function display() {
-        $this->tmp()->setTemplate($this->template);
-        if (in_array($this->uri(2),$this->codeMap)) return $this->tmp()->render($this->uri(2),true);
-        else return $this->tmp()->render('general',true);
+        if (in_array($this->uri(2),$this->codeMap)) return $this->tmp($this->template)->render($this->uri(2),true);
+        else return $this->tmp($this->template)->render('general',true);
     }
 }
 

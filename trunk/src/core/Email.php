@@ -8,12 +8,41 @@
  */
 
 class Email {
-    private $defaultFrom = DEFAULT_EMAIL;
-    private $template = 'email';
+    private $defaultFrom = false;
     private $tmp = false;
+    private $tmpPrior = false;
+    private $template = 'email';
 
     public function __construct($template=false) {
+        $this->prepareTmp();
+
+        if (defined('DEFAULT_EMAIL')) $this->defaultFrom = DEFAULT_EMAIL;
+        else $this->defaultFrom = 'test@test.com';
+        
         if (!empty($template)) $this->template = $template;
+    }
+
+    /**
+     *
+     * function: revertTmp
+     * Revert templating
+     * @access public
+     * @return Templater
+     */
+    public function revertTmp() {
+        if (!empty($this->tmpPrior) && !empty($this->tmp)) $this->tmp->setTemplate($this->tmpPrior);
+    }
+
+    /**
+     *
+     * function: prepareTmp
+     * Prepare templating
+     * @access public
+     * @return Templater
+     */
+    public function prepareTmp() {
+        $this->tmp = Templater::init();
+        $this->tmpPrior = $this->tmp->currentTemplate();
     }
 
     /**
@@ -23,9 +52,11 @@ class Email {
      * @access public
      * @return Templater
      */
-    public function tmp() {
-        if (!is_object($this->tmp)) $this->tmp = Templater::init();
-        if (!empty($tmp)) $this->tmp->setTemplate($tmp);
+    public function tmp($tmp=false) {
+        if (!is_object($this->tmp)) $this->prepareTmp();
+        if (!empty($tmp)) $this->tmp = $tmp;
+        
+        $this->tmp->setTemplate($this->tmp);
         return $this->tmp;
     }
 
@@ -41,6 +72,7 @@ class Email {
      * @return boolean
      */
     public function send($to,$subject,$content,$from=false) {
+        $this->revertTmp();
         if (!$from) $from = $this->defaultFrom;
         
         $sql = 'INSERT INTO email_queue (recipient,sender,subject,content) VALUES (?,?,?,?);';
@@ -100,7 +132,8 @@ class Email {
      * @param string $to (optional)
      * @return boolean
      */
-    public function testMsg($to=DEFAULT_EMAIL) {
+    public function testMsg($to=false) {
+        if (empty($to)) $to = $this->defaultFrom;
         return $this->send($to,'Test',$this->build('This is a test... This is only a test...'),false);
     }
 

@@ -36,8 +36,9 @@ abstract class Component extends DB {
      * @param int $level
      * @return null
      */
-    function uri($level) {
-        return Request::getURI($level);
+    public function uri($level,$from=false) {
+        if (empty($from)) return Request::getURI($level);
+        else return Request::getURIFrom($level);
     }
 
     /**
@@ -47,7 +48,7 @@ abstract class Component extends DB {
      * @access public
      * @return null
      */
-    function prepareReq() {
+    private function prepareReq() {
         $req = new Request();
         $req->parse();
 
@@ -62,7 +63,7 @@ abstract class Component extends DB {
      * @param array $merge (optional)
      * @return array
      */
-    function getRequest($merge=false) {
+    public function getRequest($merge=false) {
         if (empty($this->req)) $this->prepareReq();
         if (!empty($merge)) $this->req = array_merge($this->req,$merge);
         return $this->req;
@@ -73,17 +74,16 @@ abstract class Component extends DB {
      * function: session
      * Gets session object for manipulation by controller, or sets session application variable
      * @access public
-     * @param string $el (optional)
-     * @param string $var (optional)
-     * @return [Session,boolean]
+     * @param string $el [optional]
+     * @param string $var [optional]
+     * @return mixed
      */
-    public function session($el=null,$var=null) {
+    public function session($el=false,$var=false) {
+        $session = new Session();
         if (!empty($el)) {
-            if (!empty($var)) return Session::setAppVar($el,$var);
-            else return Session::getAppVar($el);
-        } else {
-            return new Session();
-        }
+            if (!empty($var)) return $session->setAppVar($el,$var);
+            else return $session->getAppVar($el);
+        } else return $session;
     }
 
     /**
@@ -91,11 +91,23 @@ abstract class Component extends DB {
      * function: process
      * Gets process object
      * @access public
-     * @return Process
+     * @param String $uri [optional]
+     * @param boolean $getData [optional]
+     * @param String $username [optional]
+     * @param String $password [optional]
+     * @return mixed
      */
-    public function process() {
-        $this->process = new Process();
-        return $this->process;
+    public function process($uri=false,$data=false,$getData=false,$username=false,$password=false) {
+        $process = new Process();
+        if (!empty($uri)) {
+            if (empty($getData)) $func = 'outbound';
+            else $func = 'service';
+
+            if (!empty($username) && !empty($password)) {
+                $func = 'auth'.ucwords($func);
+                $results = $process->$func($uri,$data,$username,$password);
+            } else $results = $process->$func($uri,$data);
+        } else return $process;
     }
 
     /**
@@ -105,9 +117,12 @@ abstract class Component extends DB {
      * @access public
      * @return Cache
      */
-    public function cache() {
-        $this->cache = new Cache();
-        return $this->cache;
+    public function cache($el=false,$val=false) {
+        $cache = new Cache();
+        if (!empty($el)) {
+            if (!empty($var)) return $cache->set($el,$var);
+            else return $cache->get($el);
+        } else return $cache;
     }
 
     /**
@@ -121,8 +136,7 @@ abstract class Component extends DB {
      * @return Crypt
      */
     public function crypt($key,$algorithm=false,$mode=false) {
-        $this->crypt = new Crypt($key,$algorithm,$mode);
-        return $this->crypt;
+        return new Crypt($key,$algorithm,$mode);
     }
 
     /**
@@ -134,8 +148,7 @@ abstract class Component extends DB {
      * @return Email
      */
     public function email($tmp=false) {
-        $this->email = new Email($tmp);
-        return $this->email;
+        return new Email($tmp);
     }
 
     /**

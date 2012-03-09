@@ -1,4 +1,19 @@
+/*
+ * datetime.js
+ * Copyright: Bryan Healey 2010, 2011, 2012 (bryan@bryanhealey.com)
+ * License: GNU General Public License (v3)
+ * Purpose: Do date/time transformations
+ */
+
 var DateData = {
+    /**
+     *
+     * function: dow
+     * Get the textual representation of the day of the week
+     * @access public
+     * @param i
+     * @return string
+     */
     dow: function(i) {
         switch(i) {
             case 0: return "Sunday"; break;
@@ -10,28 +25,60 @@ var DateData = {
             case 6: return "Saturday"; break;
         }
     },
-    
+
+    /**
+     *
+     * function: daysUntil
+     * Get the number of days until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
     daysUntil: function(end) {
         var start = DateData.unixtime();
         var diff = end-start;
 
         return Math.floor(diff/(24*60*60));
     },
-	
+
+    /**
+     *
+     * function: hrsUntil
+     * Get the number of hours until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
     hrsUntil: function(end) {
         var start = DateData.unixtime();
         var diff = end-start;
 
         return Math.floor(diff/(60*60));
     },
-	
+
+    /**
+     *
+     * function: minsUntil
+     * Get the number of minutes until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
     minsUntil: function(end) {
         var start = DateData.unixtime();
         var diff = end-start;
 
         return Math.floor(diff/60);
     },
-	
+
+    /**
+     *
+     * function: secsUntil
+     * Get the number of seconds until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
     secsUntil: function(end) {
         var start = DateData.unixtime();
         var diff = end-start;
@@ -39,6 +86,14 @@ var DateData = {
         return diff;
     },
 
+    /**
+     *
+     * function: measuresUntil
+     * Get the various measures until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
     measuresUntil: function(end) {
         var start = DateData.unixtime();
         var diff = end-start;
@@ -56,7 +111,14 @@ var DateData = {
 
         return [days,hours,mins,secs];
     },
-	
+
+    /**
+     *
+     * function: unixtime
+     * Get the current unix timestamp
+     * @access public
+     * @return string
+     */
     unixtime: function() {
         var d = new Date;
         var unixtime_ms = d.getTime();

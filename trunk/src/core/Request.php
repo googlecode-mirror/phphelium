@@ -95,6 +95,7 @@ class Request {
      */
     public function getURIFrom($level) {
         $uri = explode('/',$_SERVER['REQUEST_URI']);
+        
         $cnt = 0;
         while($cnt < $level) { array_shift($uri); $cnt++; }
         return $uri;
