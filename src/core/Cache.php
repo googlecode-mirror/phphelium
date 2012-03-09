@@ -9,7 +9,6 @@
 
 class Cache {
     private $instance;
-    private $log = array();
     private $connected = false;
 
     function __construct($serverAppend=array()) {

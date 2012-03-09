@@ -23,6 +23,7 @@ class Images {
     function cropImage($image,$pct=.65,$thumbSize=150) {
         $this->thumbSize = $thumbSize;
         $this->imgSrc = $image;
+        
         list($width, $height) = getimagesize($this->imgSrc);
         $this->myImage = imagecreatefromjpeg($this->imgSrc) or die('Error: Cannot find image!');
 
@@ -47,13 +48,27 @@ class Images {
         $this->renderImage();
     }
 
+    /**
+     *
+     * function: createThumb
+     * Create an image thumbnail
+     * @access public
+     * @return null
+     */
     function createThumb() {
         $thumbSize = $this->thumbSize;
         $this->thumb = imagecreatetruecolor($thumbSize, $thumbSize);
 
-        imagecopyresampled($this->thumb, $this->myImage, 0, 0, $this->x, $this->y, $thumbSize, $thumbSize, $this->cropWidth, $this->cropHeight);
+        imagecopyresampled($this->thumb,$this->myImage,0,0,$this->x,$this->y,$thumbSize,$thumbSize,$this->cropWidth,$this->cropHeight);
     }
 
+    /**
+     *
+     * function: renderImage
+     * Render an image
+     * @access public
+     * @return null
+     */
     function renderImage() {
         header('Content-type: image/jpeg');
         imagejpeg($this->thumb);

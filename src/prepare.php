@@ -183,7 +183,7 @@ function __autoload($class) {
 /** -----------------------------------------------
     load constants into APC...
     --------------------------------------------------------- */
-$c = new Constants();
+$c = new Constants(true);
 $constants = array();
 
 if (!$c->checkConstants()) {

@@ -1,4 +1,19 @@
+/*
+ * validate.js
+ * Copyright: Bryan Healey 2010, 2011, 2012 (bryan@bryanhealey.com)
+ * License: GNU General Public License (v3)
+ * Purpose: Data validation manager
+ */
+
 var Validate = {
+    /**
+     *
+     * function: checkElement
+     * Validate a specific element
+     * @access public
+     * @param elem
+     * @return string
+     */
     checkElement: function(elem) {
         var toRet = true;
         var check = true;
@@ -62,6 +77,14 @@ var Validate = {
         return toRet;
     },
 
+    /**
+     *
+     * function: checkAll
+     * Validate an entire form
+     * @access public
+     * @param frm
+     * @return string
+     */
     checkAll: function(frm) {
         var passAll = true;
         var el = $('#'+frm);
@@ -75,6 +98,14 @@ var Validate = {
         return passAll;
     },
 
+    /**
+     *
+     * function: autoValidate
+     * Auto-validate an entire form, prepared on page load
+     * @access public
+     * @param frm
+     * @return string
+     */
     autoValidate: function(frm) {
         var el = $('#'+frm);
 

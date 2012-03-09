@@ -90,7 +90,7 @@ class APC {
      * @access public
      * @return boolean
      */
-    private function loadConstants() {
+    public function loadConstants() {
         return apc_load_constants($this->globalKey);
     }
 }

@@ -12,8 +12,8 @@ class Constants {
     private $apc;
     private $protectedIni = array('database','system','server','mobile','api','memcache','environment','email');
 
-    function __construct() {
-        if (function_exists('apc_define_constants')) {
+    function __construct($noAPC=false) {
+        if (empty($noAPC) && function_exists('apc_define_constants')) {
             require_once(realpath(dirname(__FILE__)).'/APC.php');
             $this->apc = new APC();
             $this->type = 'apc';
@@ -28,9 +28,14 @@ class Constants {
      * @return boolean
      */
     public function checkConstants() {
+        if ($this->type == 'apc') {
+            if ($this->apc->checkConstants()) {
+                $this->apc->loadConstants();
+                return true;
+            }
+        }
+
         return false;
-        if ($this->type == 'standard') return false;
-        else return $this->apc->checkConstants();
     }
 
     /**
@@ -45,8 +50,19 @@ class Constants {
     public function buildConstants($ini,$constants=array()) {
         if (!empty($ini['database'])) {
             $constants['MASTER_DB_STRING'] = $ini['database']['master'];
+            unset($ini['database']['master']);
+
             $constants['SLAVE_DB_STRING'] = $ini['database']['slave'];
+            unset($ini['database']['slave']);
+
             $constants['DEFAULT_DB'] = $ini['database']['default'];
+            unset($ini['database']['default']);
+            
+            if (!empty($ini['database'])) {
+                foreach($ini['database'] as $db => $conn) {
+                    $constants[strtoupper($db).'_DB_STRING'] = $conn;
+                }
+            }
         }
 
         if (!empty($ini['system'])) {
@@ -104,7 +120,7 @@ class Constants {
                 }
             }
         }
-
+        
         return $constants;
     }
 
