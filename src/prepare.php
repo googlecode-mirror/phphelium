@@ -190,7 +190,7 @@ if (!$c->checkConstants()) {
     $ini = parse_ini_file('../settings.ini',true);
     $constants = $c->buildConstants($ini);
     
-    if (file_exists('../custom/'.$_SERVER['SERVER_NAME'].'/settings.ini')) {
+    if (!empty($_SERVER['SERVER_NAME']) && file_exists('../custom/'.$_SERVER['SERVER_NAME'].'/settings.ini')) {
         $ini = parse_ini_file('../custom/'.$_SERVER['SERVER_NAME'].'/settings.ini',true);
         $constants = $c->buildConstants($ini,$constants);
     }
