@@ -57,7 +57,7 @@ class Constants {
 
             $constants['DEFAULT_DB'] = $ini['database']['default'];
             unset($ini['database']['default']);
-            
+
             if (!empty($ini['database'])) {
                 foreach($ini['database'] as $db => $conn) {
                     $constants[strtoupper($db).'_DB_STRING'] = $conn;
@@ -81,8 +81,8 @@ class Constants {
         }
 
         if (!empty($ini['server'])) {
-            $constants['TIMEZONE'] = $ini['server']['timezone'];
-            $constants['DEFAULT_SUBDOMAIN'] = $ini['server']['subdomain'];
+            $constants['TIMEZONE'] = (!empty($ini['server']['timezone']) ? $ini['server']['timezone'] : 'UTC');
+            if ($ini['server']['subdomain']) $constants['DEFAULT_SUBDOMAIN'] = $ini['server']['subdomain'];
             $constants['DEFAULT_URI'] = $ini['server']['uri'];
             $constants['VAR_PREPEND'] = $ini['server']['varPrepend'];
         }
@@ -112,7 +112,7 @@ class Constants {
         if (!empty($ini['email'])) {
             $constants['DEFAULT_EMAIL'] = (preg_match('/LANG\[(.*?)\]/s',$ini['email']['defaultFrom']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['email']['defaultFrom']),'GLOBAL') : $ini['email']['defaultFrom']);
         }
-        
+
         foreach($ini as $iid => $idata) {
             if (!in_array($iid,$this->protectedIni)) {
                 foreach($idata as $constKey => $constValue) {
@@ -120,7 +120,7 @@ class Constants {
                 }
             }
         }
-        
+
         return $constants;
     }
 

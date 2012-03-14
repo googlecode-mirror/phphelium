@@ -9,7 +9,9 @@ $pageURI = substr($_SERVER['PHP_SELF'],0,strripos($_SERVER['PHP_SELF'],'/')+1);
 $hd = parse_url($_SERVER['HTTP_HOST']);
 $host = explode('.', $hd['path']);
 $subdomains = array_slice($host,0,count($host)-2);
-if (count($subdomains) > 1 || $subdomains[0] <> DEFAULT_SUBDOMAIN) $pageURI .= '@'.implode('.',$subdomains);
+if (defined('DEFAULT_SUBDOMAIN')) {
+    if (count($subdomains) > 1 || $subdomains[0] <> DEFAULT_SUBDOMAIN) $pageURI .= '@'.implode('.',$subdomains);
+}
 
 $pageData = array();
 $pagesList = $cache->get(VAR_PREPEND.'store[environment[pages]]');
