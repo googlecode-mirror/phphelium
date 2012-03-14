@@ -25,7 +25,6 @@ class Home extends StaticController {
     }
 
     function display() {
-        $this->tmp('documentation')->setVar('documentation','test',3848);
         $this->tmp($this->template)->setVar('home','documentation',$this->tmp('documentation')->render());
         return $this->tmp($this->template)->render();
     }
