@@ -327,7 +327,7 @@ class DB {
                 if ($cache === true) $key = 'query['.md5($query).']';
                 else $key = $cache;
 
-                $c = Cache::init();
+                $c = new Cache();
                 $c->set($key,serialize($arr));
             }
 
@@ -351,7 +351,7 @@ class DB {
             if ($cache === true) $key = 'query['.md5($query).']';
             else $key = $cache;
 
-            $c = Cache::init();
+            $c = new Cache();
             if ($row = $c->get($key)) return unserialize($row);
         }
 
@@ -368,7 +368,7 @@ class DB {
                 if ($cache === true) $key = 'query['.md5($query).']';
                 else $key = $cache;
 
-                $cache = Cache::init();
+                $cache = new Cache();
                 $cache->set($key,serialize($row));
             }
 

@@ -75,8 +75,10 @@ class Session {
      * @return null
      */
     public function setLanguage($lang) {
-        unset($_SESSION['language']);
-        $_SESSION['language'] = $lang;
+        if (!empty($_SESSION)) {
+            unset($_SESSION['language']);
+            $_SESSION['language'] = $lang;
+        }
     }
 
     /**

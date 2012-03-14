@@ -65,7 +65,7 @@ class Language {
         if (empty($lang)) $lang = Session::getLanguage();
 
         $root = str_replace('src/core','',realpath(dirname(__FILE__)));
-        if (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml')) $langFile = $root.'/custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml';
+        if (!empty($_SERVER['SERVER_NAME']) && file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml')) $langFile = $root.'/custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml';
         else $langFile = $root.'language/'.$lang.'.xml';
         
         $cache = new Cache();
