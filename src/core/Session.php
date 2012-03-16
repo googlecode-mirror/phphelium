@@ -8,10 +8,16 @@
  */
 
 class Session {
+    /**
+     *
+     * function: init
+     * Initialize session information
+     * @access public
+     * @return string
+     */
     public function init() {
-        if ($uid = Cookie::getCookie('user')) {
-            Session::setUser($uid);
-        }
+        if ($uid = Session::getUserID()) return Session::setUser($uid);
+        elseif ($uid = Cookie::getCookie('user')) return Session::setUser($uid);
     }
 
     /**
@@ -104,6 +110,7 @@ class Session {
      */
     public function setAppVar($el,$var) {
         $_SESSION['app'][$el] = $var;
+        return $var;
     }
 
     /**
