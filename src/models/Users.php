@@ -23,12 +23,12 @@ class Users extends Model {
 
     public $schema = array(
         'user_id'=>array('type'=>'int(10)','isNull'=>false,'isPrimary'=>true),
-        'username'=>array('type'=>'varchar(100)','isNull'=>true),
-        'password'=>array('type'=>'varchar(100)','isNull'=>true),
+        'username'=>array('type'=>'varchar(100)','isNull'=>false),
+        'password'=>array('type'=>'varchar(100)','isNull'=>false),
         'first_name'=>array('type'=>'varchar(50)','isNull'=>true),
-        'last_name'=>array('type'=>'varchar(50)','isNull'=>false),
-        'email'=>array('type'=>'varchar(50)','isNull'=>false),
-        'language'=>array('type'=>'varchar(2)','isNull'=>false),
+        'last_name'=>array('type'=>'varchar(50)','isNull'=>true),
+        'email'=>array('type'=>'varchar(50)','isNull'=>true),
+        'language'=>array('type'=>'varchar(2)','isNull'=>false,'defaultValue'=>'en'),
         'is_admin'=>array('type'=>'tinyint(1)','isNull'=>false,'defaultValue'=>'0'),
         'is_active'=>array('type'=>'tinyint(1)','isNull'=>false,'defaultValue'=>'1'),
         'create_date'=>array('type'=>'timestamp','isNull'=>false,'defaultValue'=>'CURRENT_TIMESTAMP')
@@ -58,6 +58,52 @@ class Users extends Model {
             
             return $user;
         }
+    }
+
+    /**
+     *
+     * function: register
+     * Register a new user
+     * @access public
+     * @param string $username
+     * @param string $password
+     * @param boolean $sticky (optional)
+     * @return [boolean,User]
+     */
+    public function register($username,$password,$info=false) {
+        $sql = 'INSERT INTO '.$this->table.' (username,password) VALUES (?,?);';
+        $userId = $this->insert($sql,array($username,$password));
+        if (empty($userId)) return false;
+        else {
+            if (!empty($info)) Users::updateUser($info,$userId);
+
+            Session::setUser($userId);
+            if (!empty($sticky)) Cookie::setCookie('user',$userId);
+            
+            return $userId;
+        }
+    }
+
+    /**
+     *
+     * function: updateUser
+     * Register a new user
+     * @access public
+     * @param string $username
+     * @param string $password
+     * @param boolean $sticky (optional)
+     * @return [boolean,User]
+     */
+    public function updateUser($info,$userId=false) {
+        $els = array(); $opts = array();
+        foreach($info as $el => $var) { $els[] = $el.' = ?'; $opts[] = $var; }
+        $opts[] = $userId;
+
+        $sql = 'UPDATE '.$this->table.' SET '.implode(', ',$els).' WHERE '.$this->primary.' = ?;';
+        $this->update($sql,$opts);
+
+        $this->clear($user);
+        return $userId;
     }
 
     /**

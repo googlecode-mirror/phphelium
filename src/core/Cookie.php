@@ -23,7 +23,7 @@ class Cookie {
      */
     public function setCookie($id,$value) {
         if (empty($_COOKIE[VAR_PREPEND.$id])) {
-            setcookie(VAR_PREPEND.$id,$value,strtotime('+14 days'),'/',BASE_URI,false,true);
+            setcookie(VAR_PREPEND.$id,$value,strtotime('+14 days'),'/',Cookie::baseURI(),false,true);
         }
     }
 
@@ -49,7 +49,15 @@ class Cookie {
      * @return null
      */
     public function destroyCookie($id) {
-        setcookie(VAR_PREPEND.$id,'',strtotime('-1 hour'),'/',BASE_URI,false,true);
+        setcookie(VAR_PREPEND.$id,'',strtotime('-1 hour'),'/',Cookie::baseURI(),false,true);
+    }
+
+    public function baseURI() {
+        $base = '';
+        if (defined('DEFAULT_URI')) $base = DEFAULT_URI;
+        if (defined('DEFAULT_SUBDOMAIN')) $base = DEFAULT_SUBDOMAIN.$base;
+
+        return $base;
     }
 }
 
