@@ -3,6 +3,8 @@
 set_include_path(".:".SRC."/default:/usr/share/php");
 date_default_timezone_set(TIMEZONE);
 
+Session::init();
+
 /** -----------------------------------------------
     if we should be in mobile mode,
     but are not, go mobile...
