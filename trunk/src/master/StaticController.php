@@ -18,4 +18,4 @@ abstract class StaticController extends Component {
     }
 }
 
-?>
+

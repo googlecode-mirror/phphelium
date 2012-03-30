@@ -19,12 +19,12 @@ abstract class Pager {
      * @return null
      */
     public function build($data = array('class'=>false,'title'=>DEFAULT_TITLE,'params'=>array(),'bypass'=>false,'cache'=>false)) {
-        if (!empty($data['class']) && !empty($data['title'])) {
+        if (!empty($data['class'])) {
             if (!empty($data['cache'])) $cached = $this->getPageCache();
             
-            $data['params']['pageData'] = array('content' => $data['class'],
-                                                'title' => $data['title']);
-
+            $data['params']['pageData'] = array('content' => $data['class']);
+            if (!empty($data['title'])) $data['params']['pageData']['title'] = $data['title'];
+            
             if (!empty($data['keywords'])) $data['params']['pageData']['keywords'] = $data['keywords'];
             if (!empty($data['description'])) $data['params']['pageData']['description'] = $data['description'];
             if (!empty($data['summary'])) $data['params']['pageData']['summary'] = $data['summary'];
@@ -59,7 +59,7 @@ abstract class Pager {
 
             if (!empty($html)) {
                 if (!empty($data['cache'])) $cached = $this->setPageCache($html);
-                return $html;
+                return trim($html);
             }
 
             throw new Error('Page failed to build');
@@ -94,4 +94,4 @@ abstract class Pager {
     }
 }
 
-?>
+

@@ -200,4 +200,4 @@ class Log extends DB {
     }
 }
 
-?>
+

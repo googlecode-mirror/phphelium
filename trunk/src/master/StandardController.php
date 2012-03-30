@@ -25,4 +25,4 @@ abstract class StandardController extends Component {
     }
 }
 
-?>
+

@@ -135,7 +135,7 @@ abstract class Component extends DB {
      * @param string $mode (optional)
      * @return Crypt
      */
-    public function crypt($key,$algorithm=false,$mode=false) {
+    public function crypt($key=false,$algorithm=false,$mode=false) {
         return new Crypt($key,$algorithm,$mode);
     }
 
@@ -210,4 +210,4 @@ abstract class Component extends DB {
     function display() {}
 }
 
-?>
+

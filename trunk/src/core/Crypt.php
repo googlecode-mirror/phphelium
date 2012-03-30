@@ -12,7 +12,8 @@ class Crypt {
     private $iv;
     private $key;
 
-    function __construct($key,$alg='rijndael-128',$mode='cbc') {
+    function __construct($key=false,$alg='rijndael-128',$mode='cbc') {
+        if (empty($key)) $key = 'generic';
         if (!function_exists("mcrypt_module_open")) throw new Exception("Mcrypt module not installed.");
         if (!in_array($alg,mcrypt_list_algorithms())) $alg = 'rijndael-128';
         if (!in_array($mode,mcrypt_list_modes())) $mode = 'cbc';
@@ -91,6 +92,13 @@ class Crypt {
 
         return $decrypted;
     }
+
+    public function urlEncode($input) {
+        return strtr(base64_encode($input), '+/=', '-_,');
+    }
+
+    public function urlDecode($input) {
+        return base64_decode(strtr($input, '-_,', '+/='));
+    }
 }
 
-?>
