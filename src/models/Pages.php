@@ -38,4 +38,4 @@ class Pages extends Model {
     function __construct() {}    
 }
 
-?>
+

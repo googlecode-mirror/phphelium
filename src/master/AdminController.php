@@ -25,4 +25,4 @@ abstract class AdminController extends Component {
     }
 }
 
-?>
+

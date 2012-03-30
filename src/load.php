@@ -153,4 +153,3 @@ else {
     echo $pager->build($pageData);
 }
 
-?>
