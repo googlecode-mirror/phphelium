@@ -42,4 +42,3 @@ class Cron extends StaticController {
     }
 }
 
-?>

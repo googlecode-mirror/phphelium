@@ -144,4 +144,3 @@ class Users extends Model {
     }
 }
 
-?>

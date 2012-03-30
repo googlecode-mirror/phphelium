@@ -76,4 +76,3 @@ class Error extends Exception {
     }
 }
 
-?>
