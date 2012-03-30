@@ -33,4 +33,3 @@ class EmailQueue extends Model {
     function __construct() {}
 }
 
-?>

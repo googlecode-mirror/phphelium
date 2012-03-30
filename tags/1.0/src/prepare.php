@@ -198,4 +198,3 @@ if (!$c->checkConstants()) {
     if (!empty($constants)) $c->setConstants($constants);
 }
 
-?>

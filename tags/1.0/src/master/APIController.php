@@ -27,4 +27,3 @@ abstract class APIController extends Component {
     }
 }
 
-?>
