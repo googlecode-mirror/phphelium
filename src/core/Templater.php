@@ -70,7 +70,7 @@ class Templater {
         if (!empty($_SERVER['SERVER_NAME'])) {
             if (defined('DEFAULT_URI') && $_SERVER['SERVER_NAME'] <> DEFAULT_URI && substr_count($_SERVER['SERVER_NAME'],DEFAULT_URI)) $subChk = str_replace('.'.DEFAULT_URI,'',$_SERVER['SERVER_NAME']);
             else $subChk = $_SERVER['SERVER_NAME'];
-
+            
             $tmp = ROOT.'custom/'.$subChk.'/templates/';
             if (file_exists($tmp)) $this->setRoot($tmp);
             else $this->setRoot(SRC.'/templates/');

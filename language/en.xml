@@ -35,22 +35,6 @@
                 </sub>
             </phrase>
             <phrase>
-                <id>username</id>
-                <sub>
-                    <![CDATA[
-                    Username
-                    ]]>
-                </sub>
-            </phrase>
-            <phrase>
-                <id>password</id>
-                <sub>
-                    <![CDATA[
-                    Password
-                    ]]>
-                </sub>
-            </phrase>
-            <phrase>
                 <id>error</id>
                 <sub>
                     <![CDATA[
@@ -131,7 +115,7 @@
                 <id>pop</id>
                 <sub>
                     <![CDATA[
-                    Making a popup is easy with Helium!<br />
+                    Creating a popup is easy with Helium!<br />
                     For more information, see: <a href="http://www.phphelium.com" target="_blank">phphelium.com</a>
                     ]]>
                 </sub>
@@ -165,6 +149,90 @@
     <tmp name="login">
         <phrases>
             <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Username
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password</id>
+                <sub>
+                    <![CDATA[
+                    Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>login</id>
+                <sub>
+                    <![CDATA[
+                    Login
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>successLogin</id>
+                <sub>
+                    <![CDATA[
+                    Congratulations! You have successfully logged in!
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>errorLogin</id>
+                <sub>
+                    <![CDATA[
+                    That is not the correct username/password
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="register">
+        <phrases>
+            <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Username
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password</id>
+                <sub>
+                    <![CDATA[
+                    Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>cancel</id>
+                <sub>
+                    <![CDATA[
+                    Cancel
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
                 <id>successLogin</id>
                 <sub>
                     <![CDATA[
@@ -188,7 +256,8 @@
                 <id>norouteBody</id>
                 <sub>
                     <![CDATA[
-                    This page is not recognized.<br />Please check the URL and try again.
+                    This page is not recognized.<br />
+                    Please check the URL and try again.
                     ]]>
                 </sub>
             </phrase>

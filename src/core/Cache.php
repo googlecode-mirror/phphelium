@@ -7,14 +7,10 @@
  * Purpose: Handle memcache functionality
  */
 
-class Cache {
-    private $instance;
+class Cache extends Memcache {
+    private static $instance;
+    private $log = array();
     private $connected = false;
-
-    function __construct($serverAppend=array()) {
-        if (!is_object($this->instance)) $this->instance = new Memcache();
-        $this->openServers($serverAppend);
-    }
 
     /**
      *
@@ -28,18 +24,35 @@ class Cache {
         if (defined('MEMCACHE_SERVERS')) $serverList = explode(';',MEMCACHE_SERVERS);
         if (!empty($serverAppend)) $serverList = array_merge($serverList,$serverAppend);
 
-        $this->connected = false;
+        self::$instance->connected = false;
         if (!empty($serverList)) {
             foreach($serverList as $server) {
                 $server = explode('@',$server);
 
-                $this->instance->addServer($server[0],$server[1]);
-                if ($this->instance->getServerStatus($server[0],$server[1])) {
-                    $this->instance->pconnect($server[0],$server[1]) or false;
-                    $this->connected = true;
+                self::$instance->addServer($server[0],$server[1]);
+                if (self::$instance->getServerStatus($server[0],$server[1])) {
+                    self::$instance->pconnect($server[0],$server[1]) or false;
+                    self::$instance->connected = true;
                 }
             }
         }
+    }
+
+    /**
+     *
+     * function: init
+     * Loads the cache object
+     * @access public
+     * @return [User,boolean]
+     */
+    public static function init() {
+        if (!isset(self::$instance)) {
+            $c = __CLASS__;
+            self::$instance = new $c;
+        }
+
+        self::openServers();
+        return self::$instance;
     }
 
     /**
@@ -51,7 +64,7 @@ class Cache {
      * @return string
      */
     public function get($key) {
-        if (!empty($this->connected) && systemCaching() == true) return $this->instance->get($key);
+        if (!empty($this->connected) && systemCaching() == true) return parent::get($key);
         else return false;
     }
 
@@ -68,7 +81,7 @@ class Cache {
      */
     public function set($key,$var,$flag=0,$expire=false) {
         if (empty($expire) && defined('MEMCACHE_DEFAULT_EXPIRY')) $expire = MEMCACHE_DEFAULT_EXPIRY;
-        if (!empty($this->connected)) return $this->instance->set($key,$var,$flag,$expire);
+        if (!empty($this->connected)) return parent::set($key,$var,$flag,$expire);
         else return false;
     }
 
@@ -85,7 +98,7 @@ class Cache {
      */
     public function add($key,$var,$flag=0,$expire=false) {
         if (empty($expire) && defined('MEMCACHE_DEFAULT_EXPIRY')) $expire = MEMCACHE_DEFAULT_EXPIRY;
-        if (!empty($this->connected)) return $this->instance->add($key,$var,$flag,$expire);
+        if (!empty($this->connected)) return parent::add($key,$var,$flag,$expire);
         else return false;
     }
 
@@ -99,8 +112,7 @@ class Cache {
      * @return string
      */
     public function delete($key,$timeout = 0) {
-        if (!empty($this->connected)) return $this->instance->delete($key,$timeout);
+        if (!empty($this->connected)) return parent::delete($key,$timeout);
         else return false;
     }
 }
-

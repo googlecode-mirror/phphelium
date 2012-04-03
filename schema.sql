@@ -27,3 +27,16 @@ CREATE TABLE IF NOT EXISTS `email_queue` (
     `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`email_queue_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `users` (
+    `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `username` varchar(100) NOT NULL,
+    `password` varchar(100) NOT NULL,
+    `first_name` varchar(50) DEFAULT NULL,
+    `last_name` varchar(50) DEFAULT NULL,
+    `language` varchar(2) NOT NULL DEFAULT 'en',
+    `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+    `is_active` tinyint(1) NOT NULL DEFAULT '1',
+    `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

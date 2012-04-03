@@ -48,6 +48,9 @@ class Constants {
      * @return boolean
      */
     public function buildConstants($ini,$constants=array()) {
+        // ----------------------------------------
+        // database-specific constants..
+        // ----------------------------------------
         if (!empty($ini['database'])) {
             $constants['MASTER_DB_STRING'] = $ini['database']['master'];
             unset($ini['database']['master']);
@@ -65,54 +68,79 @@ class Constants {
             }
         }
 
-        if (!empty($ini['system'])) {
-            $constants['ROOT'] = $ini['system']['root'];
-            $constants['SRC'] = $ini['system']['src'];
-            $constants['LOG_LOCATION'] = $ini['system']['logs'];
-            $constants['DEFAULT_TEMPLATE_ROOT'] = $ini['system']['root']."templates/";
+        // ----------------------------------------
+        // system-specific constants..
+        // ----------------------------------------
+        $constants['ROOT'] = ((!empty($ini['system']['root']) && $ini['system']['root'] <> '@detect') ? $ini['system']['root'] : str_replace('src/core','',realpath(dirname(__FILE__))));
+        $constants['SRC'] = ((!empty($ini['system']['src']) && $ini['system']['src'] <> '@detect') ? $ini['system']['src'] : str_replace('core','',realpath(dirname(__FILE__))));
+        
+        $constants['LOG_LOCATION'] = (!empty($ini['system']['logs']) ? $ini['system']['logs'] : '/var/log/');
+        $constants['DEFAULT_TEMPLATE_ROOT'] = $constants['ROOT'].'templates/';
 
-            $constants['BASE_LOC'] = $ini['system']['root'];
-            $constants['LOCAL_FILE_LOC'] = $ini['system']['root']."files/";
+        $constants['BASE_LOC'] = $constants['ROOT'];
+        $constants['LOCAL_FILE_LOC'] = $constants['ROOT'].'files/';
 
-            $constants['DISPLAY_ERRORS'] = $ini['system']['displayErrors'];
-            $constants['DEBUG_MODE'] = $ini['system']['debugMode'];
+        $constants['DISPLAY_ERRORS'] = (isset($ini['system']['displayErrors']) ? $ini['system']['displayErrors'] : 1);
+        $constants['DEBUG_MODE'] = (isset($ini['system']['debugMode']) ? $ini['system']['debugMode'] : 1);
+        
+        $constants['CACHE_ALLOW'] = (isset($ini['system']['cacheAllow']) ? $ini['system']['cacheAllow'] : 1);
+        $constants['SSL_AVAILABLE'] = (isset($ini['system']['sslAvailable']) ? $ini['system']['sslAvailable'] : 0);
 
-            $constants['CACHE_ALLOW'] = $ini['system']['cacheAllow'];
-        }
+        // ----------------------------------------
+        // server-specific constants..
+        // ----------------------------------------
+        $constants['TIMEZONE'] = (!empty($ini['server']['timezone']) ? $ini['server']['timezone'] : 'UTC');
+        if (!empty($ini['server']['subdomain'])) $constants['DEFAULT_SUBDOMAIN'] = $ini['server']['subdomain'];
+        $constants['DEFAULT_URI'] = ((!empty($ini['server']['uri']) && $ini['server']['uri'] <> '@detect') ? $ini['server']['uri'] : $this->detectHost());
+        $constants['VAR_PREPEND'] = (!empty($ini['server']['varPrepend']) ? $ini['server']['varPrepend'] : 'HEL_');
 
-        if (!empty($ini['server'])) {
-            $constants['TIMEZONE'] = (!empty($ini['server']['timezone']) ? $ini['server']['timezone'] : 'UTC');
-            if ($ini['server']['subdomain']) $constants['DEFAULT_SUBDOMAIN'] = $ini['server']['subdomain'];
-            $constants['DEFAULT_URI'] = $ini['server']['uri'];
-            $constants['VAR_PREPEND'] = $ini['server']['varPrepend'];
-        }
-
+        // ----------------------------------------
+        // mobile-specific constants..
+        // ----------------------------------------
         if (!empty($ini['mobile'])) {
-            $constants['AUTO_MOBILE'] = $ini['mobile']['autoMobile'];
-            $constants['MOBILE_SUBDOMAIN'] = $ini['mobile']['mobileSubdomain'];
+            $constants['AUTO_MOBILE'] = (isset($ini['mobile']['autoMobile']) ? $ini['mobile']['autoMobile'] : 0);
+            $constants['MOBILE_SUBDOMAIN'] = (!empty($ini['mobile']['mobileSubdomain']) ? $ini['mobile']['mobileSubdomain'] : 'mobile');
         }
 
+        // ----------------------------------------
+        // api-specific constants..
+        // ----------------------------------------
         if (!empty($ini['api'])) {
             $constants['SHARED_API_KEY'] = $ini['api']['sharedKey'];
         }
 
+        // ----------------------------------------
+        // memcache-specific constants..
+        // ----------------------------------------
         if (!empty($ini['memcache'])) {
             $constants['MEMCACHE_SERVERS'] = $ini['memcache']['serverList'];
-            $constants['MEMCACHE_DEFAULT_EXPIRY'] = $ini['memcache']['defaultExpiry'];
+            $constants['MEMCACHE_DEFAULT_EXPIRY'] = (isset($ini['memcache']['defaultExpiry']) ? $ini['memcache']['defaultExpiry'] : 86400);
         }
 
-        if (!empty($ini['environment'])) {
-            $constants['DEFAULT_TITLE'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['title']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['title']),'GLOBAL') : $ini['environment']['title']);
-            $constants['DEFAULT_KEYWORDS'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['keywords']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['keywords']),'GLOBAL') : $ini['environment']['keywords']);
-            $constants['DEFAULT_DESCRIPTION'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['description']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['description']),'GLOBAL') : $ini['environment']['description']);
-            $constants['DEFAULT_SUMMARY'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['summary']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['summary']),'GLOBAL') : $ini['environment']['summary']);
-            $constants['DEFAULT_LANGUAGE'] = $ini['environment']['language'];
-        }
+        // ----------------------------------------
+        // environment-specific constants..
+        // ----------------------------------------
+        if (empty($ini['environment']['title'])) $ini['environment']['title'] = "LANG['title']";
+        if (empty($ini['environment']['keywords'])) $ini['environment']['keywords'] = "LANG['keywords']";
+        if (empty($ini['environment']['description'])) $ini['environment']['description'] = "LANG['description']";
+        if (empty($ini['environment']['summary'])) $ini['environment']['summary'] = "LANG['summary']";
 
+        $constants['DEFAULT_TITLE'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['title']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['title']),'GLOBAL') : $ini['environment']['title']);
+        $constants['DEFAULT_KEYWORDS'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['keywords']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['keywords']),'GLOBAL') : $ini['environment']['keywords']);
+        $constants['DEFAULT_DESCRIPTION'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['description']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['description']),'GLOBAL') : $ini['environment']['description']);
+        $constants['DEFAULT_SUMMARY'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['summary']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['summary']),'GLOBAL') : $ini['environment']['summary']);
+        $constants['DEFAULT_LANGUAGE'] = (!empty($ini['environment']['language']) ? $ini['environment']['language'] : 'en');
+        
+        // ----------------------------------------
+        // email-specific constants..
+        // ----------------------------------------
         if (!empty($ini['email'])) {
             $constants['DEFAULT_EMAIL'] = (preg_match('/LANG\[(.*?)\]/s',$ini['email']['defaultFrom']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['email']['defaultFrom']),'GLOBAL') : $ini['email']['defaultFrom']);
         }
 
+        // ----------------------------------------
+        // remaining constants..
+        // ----------------------------------------
         foreach($ini as $iid => $idata) {
             if (!in_array($iid,$this->protectedIni)) {
                 foreach($idata as $constKey => $constValue) {
@@ -137,5 +165,19 @@ class Constants {
             foreach($constants as $cid => $c) define($cid,$c);
         } else return $this->apc->setConstants($constants);
     }
-}
 
+    /**
+     *
+     * function: detectHost
+     * Determine proper host
+     * @access public
+     * @return string
+     */
+    private function detectHost() {
+        $uri = parse_url($_SERVER['HTTP_HOST']);
+        $host = explode('.', $uri['path']);
+        $subdomains = array_slice($host,0,count($host)-2);
+        
+        return str_replace(implode('.',$subdomains).'.','',$_SERVER['HTTP_HOST']);
+    }
+}

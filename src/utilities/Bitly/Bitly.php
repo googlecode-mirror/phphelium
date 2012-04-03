@@ -30,5 +30,3 @@ class Bitly {
         return $obj['results'][$long]['shortUrl'];
     }
 }
-
-?>

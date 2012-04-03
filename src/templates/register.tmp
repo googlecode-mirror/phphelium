@@ -1,16 +1,16 @@
 * ---------------------------------------------------------------------
-* FILE: login.tmp
+* FILE: register.tmp
 * User login template
 * ---------------------------------------------------------------------
 
-<tmp:login>
+<tmp:register>
 <div class="clear"></div>
 <div class="innerContent" style="margin-top:1.5em;">
     <div id="loginContainer">
         <div id="response"></div>
-        <h2>Login</h2>
-        
-        <form method="POST" action="/login/" id="loginFrm">
+        <h2>Register</h2>
+
+        <form method="POST" action="/register/" id="registerFrm">
             <div class="data">
                 <label for="username">{$LANG[username]}:</label> <input type="text" name="username" id="username" size="30" validate="email" required />
             </div>
@@ -18,9 +18,9 @@
                 <label for="password">{$LANG[password]}:</label> <input type="password" name="password" id="password" size="30" validate="filled" required />
             </div>
             <div class="data">
-                <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[login]}" />
+                <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[register]}" />
                 &nbsp;
-                <input type="button" name="btnRegister" id="btnRegister" value="{$LANG[register]}" />
+                <input type="button" name="btnCancel" id="btnCancel" value="{$LANG[cancel]}" />
             </div>
         </form>
     </div>
@@ -28,44 +28,45 @@
 
 <script type="text/javascript">
 $('#btnSubmit').click(function(event) {
-    if (Validate.checkAll('loginFrm') == false) alert("There are errors with the form");
+    if (Validate.checkAll('registerFrm') == false) alert("There are errors with the form");
     else {
         ajax.onSuccess = function(e) {
+alert(e); return;
             if (e['result'] == 'error') {
-                formAssist.clear('loginFrm');
-                Validate.clearAll('loginFrm');
+                formAssist.clear('registerFrm');
+                Validate.clearAll('registerFrm');
 
                 $('#response').html(e['msg']);
                 $('#response').css('display','block');
                 setTimeout(function() { $('#response').css('display','none'); },2000);
             } else {
-                $('#loginContainer').html(e['msg']);
+                $('#registerContainer').html(e['msg']);
                 setTimeout(function() { window.location = '/'; },2000);
             }
         }
-        
-        ajax.submit('loginFrm');
+
+        ajax.submit('registerFrm');
     }
 });
 
-$('#btnRegister').click(function(event) {
-    window.location = '/register/';
+$('#btnCancel').click(function(event) {
+    window.location = '/';
 });
 
 $(document).ready(function() {
-    Validate.autoValidate('loginFrm');
+    Validate.autoValidate('registerFrm');
 });
 </script>
-</tmp:login>
+</tmp:register>
 
-<tmp:successLogin>
+<tmp:successRegister>
 <div class="success">
-    {$LANG[successLogin]}
+    {$LANG[successRegister]}
 </div>
-</tmp:successLogin>
+</tmp:successRegister>
 
-<tmp:failLogin>
+<tmp:failRegister>
 <div class="error">
-    {$LANG[errorLogin]}
+    {$LANG[errorRegister]}
 </div>
-</tmp:failLogin>
+</tmp:failRegister>

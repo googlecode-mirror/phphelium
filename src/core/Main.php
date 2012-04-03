@@ -56,6 +56,9 @@ class Main extends StaticController {
         }
         
         if (!empty($this->reqData['pageData']['cache'])) Pager::setPageCache($content);
+
+        if (Session::getUserId() == false) $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('outControls',true));
+        else $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('inControls',true));
         
         $this->tmp($this->template)->setVar('main','header',$this->tmp('header')->render('header',true));
         $this->tmp($this->template)->setVar('main','content',$content);

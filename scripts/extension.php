@@ -38,5 +38,3 @@ if (!empty($extension)) {
         } else echo 'Extension already exists';
     } else echo 'Failed to get repo data';
 } else echo 'Did not provide extension name';
-
-?>

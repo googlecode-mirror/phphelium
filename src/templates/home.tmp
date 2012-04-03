@@ -15,7 +15,7 @@
 <div class="innerContent">
     <div id="cHome">
         <div class="floatRight">
-            <a href="javascript:void(0);" id="moreDetails">Popup...</a>
+            <a href="javascript:void(0);" id="moreDetails">Show me a popup...</a>
         </div>
 
         <h2>{$LANG[homeHead1]}</h2>

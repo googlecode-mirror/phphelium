@@ -10,6 +10,7 @@ logs = "/var/log/"
 displayErrors = 1
 debugMode = 1
 cacheAllow = 0
+sslAvailable = 0
 
 [server]
 subdomain = "www"

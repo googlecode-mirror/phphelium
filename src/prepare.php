@@ -68,18 +68,18 @@ function loadRoutes($iniFile) {
     $routesList = array();
 
     if (file_exists($iniFile)) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $routesList = $cache->get(VAR_PREPEND.'store[environment[routes]['.md5($iniFile).']]');
 
         if (!empty($routesList)) $routesList = unserialize($routesList);
         else $routesList = array();
-
+        
         $routes = parse_ini_file($iniFile,true);
         foreach($routes as $route) {
             $uriAssoc = $route['uri'].(!empty($route['base']) ? '@'.$route['base'] : '');
             $routesList[$uriAssoc] = array('base' => (!empty($route['base']) ? $route['base'] : false),
                                            'uri' => $route['uri'],
-                                           'title' => $route['title'],
+                                           'title' => (!empty($route['title']) ? DEFAULT_TITLE.' - '.$route['title'] : DEFAULT_TITLE),
                                            'keywords' => (!empty($route['keywords']) ? $route['keywords'] : ''),
                                            'description' => (!empty($route['description']) ? $route['description'] : ''),
                                            'summary' => (!empty($route['summary']) ? $route['summary'] : ''),
@@ -144,7 +144,7 @@ function isMobileBrowser() {
 function __autoload($class) {
     $root = str_replace('src','',realpath(dirname(__FILE__)));
     $src = $root.'src/';
-    
+
     if (file_exists($src.'master/'.$class.'.php')) {
         require_once($src.'master/'.$class.'.php');
         return;
@@ -197,4 +197,3 @@ if (!$c->checkConstants()) {
 
     if (!empty($constants)) $c->setConstants($constants);
 }
-
