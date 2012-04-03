@@ -8,7 +8,16 @@
  */
 
 class Process {
-    function __construct() {}
+    private $proc = false;
+    private $data = false;
+
+    function __construct() {
+        $this->open();
+    }
+
+    function __destruct() {
+        $this->close();
+    }
 
     /**
      *
@@ -27,35 +36,92 @@ class Process {
      */
     public function call($uri,$data=false,$getData=0,$username=false,$password=false,$methodOverride=false,$mockBrowser=false,$noSerialize=true) {
         if (is_array($data) && empty($noSerialize)) $data = array('data' => serialize($data));
-        
-        $cu = curl_init();
 
-        curl_setopt($cu,CURLOPT_RETURNTRANSFER,1);
+        $this->open();
+        curl_setopt($this->proc,CURLOPT_RETURNTRANSFER,1);
 
         if (!empty($mockBrowser)) {
-            curl_setopt($cu,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
-            curl_setopt($cu,CURLOPT_FOLLOWLOCATION,1);
-            curl_setopt($cu,CURLOPT_MAXREDIRS,3);
+            curl_setopt($this->proc,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
+            curl_setopt($this->proc,CURLOPT_FOLLOWLOCATION,1);
+            curl_setopt($this->proc,CURLOPT_MAXREDIRS,3);
         }
 
-        if (empty($getData)) curl_setopt($cu,CURLOPT_TIMEOUT,1);
-        
-        if (!empty($username) && !empty($password)) curl_setopt($cu,CURLOPT_USERPWD,$username.':'.$password);
+        if (empty($getData)) curl_setopt($this->proc,CURLOPT_TIMEOUT,1);
+
+        if (!empty($username) && !empty($password)) curl_setopt($this->proc,CURLOPT_USERPWD,$username.':'.$password);
         if (empty($methodOverride) || strtolower($methodOverride) == 'post') {
-            curl_setopt($cu,CURLOPT_URL,$uri);
-            curl_setopt($cu,CURLOPT_POST,1);
-            if (!empty($data)) curl_setopt($cu,CURLOPT_POSTFIELDS,$data);
+            curl_setopt($this->proc,CURLOPT_URL,$uri);
+            curl_setopt($this->proc,CURLOPT_POST,1);
+            if (!empty($data)) curl_setopt($this->proc,CURLOPT_POSTFIELDS,$data);
         } elseif (strtolower($methodOverride) == 'get') {
-            curl_setopt($cu,CURLOPT_HTTPGET,1);
-            if (!empty($data)) curl_setopt($cu,CURLOPT_URL,$uri.'?'.$data);
-            else curl_setopt($cu,CURLOPT_URL,$uri);
+            curl_setopt($this->proc,CURLOPT_HTTPGET,1);
+            if (!empty($data)) curl_setopt($this->proc,CURLOPT_URL,$uri.'?'.$data);
+            else curl_setopt($this->proc,CURLOPT_URL,$uri);
         }
-        
-	$data = curl_exec($cu);
-        $info = curl_getinfo($cu);
-        
+
+	$data = $this->getData();
+        $info = $this->getInfo();
+
         if (!empty($data)) return $data;
         return false;
+    }
+
+    /**
+     *
+     * function: getInfo
+     * Get cURL info
+     * @access public
+     * @return [mixed]
+     */
+    public function getInfo() {
+        return curl_getinfo($this->proc);
+    }
+
+    /**
+     *
+     * function: getData
+     * Get cURL data
+     * @access public
+     * @return [mixed]
+     */
+    public function getData() {
+        if (empty($this->data)) $this->data = curl_exec($this->proc);
+        return $this->data;
+    }
+
+    /**
+     *
+     * function: status
+     * Get cURL status
+     * @access public
+     * @return [mixed]
+     */
+    public function status() {
+        return curl_errno($this->proc);
+    }
+
+    /**
+     *
+     * function: open
+     * Open a cURL
+     * @access public
+     * @return [mixed]
+     */
+    public function open() {
+        $this->close();
+        $this->proc = curl_init();
+    }
+
+    /**
+     *
+     * function: close
+     * Close a cURL
+     * @access public
+     * @return [mixed]
+     */
+    public function close() {
+        if (is_object($this->proc)) curl_close($this->proc);
+        $this->proc = false;
     }
 
     /**
@@ -141,12 +207,10 @@ class Process {
         curl_setopt($cu,CURLOPT_POST,1);
         if (!empty($data)) curl_setopt($cu,CURLOPT_POSTFIELDS,$data);
         if (!empty($username) && !empty($password)) curl_setopt($cu,CURLOPT_USERPWD,$username.':'.$password);
-        
+
         $data = curl_exec($cu);
-        
+
         if (!empty($data)) return $data;
         return false;
     }
 }
-
-
