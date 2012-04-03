@@ -9,7 +9,7 @@
 
 class PageSSL extends Pager {
     function __construct() {
-        if (empty($_SERVER['HTTPS'])) {
+        if (empty($_SERVER['HTTPS']) && SSL_AVAILABLE == 1) {
             header('Location: https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
         }
     }

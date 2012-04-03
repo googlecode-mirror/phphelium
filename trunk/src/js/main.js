@@ -77,42 +77,37 @@ var htmlAssist = {
 
 var formAssist = {
     clear: function(formId) {
-        var el = $('#'+formId);
+        var el = document.getElementById(formId);
 
         for(var i in el.elements) {
-            if (isNumeric(i)) {
-                switch(el.elements[i].type) {
-                    case "text": el.elements[i].value = ""; break;
-                    case "checkbox": el.elements[i].checked = false; break;
-                    case "radio": el.elements[i].checked = false; break;
-                }
+            switch(el.elements[i].type) {
+                case "text": el.elements[i].value = ""; break;
+                case "checkbox": el.elements[i].checked = false; break;
+                case "radio": el.elements[i].checked = false; break;
+                case "password": el.elements[i].value = ""; break;
             }
         }
     },
 
     disable: function(formId) {
-        var el = $('#'+formId);
+        var el = document.getElementById(formId);
 
         for(var i in el.elements) {
-            if (isNumeric(i)) {
-                el.elements[i].disabled = true;
-            }
+            el.elements[i].disabled = true;
         }
     },
 
     enable: function(formId) {
-        var el = $('#'+formId);
+        var el = document.getElementById(formId);
 
         for(var i in el.elements) {
-            if (isNumeric(i)) {
-                el.elements[i].disabled = false;
-            }
+            el.elements[i].disabled = false;
         }
     },
 
     clearList: function(list) {
         for (var i in list) {
-            if ($.isNumeric(i)) $('#'+list[i]).removeAttr("checked");
+            $('#'+list[i]).removeAttr("checked");
         }
     }
 };
@@ -179,7 +174,7 @@ var popup = {
             else params.top = false;
 
             if (params.uri) {
-                ajax.successFunc = function() {
+                ajax.onSuccess = function() {
                     setTimeout(function() {
                         popup.load(params.top,params.title);
                     },200);

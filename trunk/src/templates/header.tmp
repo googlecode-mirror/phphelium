@@ -5,5 +5,21 @@
 * ---------------------------------------------------------------------
 
 <tmp:header>
-<h1>{$LANG[title]}: <font style="color:green;">{$LANG[subtitle]}</font></h1>
+<div id="headerControls">
+    {$controls}
+</div>
+
+<h1><a href="/">{$LANG[title]}</a>: <font style="color:green;">{$LANG[subtitle]}</font></h1>
 </tmp:header>
+
+<tmp:outControls>
+<a href="/login/">Login</a>
+&nbsp;&bull;&nbsp;
+<a href="/register/">Register</a>
+</tmp:outControls>
+
+<tmp:inControls>
+<strong>Hello!</strong>
+&nbsp;&bull;&nbsp;
+<a href="/logout/">Logout</a>
+</tmp:inControls>

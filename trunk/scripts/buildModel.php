@@ -21,5 +21,3 @@ if ($model->buildSchema()) {
 } else {
     echo('The model failed to build');
 }
-
-?>

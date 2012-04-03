@@ -10,6 +10,12 @@ body {
     color:#474848;
 }
 
+input[type="button"] {
+    padding:0.3em 0.5em 0.3em 0.5em;
+    border:1px solid silver;
+    margin-top:0.3em;
+}
+
 #wrapper {
     margin:auto auto;
     background:white;
@@ -29,13 +35,18 @@ body {
     letter-spacing:1px;
 }
 
+#header h1 a {
+    color:red;
+    text-decoration:none;
+}
+
 .floatRight {
     float:right;
 }
 
 #content {
     padding:0.5em 0 0 0;
-    margin:-1em 0 0 0;
+    margin:0.5em 0 0 0;
 }
 
 .innerContent {
@@ -79,11 +90,14 @@ body {
 }
 
 label {
-    width:12em;
-    float: left;
+    width:6em;
     text-align: right;
     margin-right: 0.5em;
-    display: block
+    display: inline-block;
+}
+
+.data {
+    padding:0.5em;
 }
 
 .element {
@@ -160,3 +174,20 @@ div.inputWrapper textarea {
 span.inputWrapper input { border:0; background:white; margin:0.3em; padding:0; max-width:15em; }
 span.inputWrapper select { border:0; background:white; margin:0.3em; }
 span.inputWrapper textarea { border:0; background:white; margin:0.3em; }
+
+#response {
+    display:none;
+}
+
+#headerControls {
+    float:right;
+    font-size:0.8em;
+}
+
+#loginFrm {
+    padding-top:1em;
+}
+
+#registerFrm {
+    padding-top:1em;
+}

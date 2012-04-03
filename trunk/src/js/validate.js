@@ -19,16 +19,16 @@ var Validate = {
         var check = true;
 
         if (elem.type == "button") check = false;
-        else if (elem.getAttribute("required") == null && elem.value.strReplace(" ","") == "") check = false;
+        else if (elem.getAttribute("required") == null && elem.value.replace(" ","") == "") check = false;
 
         if (check) {
             var pass = false;
             var validate = elem.getAttribute("validate");
             if (validate !== null) {
-                if (elem.value.strReplace(" ","") !== "") {
+                if (elem.value.replace(" ","") !== "") {
                     switch(validate) {
                         case "filled":
-                            if (elem.value.strReplace(' ','') == '') pass = false;
+                            if (elem.value.replace(' ','') == '') pass = false;
                             else pass = true;
 
                         break;
@@ -59,19 +59,19 @@ var Validate = {
             if (pass) pass = "/images/success.gif";
             else pass = "/images/error.png";
 
-            if ($('#validResult_'+elem.name)) {
-                $('#validResult_'+elem.name).src = pass;
+            if (document.getElementById('validResult_'+elem.name)) {
+                document.getElementById('validResult_'+elem.name).src = pass;
             } else {
                 var validResult = document.createElement('img');
                 validResult.src = pass;
-                validResult.css('height','1em');
-                validResult.css('verticalAlign','middle');
+                validResult.style.height = '1em';
+                validResult.style.verticalAlign = 'middle';
                 validResult.id = 'validResult_'+elem.name;
 
-                elem.up('div').appendChild(validResult);
+                elem.parentNode.appendChild(validResult);
             }
-        } else if ($('#validResult_'+elem.name)) {
-            elem.up('div').removeChild($('#validResult_'+elem.name));
+        } else if (document.getElementById('validResult_'+elem.name)) {
+            elem.parentNode.removeChild(document.getElementById('validResult_'+elem.name));
         }
 
         return toRet;
@@ -87,13 +87,28 @@ var Validate = {
      */
     checkAll: function(frm) {
         var passAll = true;
-        var el = $('#'+frm);
+        $('form#'+frm+' :input').each(function(i) {
+            if (!Validate.checkElement(this)) passAll = false;
+        });
 
-        for(var i in el.elements) {
-            if (isNumeric(i)) {
-                if (!Validate.checkElement(el.elements[i])) passAll = false;
+        return passAll;
+    },
+
+    /**
+     *
+     * function: clearAll
+     * Clear all validation from an entire form
+     * @access public
+     * @param frm
+     * @return string
+     */
+    clearAll: function(frm) {
+        var passAll = true;
+        $('form#'+frm+' :input').each(function(i) {
+            if (document.getElementById('validResult_'+this.name)) {
+                this.parentNode.removeChild(document.getElementById('validResult_'+this.name));
             }
-        }
+        });
 
         return passAll;
     },
@@ -107,14 +122,11 @@ var Validate = {
      * @return string
      */
     autoValidate: function(frm) {
-        var el = $('#'+frm);
-
-        for(var i in el.elements) {
-            if (isNumeric(i) && el.elements[i].type !== "button") {
-                elem = el.elements[i];
-                elem.blur(function(event) { Validate.checkElement(this); });
-                elem.change(function(event) { Validate.checkElement(this); });
+        $('form#'+frm+' :input').each(function(i) {
+            if (this.type == 'text' || this.type == 'password' || this.type == 'textarea') {
+                this.onblur = function() { Validate.checkElement(this); };
+                this.onchange = function() { Validate.checkElement(this); };
             }
-        }
+        });
     }
 };

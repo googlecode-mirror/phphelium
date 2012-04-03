@@ -24,7 +24,7 @@ abstract class Component extends DB {
      * @return string
      */
     public function clearAll() {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache->delete(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']');
     }
 
@@ -118,7 +118,7 @@ abstract class Component extends DB {
      * @return Cache
      */
     public function cache($el=false,$val=false) {
-        $cache = new Cache();
+        $cache = Cache::init();
         if (!empty($el)) {
             if (!empty($var)) return $cache->set($el,$var);
             else return $cache->get($el);

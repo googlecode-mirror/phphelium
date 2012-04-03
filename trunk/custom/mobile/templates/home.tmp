@@ -4,5 +4,7 @@
 * ---------------------------------------------------------------------
 
 <tmp:home>
-<strong>{$LANG[homeHead1]}</strong> {$LANG[home1]}
+<div style="padding:1em;">
+    <strong>{$LANG[homeHead1]}</strong> {$LANG[home1]}
+</div>
 </tmp:home>

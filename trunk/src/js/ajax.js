@@ -30,10 +30,10 @@ var ajaxQueue = {
         }
     },
 
-    request: function(url,method,params,container,successFunc) {
-        if (!successFunc) var successFunc = false;
+    request: function(url,method,params,container,onSuccess) {
+        if (!onSuccess) var onSuccess = false;
         if (ajaxQueue.ensureSingularity(container)) {
-            if (!ajaxQueue.noQueue || ajaxQueue.list.length == 0) ajaxQueue.list.push({'url':url,'method':method,'params':params,'container':container,'successFunc':successFunc});
+            if (!ajaxQueue.noQueue || ajaxQueue.list.length == 0) ajaxQueue.list.push({'url':url,'method':method,'params':params,'container':container,'onSuccess':onSuccess});
             else alert("You must wait");
         }
     },
@@ -49,7 +49,7 @@ var ajaxQueue = {
             if (el.form) {
                 a.submit(el.form,el.container);
             } else {
-                a.successFunc = el.successFunc;
+                a.onSuccess = el.onSuccess;
                 a.request(el.url,el.method,el.params,el.container);
             }
         }
@@ -59,43 +59,46 @@ var ajaxQueue = {
 };
 
 ajax = {
-    successFunc: null,
-    failFunc: null,
+    onSuccess: null,
+    onFail: null,
 
     submit: function(formId,container,params,sFunc,fFunc) {
-        if (sFunc) ajax.successFunc = sFunc;
-        if (fFunc) ajax.failFunc = fFunc;
+        if (!formId) console.log('You must supply a formId to submit');
+        else {
+            if (sFunc) ajax.onSuccess = sFunc;
+            if (fFunc) ajax.onFail = fFunc;
 
-        ta = new ajaxSingular();
-        if (ajax.successFunc) ta.successFunc = ajax.successFunc;
-        if (ajax.failFunc) ta.failFunc = ajax.failFunc;
-        var a = ta.submit(formId,container,params);
+            ta = new ajaxSingular();
+            if (ajax.onSuccess) ta.onSuccess = ajax.onSuccess;
+            if (ajax.onFail) ta.onFail = ajax.onFail;
+            var a = ta.submit(formId,container,params);
 
-        ajax.successFunc = null;
-        ajax.failFunc = null;
+            ajax.onSuccess = null;
+            ajax.onFail = null;
 
-        return a;
+            return a;
+        }
     },
 
     request: function(url,method,params,container,sFunc,fFunc) {
-        if (sFunc) ajax.successFunc = sFunc;
-        if (fFunc) ajax.failFunc = fFunc;
+        if (sFunc) ajax.onSuccess = sFunc;
+        if (fFunc) ajax.onFail = fFunc;
 
         ta = new ajaxSingular();
-        if (ajax.successFunc) ta.successFunc = ajax.successFunc;
-        if (ajax.failFunc) ta.failFunc = ajax.failFunc;
+        if (ajax.onSuccess) ta.onSuccess = ajax.onSuccess;
+        if (ajax.onFail) ta.onFail = ajax.onFail;
         var a = ta.request(url,method,params,container);
 
-        ajax.successFunc = null;
-        ajax.failFunc = null;
+        ajax.onSuccess = null;
+        ajax.onFail = null;
 
         return a;
     }
 };
 
 function ajaxSingular() {
-    this.successFunc = null;
-    this.failFunc = null;
+    this.onSuccess = null;
+    this.onFail = null;
     this.loader = false;
 
     this.submit = function(formId,container,params) {
@@ -112,13 +115,13 @@ function ajaxSingular() {
         if (!params) var params = {};
         params['AJAX'] = "true";
 
-        var success = this.successFunc;
-        var fail = this.failFunc;
+        var success = this.onSuccess;
+        var fail = this.onFail;
         var loader = this.loader;
         var ret = false;
 
-        this.successFunc = null;
-        this.failFunc = null;
+        this.onSuccess = null;
+        this.onFail = null;
 
         if (loader) {
             if ($('#'+container)) {

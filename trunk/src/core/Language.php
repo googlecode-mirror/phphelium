@@ -41,7 +41,7 @@ class Language {
         if (empty($lang)) $lang = Session::getLanguage();
         if (substr_count($ltmp,'.tmp')) $ltmp = str_replace('.tmp','',$ltmp);
 
-        $cache = new Cache();
+        $cache = Cache::init();
         if (defined('VAR_PREPEND')) $langList = $cache->get(VAR_PREPEND.'store[environment[language]['.$ltmp.'-'.$lang.']');
         if (empty($langList)) {
             $langFile = Language::loadLanguageFile($lang);
@@ -68,7 +68,7 @@ class Language {
         if (!empty($_SERVER['SERVER_NAME']) && file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml')) $langFile = $root.'/custom/'.$_SERVER['SERVER_NAME'].'/language/'.$lang.'.xml';
         else $langFile = $root.'language/'.$lang.'.xml';
         
-        $cache = new Cache();
+        $cache = Cache::init();
         if (defined('VAR_PREPEND')) {
             $langList = $cache->get(VAR_PREPEND.'store[environment[languageFile]['.md5($langFile).']');
             if (!empty($langList)) return unserialize($langList);

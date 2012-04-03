@@ -27,5 +27,3 @@ if (defined('SLAVE_DB_STRING')) {
         $db->update($sql);
     }
 }
-
-?>

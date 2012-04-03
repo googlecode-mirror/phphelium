@@ -87,7 +87,7 @@ abstract class Model extends DB {
     public function load($id) {
         $this->cacheKeyId = $id;
         
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache_key = $this->cacheKey($id);
         $obj = $cache->get($cache_key);
         
@@ -157,7 +157,7 @@ abstract class Model extends DB {
      * @return null
      */
     public function clear($id) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache_key = $this->cacheKey($id);
         $cache->delete($cache_key);
     }
@@ -357,7 +357,7 @@ abstract class Model extends DB {
      * @return boolean
      */
     public function cache($key,$val,$expire=0) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $data = $cache->get($key);
 
         if ($data) $cache->delete($key);
@@ -373,7 +373,7 @@ abstract class Model extends DB {
      * @return boolean
      */
     public function purge($key) {
-        $cache = new Cache();
+        $cache = Cache::init();
         return $cache->delete($key);
     }
 
@@ -385,7 +385,7 @@ abstract class Model extends DB {
      * @return boolean
      */
     public function uncache() {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache_key = $this->cacheKey($id);
 
 	return $cache->delete($cache_key);
@@ -402,7 +402,7 @@ abstract class Model extends DB {
      * @return boolean
      */
     public function set($key,$val,$expire=0) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache_key = $this->cacheKey($this->cacheKeyId);
 
         $key = $cache_key.'|'.$key;
@@ -420,7 +420,7 @@ abstract class Model extends DB {
      * @return string
      */
     public function get($key) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache_key = $this->cacheKey($this->cacheKeyId);
 
         $key = $cache_key.'|'.$key;

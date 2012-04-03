@@ -17,7 +17,6 @@ class Users extends Model {
         'password'=>array('filled',true),
         'first_name'=>array('filled',true),
         'last_name'=>array('filled',true),
-        'email'=>array('filled',true),
         'language'=>array('filled',true)
     );
 
@@ -27,7 +26,6 @@ class Users extends Model {
         'password'=>array('type'=>'varchar(100)','isNull'=>false),
         'first_name'=>array('type'=>'varchar(50)','isNull'=>true),
         'last_name'=>array('type'=>'varchar(50)','isNull'=>true),
-        'email'=>array('type'=>'varchar(50)','isNull'=>true),
         'language'=>array('type'=>'varchar(2)','isNull'=>false,'defaultValue'=>'en'),
         'is_admin'=>array('type'=>'tinyint(1)','isNull'=>false,'defaultValue'=>'0'),
         'is_active'=>array('type'=>'tinyint(1)','isNull'=>false,'defaultValue'=>'1'),
@@ -54,6 +52,7 @@ class Users extends Model {
             $user = new Users();
             $user->load($results);
 
+            Session::setUser($user->user_id);
             if (!empty($sticky)) Cookie::setCookie('user',$user->user_id);
             
             return $user;
@@ -96,7 +95,7 @@ class Users extends Model {
      */
     public function updateUser($info,$userId=false) {
         $els = array(); $opts = array();
-        foreach($info as $el => $var) { $els[] = $el.' = ?'; $opts[] = $var; }
+        foreach($info as $el => $var) { if (!empty($this->schema[$el])) { $els[] = $el.' = ?'; $opts[] = $var; } }
         $opts[] = $userId;
 
         $sql = 'UPDATE '.$this->table.' SET '.implode(', ',$els).' WHERE '.$this->primary.' = ?;';

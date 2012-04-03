@@ -3,14 +3,14 @@
 /** -----------------------------------------------
     determine proper routing behavior for page...
     ----------------------------------------------- */
-$cache = new Cache();
-$pageURI = substr($_SERVER['PHP_SELF'],0,strripos($_SERVER['PHP_SELF'],'/')+1);
+$cache = Cache::init();
+$pageURI = $_SERVER['PHP_SELF'];
 
 $hd = parse_url($_SERVER['HTTP_HOST']);
 $host = explode('.', $hd['path']);
 $subdomains = array_slice($host,0,count($host)-2);
-if (defined('DEFAULT_SUBDOMAIN')) {
-    if (count($subdomains) > 1 || $subdomains[0] <> DEFAULT_SUBDOMAIN) $pageURI .= '@'.implode('.',$subdomains);
+if (!empty($subdomains) && count($subdomains) > 0) {
+    if ($subdomains[0] <> (defined('DEFAULT_SUBDOMAIN') == true ? DEFAULT_SUBDOMAIN : 'www')) $pageURI .= '@'.implode('.',$subdomains);
 }
 
 $pageData = array();
@@ -64,7 +64,7 @@ if (empty($pageData)) {
             }
         }
     }
-    
+
     if (empty($pageData)) {
         $db = new DB();
 
@@ -93,7 +93,7 @@ if (empty($pageData)) {
         if ($pages = $db->getAll($sql,$pageOpts)) {
             $pageData = array('base' => (!empty($pages[0]->base) ? $pages[0]->base : false),
                               'uri' => $pages[0]->uri,
-                              'title' => DEFAULT_TITLE.' - '.$pages[0]->title,
+                              'title' => (!empty($pages[0]->title) ? DEFAULT_TITLE.' - '.$pages[0]->title : DEFAULT_TITLE),
                               'keywords' => $pages[0]->keywords,
                               'description' => $pages[0]->description,
                               'summary' => $pages[0]->summary,
@@ -111,11 +111,11 @@ if (empty($pageData)) {
             if (!empty($pageOpts[1])) $sql .= ' AND base = ?';
             else $sql .= ' AND base IS NULL';
             $sql .= ' AND matching = 1;';
-            
+
             if ($pages = $db->getAll($sql,array($pageOpts))) {
                 $pageData = array('base' => (!empty($pages[0]->base) ? $pages[0]->base : false),
                                   'uri' => $pages[0]->uri,
-                                  'title' => DEFAULT_TITLE.' - '.$pages[0]->title,
+                                  'title' => (!empty($pages[0]->title) ? DEFAULT_TITLE.' - '.$pages[0]->title : DEFAULT_TITLE),
                                   'keywords' => $pages[0]->keywords,
                                   'description' => $pages[0]->description,
                                   'summary' => $pages[0]->summary,
@@ -152,4 +152,3 @@ else {
     $pageData['class'] = 'NoRoute';
     echo $pager->build($pageData);
 }
-

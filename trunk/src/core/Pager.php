@@ -74,7 +74,7 @@ abstract class Pager {
      * @return string
      */
     public function getPageCache() {
-        $cache = new Cache();
+        $cache = Cache::init();
         $pageCache = $cache->get(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']');
         if (!empty($pageCache)) return $pageCache;
         else return false;
@@ -89,7 +89,7 @@ abstract class Pager {
      * @return null
      */
     public function setPageCache($html) {
-        $cache = new Cache();
+        $cache = Cache::init();
         $cache->set(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']',$html);
     }
 }

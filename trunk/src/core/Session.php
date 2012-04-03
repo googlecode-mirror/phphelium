@@ -209,7 +209,7 @@ class Session {
      */
     public function getUser() {
         if ($user_id = Session::getUserID()) {
-            $user = new User();
+            $user = new Users();
             $user->load($user_id);
 
             return $user;
