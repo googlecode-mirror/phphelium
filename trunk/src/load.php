@@ -42,7 +42,14 @@ if (empty($pageData)) {
             $pagesList[$pageCompare] = $route;
             if (empty($route['matching'])) {
                 if ($pageCompare == $pageURI) $pageData = $route;
-            } elseif (substr_count($pageURI,$pageCompare) > 0) $pageData = $route;
+            } else {
+                $uriParts = explode('@',$pageURI);
+                $compareParts = explode('@',$pageCompare);
+                if (substr_count($uriParts[0],$compareParts[0]) > 0) {
+                    if (empty($uriParts[1]) && empty($compareParts[1])) $pageData = $route;
+                    elseif ($uriParts[1] == $compareParts[1]) $pageData = $route;
+                }
+            }
         }
     }
 
@@ -60,7 +67,14 @@ if (empty($pageData)) {
                 $pagesList[$pageCompare] = $route;
                 if (empty($route['matching'])) {
                     if ($pageCompare == $pageURI) $pageData = $route;
-                } elseif (substr_count($pageURI,$pageCompare) > 0) $pageData = $route;
+                } else {
+                    $uriParts = explode('@',$pageURI);
+                    $compareParts = explode('@',$pageCompare);
+                    if (substr_count($uriParts[0],$compareParts[0]) > 0) {
+                        if (empty($uriParts[1]) && empty($compareParts[1])) $pageData = $route;
+                        elseif ($uriParts[1] == $compareParts[1]) $pageData = $route;
+                    }
+                }
             }
         }
     }

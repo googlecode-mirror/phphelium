@@ -54,9 +54,9 @@ class Email {
      */
     public function tmp($tmp=false) {
         if (!is_object($this->tmp)) $this->prepareTmp();
-        if (!empty($tmp)) $this->tmp = $tmp;
+        if (!empty($tmp)) $this->template = $tmp;
         
-        $this->tmp->setTemplate($this->tmp);
+        $this->tmp->setTemplate($this->template);
         return $this->tmp;
     }
 
@@ -90,7 +90,7 @@ class Email {
      * @return string
      */
     public function top() {
-        $this->tmp()->setVar('header','title',DEFAULT_TITLE);
+        if (defined('DEFAULT_TITLE')) $this->tmp()->setVar('header','title',DEFAULT_TITLE);
         return $this->tmp()->render('header');
     }
 
@@ -102,10 +102,10 @@ class Email {
      * @return string
      */
     public function signature() {
-        $this->tmp()->setVar('footer','email',DEFAULT_EMAIL);
-        $this->tmp()->setVar('footer','phone',DEFAULT_PHONE);
-        $this->tmp()->setVar('footer','title',DEFAULT_TITLE);
-        $this->tmp()->setVar('footer','uri',DEFAULT_URI);
+        if (defined('DEFAULT_EMAIL')) $this->tmp()->setVar('footer','email',DEFAULT_EMAIL);
+        if (defined('DEFAULT_PHONE')) $this->tmp()->setVar('footer','phone',DEFAULT_PHONE);
+        if (defined('DEFAULT_TITLE')) $this->tmp()->setVar('footer','title',DEFAULT_TITLE);
+        if (defined('DEFAULT_URI')) $this->tmp()->setVar('footer','uri',DEFAULT_URI);
         return $this->tmp()->render('footer');
     }
 
