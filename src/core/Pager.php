@@ -57,7 +57,7 @@ abstract class Pager {
                 else $html = $class->display();
             }
 
-            if (!empty($html)) {
+            if (!isset($html)) {
                 if (!empty($data['cache'])) $cached = $this->setPageCache($html);
                 return trim($html);
             }

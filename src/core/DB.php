@@ -215,7 +215,7 @@ class DB {
         foreach($values as $value) {
             if (substr_count($query,'?')) {
                 $value = $this->sanitize($value);
-                $query = (empty($value) ? substr_replace($query,'null',strpos($query,"?"),1) : substr_replace($query,"'".$value."'",strpos($query,"?"),1));
+                $query = (($value === '') ? substr_replace($query,'null',strpos($query,"?"),1) : substr_replace($query,"'".$value."'",strpos($query,"?"),1));
             } else break;
         }
 
