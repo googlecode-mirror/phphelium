@@ -35,6 +35,8 @@ class Process {
      * @return [mixed]
      */
     public function call($uri,$data=false,$getData=0,$username=false,$password=false,$methodOverride=false,$mockBrowser=false,$noSerialize=true) {
+        $this->data = false;
+
         if (is_array($data) && empty($noSerialize)) $data = array('data' => serialize($data));
 
         $this->open();
@@ -42,8 +44,9 @@ class Process {
 
         if (!empty($mockBrowser)) {
             curl_setopt($this->proc,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
-            curl_setopt($this->proc,CURLOPT_FOLLOWLOCATION,1);
-            curl_setopt($this->proc,CURLOPT_MAXREDIRS,3);
+            curl_setopt($this->proc,CURLOPT_FOLLOWLOCATION,true);
+            curl_setopt($this->proc,CURLOPT_HEADER,false);
+            curl_setopt($this->proc,CURLOPT_MAXREDIRS,4);
         }
 
         if (empty($getData)) curl_setopt($this->proc,CURLOPT_TIMEOUT,1);

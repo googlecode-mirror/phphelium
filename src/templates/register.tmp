@@ -31,6 +31,7 @@ $('#btnSubmit').click(function(event) {
     if (Validate.checkAll('registerFrm') == false) alert("There are errors with the form");
     else {
         ajax.onSuccess = function(e) {
+alert(e); return;
             if (e['result'] == 'error') {
                 formAssist.clear('registerFrm');
                 Validate.clearAll('registerFrm');
