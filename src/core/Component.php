@@ -23,9 +23,9 @@ abstract class Component extends DB {
      * @access public
      * @return string
      */
-    public function clearAll() {
+    function clearAll() {
         $cache = Cache::init();
-        $cache->delete(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']');
+        $cache->flush();
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class Component extends DB {
      * @param int $level
      * @return null
      */
-    public function uri($level,$from=false) {
+    function uri($level,$from=false) {
         if (empty($from)) return Request::getURI($level);
         else return Request::getURIFrom($level);
     }
@@ -48,7 +48,7 @@ abstract class Component extends DB {
      * @access public
      * @return null
      */
-    private function prepareReq() {
+    function prepareReq() {
         $req = new Request();
         $req->parse();
 
@@ -63,7 +63,7 @@ abstract class Component extends DB {
      * @param array $merge (optional)
      * @return array
      */
-    public function getRequest($merge=false) {
+    function getRequest($merge=false) {
         if (empty($this->req)) $this->prepareReq();
         if (!empty($merge)) $this->req = array_merge($this->req,$merge);
         return $this->req;
@@ -78,7 +78,7 @@ abstract class Component extends DB {
      * @param string $var [optional]
      * @return mixed
      */
-    public function session($el=false,$var=false) {
+    function session($el=false,$var=false) {
         $session = new Session();
         if (!empty($el)) {
             if (!empty($var)) return $session->setAppVar($el,$var);
@@ -97,7 +97,7 @@ abstract class Component extends DB {
      * @param String $password [optional]
      * @return mixed
      */
-    public function process($uri=false,$data=false,$getData=false,$username=false,$password=false) {
+    function process($uri=false,$data=false,$getData=false,$username=false,$password=false) {
         $process = new Process();
         if (!empty($uri)) {
             if (empty($getData)) $func = 'outbound';
@@ -117,7 +117,7 @@ abstract class Component extends DB {
      * @access public
      * @return Cache
      */
-    public function cache($el=false,$val=false) {
+    function cache($el=false,$val=false) {
         $cache = Cache::init();
         if (!empty($el)) {
             if (!empty($var)) return $cache->set($el,$var);
@@ -135,7 +135,7 @@ abstract class Component extends DB {
      * @param string $mode (optional)
      * @return Crypt
      */
-    public function crypt($key=false,$algorithm=false,$mode=false) {
+    function crypt($key=false,$algorithm=false,$mode=false) {
         return new Crypt($key,$algorithm,$mode);
     }
 
@@ -147,7 +147,7 @@ abstract class Component extends DB {
      * @param string $tmp (optional)
      * @return Email
      */
-    public function email($tmp=false) {
+    function email($tmp=false) {
         return new Email($tmp);
     }
 
@@ -160,7 +160,7 @@ abstract class Component extends DB {
      * @param string $writeFile (optional)
      * @return Log
      */
-    public function log($onlyInDebug=true,$writeFile='activity.log') {
+    function log($onlyInDebug=true,$writeFile='activity.log') {
         $settings = array('writeFile' => $writeFile);
         if ($onlyInDebug == true && Session::isDebug() == false) $settings['mockOnly'] = true;
 
@@ -206,6 +206,18 @@ abstract class Component extends DB {
         } else return false;
     }
 
+    /**
+     *
+     * function: requireExt
+     * Gets a needed extension, if not exists
+     * @access public
+     * @return [User,boolean]
+     */
+    function requireExt($extension) {
+        $e = new Extensions();
+        return $e->load($extension,false);
+    }
+    
     function action() {}
     function display() {}
 }

@@ -11,7 +11,7 @@ class Cron extends StaticController {
     protected $class = 'Cron';
     protected $template = 'cron';
     private $classOptions = array('Home'=>array('display'));
-    
+
     private $errors = array();
     private $reqData = array();
 
@@ -41,4 +41,3 @@ class Cron extends StaticController {
         return $this->tmp($this->template)->parse('error');
     }
 }
-

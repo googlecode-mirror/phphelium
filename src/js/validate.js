@@ -52,23 +52,23 @@ var Validate = {
                         break;
                     }
                 }
-            } else pass = true;
 
-            toRet = pass;
+                toRet = pass;
 
-            if (pass) pass = "/images/success.gif";
-            else pass = "/images/error.png";
+                if (pass) pass = "/images/success.gif";
+                else pass = "/images/error.png";
 
-            if (document.getElementById('validResult_'+elem.name)) {
-                document.getElementById('validResult_'+elem.name).src = pass;
-            } else {
-                var validResult = document.createElement('img');
-                validResult.src = pass;
-                validResult.style.height = '1em';
-                validResult.style.verticalAlign = 'middle';
-                validResult.id = 'validResult_'+elem.name;
+                if (document.getElementById('validResult_'+elem.name)) {
+                    document.getElementById('validResult_'+elem.name).src = pass;
+                } else {
+                    var validResult = document.createElement('img');
+                    validResult.src = pass;
+                    validResult.style.height = '1em';
+                    validResult.style.verticalAlign = 'middle';
+                    validResult.id = 'validResult_'+elem.name;
 
-                elem.parentNode.appendChild(validResult);
+                    elem.parentNode.appendChild(validResult);
+                }
             }
         } else if (document.getElementById('validResult_'+elem.name)) {
             elem.parentNode.removeChild(document.getElementById('validResult_'+elem.name));
