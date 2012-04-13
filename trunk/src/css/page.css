@@ -16,6 +16,21 @@ input[type="button"] {
     margin-top:0.3em;
 }
 
+span.inputWrapper {
+    display:inline-block;
+    padding:0.2em 0.5em 0.2em 0.3em;
+    border:1px solid gray;
+    border-radius:10px;
+}
+
+span.inputWrapper input[type="text"] {
+    font-size:1.3em;
+}
+
+span.inputWrapper input[type="password"] {
+    font-size:1.3em;
+}
+
 #wrapper {
     margin:auto auto;
     background:white;
@@ -98,6 +113,10 @@ label {
 
 .data {
     padding:0.5em;
+}
+
+.submission {
+    padding-top:1.5em;
 }
 
 .element {

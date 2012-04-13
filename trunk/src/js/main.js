@@ -18,11 +18,14 @@ var navAssist = {
 
         $('#'+navId).children().each(function(){
             var kid = $(this).attr("id");
+            var title = $(this).attr("makeTitle");
             var base = kid.replace("t","");
 
             if (base == Hasher.hash['tab']) {
                 $('#t'+base).addClass('active');
                 $('#c'+base).css("display","block");
+
+                if (title !== undefined) document.title = title;
                 navAssist.navRegister[navId]['active'] = base;
             } else {
                 $('#t'+base).removeClass('active');
@@ -30,6 +33,7 @@ var navAssist = {
             }
 
             $('#t'+base).click(function() {
+                if (title !== undefined) document.title = title;
                 Hasher.set('tab',base);
                 $('#t'+navAssist.navRegister[navId]['active']).removeClass('active');
                 $('#c'+navAssist.navRegister[navId]['active']).css("display","none");

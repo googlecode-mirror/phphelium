@@ -46,7 +46,7 @@ class Users extends Model {
      */
     public function login($username,$password,$sticky=false) {
         $sql = 'SELECT '.$this->primary.' FROM '.$this->table.' WHERE username = ? AND password = ? AND is_active = 1;';
-        $results = $this->getOne($sql,array($username,$password));
+        $results = $this->getOne($sql,array($username,md5($password)));
         if (empty($results)) return false;
         else {
             $user = new Users();
@@ -71,7 +71,7 @@ class Users extends Model {
      */
     public function register($username,$password,$info=false) {
         $sql = 'INSERT INTO '.$this->table.' (username,password) VALUES (?,?);';
-        $userId = $this->insert($sql,array($username,$password));
+        $userId = $this->insert($sql,array($username,md5($password)));
         if (empty($userId)) return false;
         else {
             if (!empty($info)) Users::updateUser($info,$userId);

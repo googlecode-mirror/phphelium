@@ -40,6 +40,19 @@ class Constants {
 
     /**
      *
+     * function: clearConstants
+     * Clear constants (if option available)
+     * @access public
+     * @return boolean
+     */
+    public function clearConstants() {
+        if ($this->type == 'apc') {
+            return $this->apc->clearCache();
+        } else return false;
+    }
+    
+    /**
+     *
      * function: buildConstants
      * Builds constants from ini file and loads into memory
      * @access public
@@ -120,10 +133,10 @@ class Constants {
         // ----------------------------------------
         // environment-specific constants..
         // ----------------------------------------
-        if (empty($ini['environment']['title'])) $ini['environment']['title'] = "LANG['title']";
-        if (empty($ini['environment']['keywords'])) $ini['environment']['keywords'] = "LANG['keywords']";
-        if (empty($ini['environment']['description'])) $ini['environment']['description'] = "LANG['description']";
-        if (empty($ini['environment']['summary'])) $ini['environment']['summary'] = "LANG['summary']";
+        if (empty($ini['environment']['title'])) $ini['environment']['title'] = "LANG[title]";
+        if (empty($ini['environment']['keywords'])) $ini['environment']['keywords'] = "LANG[keywords]";
+        if (empty($ini['environment']['description'])) $ini['environment']['description'] = "LANG[description]";
+        if (empty($ini['environment']['summary'])) $ini['environment']['summary'] = "LANG[summary]";
 
         $constants['DEFAULT_TITLE'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['title']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['title']),'GLOBAL') : $ini['environment']['title']);
         $constants['DEFAULT_KEYWORDS'] = (preg_match('/LANG\[(.*?)\]/s',$ini['environment']['keywords']) ? Language::getSub(preg_replace(array('/LANG\[/','/\]/'),array('',''),$ini['environment']['keywords']),'GLOBAL') : $ini['environment']['keywords']);

@@ -186,8 +186,10 @@ function __autoload($class) {
 $c = new Constants(true);
 $constants = array();
 
+$ini = parse_ini_file('../settings.ini',true);
+if ($ini['system']['cacheAllow'] == 0) $c->clearConstants();
+
 if (!$c->checkConstants()) {
-    $ini = parse_ini_file('../settings.ini',true);
     $constants = $c->buildConstants($ini);
     
     if (!empty($_SERVER['SERVER_NAME']) && file_exists('../custom/'.$_SERVER['SERVER_NAME'].'/settings.ini')) {
