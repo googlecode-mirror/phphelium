@@ -115,4 +115,16 @@ class Cache extends Memcache {
         if (!empty($this->connected)) return parent::delete($key,$timeout);
         else return false;
     }
+
+    /**
+     *
+     * function: flush
+     * Flush all memcache objects
+     * @access public
+     * @return string
+     */
+    public function flush() {
+        if (!empty($this->connected)) return parent::flush();
+        else return false;
+    }
 }

@@ -5,9 +5,9 @@
 
 <tmp:home>
 <div id="navigation">
-    <div class="tab" id="tHome">Home</div>
-    <div class="tab" id="tDocumentation">Documentation</div>
-    <div class="tab" id="tContact">Contact</div>
+    <div class="tab" id="tHome" makeTitle="Helium - Home">Home</div>
+    <div class="tab" id="tDocumentation" makeTitle="Helium - Documentation">Documentation</div>
+    <div class="tab" id="tContact" makeTitle="Helium - Contact">Contact</div>
 </div>
 
 <div class="clear"></div>

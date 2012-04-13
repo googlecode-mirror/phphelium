@@ -4,7 +4,7 @@
  * Register.php
  * Copyright: Bryan Healey 2010, 2011 (bryan@bryanhealey.com)
  * License: GNU General Public License (v3)
- * Purpose: Standard registration page (no styling)
+ * Purpose: Standard registration page (minimal styling)
  */
 
 class Register extends StaticController {
@@ -23,8 +23,12 @@ class Register extends StaticController {
     function action() {
         $this->tmp()->setTemplate($this->template);
         if (!empty($this->reqData['username'])) {
+            $info = array();
+            if (!empty($this->reqData['first_name'])) $info['first_name'] = $this->reqData['first_name'];
+            if (!empty($this->reqData['last_name'])) $info['last_name'] = $this->reqData['last_name'];
+
             $user = new Users();
-            $user = $user->register($this->reqData['username'],$this->reqData['password']);
+            $user = $user->register($this->reqData['username'],$this->reqData['password'],$info);
             if (!empty($user)) {
                 Session::setUser($user);
                 return json_encode(array('result' => 'success', 'msg' => $this->tmp()->render('successRegister')));
@@ -34,11 +38,6 @@ class Register extends StaticController {
 
     function display() {
         return $this->tmp($this->template)->render();
-    }
-
-    public function logout() {
-        Session::logout();
-        header('Location: /');
     }
 }
 
