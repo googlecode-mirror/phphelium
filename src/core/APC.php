@@ -93,6 +93,17 @@ class APC {
     public function loadConstants() {
         return apc_load_constants($this->globalKey);
     }
+
+    /**
+     *
+     * function: clearCache
+     * Clear APC cache
+     * @access public
+     * @return boolean
+     */
+    public function clearCache() {
+        return apc_clear_cache();
+    }
 }
 
 

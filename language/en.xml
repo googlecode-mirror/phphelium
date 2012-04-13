@@ -217,6 +217,22 @@
                 </sub>
             </phrase>
             <phrase>
+                <id>firstName</id>
+                <sub>
+                    <![CDATA[
+                    First Name
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastName</id>
+                <sub>
+                    <![CDATA[
+                    Last Name
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
                 <id>register</id>
                 <sub>
                     <![CDATA[
