@@ -2,8 +2,8 @@
 * FILE: custom/mobile/main.tmp
 * This is you primary wrapper template file for mobile.
 * All controllers that are not explicitly bypassed will
-* route through this controller to get all needed headers and footers
-* for all mobile browsers.
+*   route through this controller to get all needed headers and footers
+*   for all mobile browsers.
 * ---------------------------------------------------------------------
 
 <tmp:main>
@@ -64,29 +64,7 @@
         <!-- FOOTER -->
         {$footer}
     </div>
-
-    <div id="popup-container">
-        <div id="popup-backdrop" class="shade">&nbsp;</div>
-        <span id="popup">
-            <div id="popup-close" onClick="popup.hide();">
-                <img src="/images/close_small.png" />
-            </div>
-
-            <div id="popup-title">
-            </div>
-
-            <div id="popup-content"></div>
-        </span>
-    </div>
-
-    <div id="loader-container">
-        <img src="/images/loading.gif" />
-    </div>
-
-    <div style="display:none;" id="uploadAssistContainer">
-        <iframe id="uploadAssist" name="uploadAssist" src=""></iframe>
-    </div>
-
+    
     <script type="text/javascript" src="/js/bottom.js"></script>
 </body>
 </html>

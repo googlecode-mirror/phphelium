@@ -1,19 +1,21 @@
 <?php
 
 /*
- * NoRoute.php
+ * Footer.php
  * Copyright: Bryan Healey 2010, 2011 (bryan@bryanhealey.com)
  * License: GNU General Public License (v3)
- * Purpose: Handle all failed routing requests
+ * Purpose: Handles footer-specific data
  */
 
-class NoRoute extends StaticController {
-    protected $class = 'NoRoute';
-    protected $template = 'noroute';
-    public $cache = true;
+class Footer extends Component {
+    protected $class = 'Footer';
+    protected $template = 'footer';
+    public $reqData, $err;
+    public $cache = false;
 
     function __construct($merge=false) {
-        parent::__construct($merge);
+        $this->reqData = parent::getRequest($merge);
+        $this->err = false;
     }
 
     function action() {
@@ -24,5 +26,3 @@ class NoRoute extends StaticController {
         return $this->tmp($this->template)->render();
     }
 }
-
-

@@ -10,18 +10,13 @@
 abstract class StandardController extends Component {
     protected $class;
     protected $template;
-    private $errors;
-    private $reqData;
+    public $reqData, $err;
     
     function __construct($merge=false) {
         $this->reqData = parent::getRequest($merge);
+        $this->err = false;
         
-        if (!$this->user()) {
-            $this->tmp('error_html')->setVar('errors',array((object)array('id' => EID_ACCESS_DENIED,
-                                                                          'message' => 'You must be logged in to view this page')));
-            
-            exit($this->tmp('error_html')->render('error',true));
-        }
+        if (empty($this->user()->user_id)) header('Location: /login/');
     }
 }
 

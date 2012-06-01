@@ -81,10 +81,16 @@ span.inputWrapper input[type="password"] {
 
 #navigation .tab {
     border-radius:5px 5px 0 0;
-    background:#eeeeee;
-    padding:0.5em;
+    text-transform:lowercase;
+    font-family:verdana;
+    color:white;
+    font-weight:bold;
+    padding:0.5em 1em 0.5em 1em;
     float:left;
     border:1px solid silver;
+    background:-webkit-gradient(linear, left top, left bottom, from(#CCC), to(gray));
+    background:-moz-gradient(linear, left top, left bottom, from(#CCC), to(gray));
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='gray');
     border-bottom:0;
     margin-right:1em;
     margin-bottom:0;
@@ -99,8 +105,9 @@ span.inputWrapper input[type="password"] {
 }
 
 #navigation .active {
-    background:silver;
-    border:1px solid gray;
+    background:#eeeeee;
+    color:black;
+    border:1px solid silver;
     border-bottom:0;
 }
 
@@ -209,4 +216,9 @@ span.inputWrapper textarea { border:0; background:white; margin:0.3em; }
 
 #registerFrm {
     padding-top:1em;
+}
+
+#logo {
+    float:left;
+    padding-right:0.5em;
 }

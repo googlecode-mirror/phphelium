@@ -7,6 +7,23 @@
 
 __CARRIAGE = 13;
 
+var sys = {
+    getBrowser: function() {
+        var browser = "unknown";
+        var agent = navigator.userAgent.toLowerCase();
+        var possibleMatches = new Array('safari','msie 6','msie','firefox','netscape','omniweb','avantbrowser','msn','konqueror','camino','chrome');
+
+        for (var i=0;i<possibleMatches.length;i++) {
+            if (agent.indexOf(possibleMatches[i]) > -1) {
+                browser = possibleMatches[i];
+                break;
+            }
+        }
+
+        return browser;
+    }
+};
+
 var navAssist = {
     navRegister: {},
     prepareNav: function(navId,defVal) {
@@ -48,35 +65,6 @@ var navAssist = {
         $('#t'+navAssist.navRegister[navId]['active']).addClass('active');
         $('#c'+navAssist.navRegister[navId]['active']).css("display","block");
     }
-};
-
-var htmlAssist = {
-    idRegisters: {},
-    prepareCAC: function(el) {
-        el = $('#'+el);
-        htmlAssist.idRegisters[el.attr("id")] = {'defaultText':el.val()};
-
-        if (el.type == "password") {
-            el.type = "text";
-            htmlAssist.idRegisters[el.id]['typeChange'] = 'password';
-        }
-
-        el.click(function(event) {
-            if (this.value == htmlAssist.idRegisters[this.id]['defaultText']) {
-                this.value = "";
-                this.style.color = "black";
-                if (htmlAssist.idRegisters[this.id]['typeChange'] !== null) this.type = htmlAssist.idRegisters[this.id]['typeChange'];
-            }
-        });
-
-        el.blur(function(event) {
-            if (this.value == "") {
-                this.value = htmlAssist.idRegisters[this.id]['defaultText'];
-                this.style.color = "gray";
-                if (htmlAssist.idRegisters[this.id]['typeChange'] !== null) this.type = "text";
-            }
-        });
-    },
 };
 
 var formAssist = {
@@ -129,7 +117,7 @@ var popup = {
             $('#popup-title').html(title);
         }
 
-        if (getBrowser() == "msie 6") {
+        if (sys.getBrowser() == "msie 6") {
             var selects = document.getElementsByTagName('select');
             for (i = 0; i < selects.length; i++) selects[i].css('visibility','hidden');
         }
@@ -212,7 +200,7 @@ var popup = {
         if (!bypassCloser && popup.closer && !popup.closer()) allowClose = false;
 
         if (allowClose) {
-            if (getBrowser() == "msie 6") {
+            if (sys.getBrowser() == "msie 6") {
                 var selects = document.getElementsByTagName('select');
                 for (i = 0; i < selects.length; i++) selects[i].css('visibility','visible');
             }
@@ -245,101 +233,6 @@ jQuery.fn.center = function () {
 
     return this;
 }
-
-Array.prototype.nsort = function(sort_flags) {
-    var valArr = [], keyArr = [], k = '', i = 0, sorter = false, that = this, populateArr = [];
-
-    switch (sort_flags) {
-        case 'SORT_STRING':
-            sorter = function (a, b) {
-                return that.strnatcmp(a, b);
-            };
-
-        break;
-
-        case 'SORT_NUMERIC':
-            sorter = function (a, b) {
-                return (a - b);
-            };
-
-        break;
-
-        case 'SORT_REGULAR':
-        default:
-            sorter = function (a, b) {
-                if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            };
-
-        break;
-    }
-
-    for (k in this) if (this.hasOwnProperty) valArr.push(this[k]);
-
-    valArr.sort(sorter);
-    for (i = 0; i < valArr.length; i++) if (isNumeric(valArr[i])) populateArr[i] = valArr[i];
-    return populateArr;
-};
-
-Array.prototype.rsort = function(sort_flags) {
-    var inputArr = this;
-    var valArr=[], keyArr=[], k, i, ret, sorter, that = this, strictForIn = false, populateArr = [];
-
-    switch (sort_flags) {
-        case 'SORT_STRING':
-            sorter = function (a, b) {
-            	return that.strnatcmp(b, a);
-            };
-
-        break;
-
-        case 'SORT_NUMERIC':
-            sorter = function (a, b) {
-                return (a - b);
-            };
-
-        break;
-
-        case 'SORT_REGULAR':
-        default:
-            sorter = function (a, b) {
-            if (a > b) return 1;
-                if (a < b) return -1;
-                return 0;
-            };
-
-        break;
-    }
-
-    var bubbleSort = function (keyArr, inputArr) {
-        var i, j, tempValue, tempKeyVal;
-        for (i = inputArr.length-2; i >= 0; i--) {
-            for (j = 0; j <= i; j++) {
-            	ret = sorter(inputArr[j+1], inputArr[j]);
-                if (ret > 0) {
-                    tempValue = inputArr[j];
-                    inputArr[j] = inputArr[j+1];
-                    inputArr[j+1] = tempValue;
-                    tempKeyVal = keyArr[j];
-                    keyArr[j] = keyArr[j+1];
-                    keyArr[j+1] = tempKeyVal;
-                }
-            }
-        }
-    };
-
-    for (k in inputArr) {
-        if (inputArr.hasOwnProperty) {
-            valArr.push(inputArr[k]);
-            keyArr.push(k);
-        }
-    }
-
-    try { bubbleSort(keyArr, valArr); } catch (e) { return false; }
-
-    return valArr;
-};
 
 String.prototype.isDate = function() {
     var txt = this;
@@ -387,21 +280,6 @@ String.prototype.strripos = function(needle, offset) {
     }
     return i >= 0 ? i : false;
 };
-
-function getBrowser() {
-    var browser = "unknown";
-    var agent = navigator.userAgent.toLowerCase();
-    var possibleMatches = new Array('safari','msie 6','msie','firefox','netscape','omniweb','avantbrowser','msn','konqueror','camino','chrome');
-
-    for (var i=0;i<possibleMatches.length;i++) {
-        if (agent.indexOf(possibleMatches[i]) > -1) {
-            browser = possibleMatches[i];
-            break;
-        }
-    }
-
-    return browser;
-}
 
 function strip_tags(input,allowed) {
     allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)

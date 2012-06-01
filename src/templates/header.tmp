@@ -9,7 +9,11 @@
     {$controls}
 </div>
 
-<h1><a href="/">{$LANG[title]}</a>: <font style="color:green;">{$LANG[subtitle]}</font></h1>
+<div class="float_left">
+    <div id="logo">
+        <a href="/"><img src="/images/title.png" border="0" /></a>
+    </div>
+</div>
 </tmp:header>
 
 <tmp:outControls>

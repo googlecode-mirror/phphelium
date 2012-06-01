@@ -10,11 +10,11 @@
 abstract class StaticController extends Component {
     protected $class;
     protected $template;
-    private $errors;
-    private $reqData;
+    public $reqData, $err;
     
     function __construct($merge=false) {
         $this->reqData = parent::getRequest($merge);
+        $this->err = false;
     }
 }
 

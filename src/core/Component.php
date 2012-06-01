@@ -141,6 +141,20 @@ abstract class Component extends DB {
 
     /**
      *
+     * function: masker
+     * Gets the masker object
+     * @access public
+     * @param string $key
+     * @return Masker
+     */
+    function masker($key=false,$string=false) {
+        $masker = Masker::init($key);
+        if (empty($string)) return $masker;
+        else return $masker->mask($string);
+    }
+
+    /**
+     *
      * function: email
      * Gets email object, and can change email templates if desired
      * @access public

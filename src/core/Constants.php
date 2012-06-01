@@ -85,7 +85,7 @@ class Constants {
         // system-specific constants..
         // ----------------------------------------
         $constants['ROOT'] = ((!empty($ini['system']['root']) && $ini['system']['root'] <> '@detect') ? $ini['system']['root'] : str_replace('src/core','',realpath(dirname(__FILE__))));
-        $constants['SRC'] = ((!empty($ini['system']['src']) && $ini['system']['src'] <> '@detect') ? $ini['system']['src'] : str_replace('core','',realpath(dirname(__FILE__))));
+        $constants['SRC'] = ((!empty($ini['system']['src']) && $ini['system']['src'] <> '@detect') ? $ini['system']['src'] : $constants['ROOT'].'src/');
         
         $constants['LOG_LOCATION'] = (!empty($ini['system']['logs']) ? $ini['system']['logs'] : '/var/log/');
         $constants['DEFAULT_TEMPLATE_ROOT'] = $constants['ROOT'].'templates/';

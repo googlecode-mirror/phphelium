@@ -7,17 +7,15 @@
  * Purpose: Controller for all standard HTML requests (wrapping header and footer)
  */
 
-class Main extends StaticController {
+class Main extends Component {
     protected $class = 'Main';
     protected $template = 'main';
+    public $reqData, $err;
     public $cache = false;
 
-    private $errors = array();
-    public $reqData = array();
-
     function __construct($merge=false) {
-        parent::__construct();
-        $this->reqData = $this->getRequest($merge);
+        $this->reqData = parent::getRequest($merge);
+        $this->err = false;
     }
 
     function action() {
@@ -56,14 +54,14 @@ class Main extends StaticController {
         }
         
         if (!empty($this->reqData['pageData']['cache'])) Pager::setPageCache($content);
-
-        if (Session::getUserId() == false) $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('outControls',true));
-        else $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('inControls',true));
         
-        $this->tmp($this->template)->setVar('main','header',$this->tmp('header')->render('header',true));
-        $this->tmp($this->template)->setVar('main','content',$content);
-        $this->tmp($this->template)->setVar('main','footer',$this->tmp('footer')->render('footer',true));
+        $header = new Header();
+        $this->tmp($this->template)->setVar('main','header',$header->display());
 
+        $footer = new Footer();
+        $this->tmp($this->template)->setVar('main','footer',$footer->display());
+
+        $this->tmp($this->template)->setVar('main','content',$content);
         return $this->tmp($this->template)->render();
     }
 }
