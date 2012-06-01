@@ -14,7 +14,7 @@
                 <id>keywords</id>
                 <sub>
                     <![CDATA[
-                    PHP, MVC, framework, development
+                    PHP, MVC, framework, development, engineering
                     ]]>
                 </sub>
             </phrase>
@@ -70,7 +70,7 @@
                 <id>copyYear</id>
                 <sub>
                     <![CDATA[
-                    2011
+                    2011, 2012
                     ]]>
                 </sub>
             </phrase>
@@ -157,10 +157,26 @@
                 </sub>
             </phrase>
             <phrase>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your e-mail address...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
                 <id>password</id>
                 <sub>
                     <![CDATA[
                     Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your password...
                     ]]>
                 </sub>
             </phrase>
@@ -181,7 +197,7 @@
                 </sub>
             </phrase>
             <phrase>
-                <id>successLogin</id>
+                <id>success</id>
                 <sub>
                     <![CDATA[
                     Congratulations! You have successfully logged in!
@@ -189,10 +205,18 @@
                 </sub>
             </phrase>
             <phrase>
-                <id>errorLogin</id>
+                <id>error</id>
                 <sub>
                     <![CDATA[
                     That is not the correct username/password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    There are errors with the form
                     ]]>
                 </sub>
             </phrase>
@@ -200,6 +224,14 @@
     </tmp>
     <tmp name="register">
         <phrases>
+            <phrase>
+                <id>header</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
             <phrase>
                 <id>username</id>
                 <sub>
@@ -209,10 +241,42 @@
                 </sub>
             </phrase>
             <phrase>
-                <id>password</id>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your e-mail address...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password1</id>
                 <sub>
                     <![CDATA[
                     Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace1</id>
+                <sub>
+                    <![CDATA[
+                    Enter a password...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password2</id>
+                <sub>
+                    <![CDATA[
+                    Repeat
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace2</id>
+                <sub>
+                    <![CDATA[
+                    Re-enter your password...
                     ]]>
                 </sub>
             </phrase>
@@ -225,10 +289,26 @@
                 </sub>
             </phrase>
             <phrase>
+                <id>firstNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your first name...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
                 <id>lastName</id>
                 <sub>
                     <![CDATA[
                     Last Name
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your last name...
                     ]]>
                 </sub>
             </phrase>
@@ -249,18 +329,26 @@
                 </sub>
             </phrase>
             <phrase>
-                <id>successLogin</id>
+                <id>success</id>
                 <sub>
                     <![CDATA[
-                    Congratulations! You have successfully logged in!
+                    Congratulations! You have successfully registered!
                     ]]>
                 </sub>
             </phrase>
             <phrase>
-                <id>errorLogin</id>
+                <id>error</id>
                 <sub>
                     <![CDATA[
-                    That is not the correct username/password
+                    Something went wrong! You are not registered.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    There are errors with the form
                     ]]>
                 </sub>
             </phrase>

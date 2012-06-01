@@ -12,12 +12,8 @@ class Login extends StaticController {
     protected $template = 'login';
     public $cache = false;
 
-    private $errors = array();
-    public $reqData = array();
-	
     function __construct($merge=false) {
         parent::__construct();
-        $this->reqData = $this->getRequest($merge);
     }
 
     function action() {
@@ -37,7 +33,14 @@ class Login extends StaticController {
         return $this->tmp($this->template)->render();
     }
 
-    public function logout() {
+    /**
+     *
+     * function: logout
+     * Controller for logout behavior
+     * @access public
+     * @return string
+     */
+    function logout() {
         Session::logout();
         header('Location: /');
     }

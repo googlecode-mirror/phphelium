@@ -50,19 +50,36 @@ var Validate = {
                             if (rule.test(elem.value)) pass = true;
 
                         break;
+
+                        case "mimic":
+                            var mimic = elem.getAttribute("mimic");
+                            if (document.getElementById(mimic).value == elem.value) pass = true;
+
+                        break;
                     }
                 }
 
                 toRet = pass;
 
-                if (pass) pass = "/images/success.gif";
-                else pass = "/images/error.png";
+                if (pass) {
+                    if (elem.getAttribute("onSuccess") == null) msg = 'Correct!';
+                    else msg = elem.getAttribute("onSuccess");
+
+                    pass = "/images/success.gif";
+                } else {
+                    if (elem.getAttribute("onError") == null) msg = 'An error has occured';
+                    else msg = elem.getAttribute("onError");
+
+                    pass = "/images/error.png";
+                }
 
                 if (document.getElementById('validResult_'+elem.name)) {
                     document.getElementById('validResult_'+elem.name).src = pass;
+                    document.getElementById('validResult_'+elem.name).title = msg;
                 } else {
                     var validResult = document.createElement('img');
                     validResult.src = pass;
+                    validResult.title = msg;
                     validResult.style.height = '1em';
                     validResult.style.verticalAlign = 'middle';
                     validResult.id = 'validResult_'+elem.name;

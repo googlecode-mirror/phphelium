@@ -10,14 +10,12 @@
 class API extends APIController {
     protected $class = 'API';
     protected $template = 'api';
+    public $cache = false;
+
     private $classOptions = array('Home'=>array('display'));
 
-    private $errors = array();
-    private $reqData = array();
-    
     function __construct($merge=false) {
         parent::__construct($merge);
-        $this->reqData = parent::getRequest();
     }
     
     /**
@@ -34,10 +32,10 @@ class API extends APIController {
         if (!empty($this->classOptions[$controller])) {
             $controller = new $controller();
             if (in_array($directive,$this->classOptions[$controller])) return $controller->$directive();
-            else $this->errors[] = array(1,'Disallowed');
-        } else $this->errors[] = array(1,'Disallowed');
+            else $this->err[] = array(1,'Disallowed');
+        } else $this->err[] = array(1,'Disallowed');
 
-        $this->tmp('error')->setVar('errors',$this->errors);
+        $this->tmp('error')->setVar('errors',$this->err);
         return $this->tmp('error')->parse('xml_error');
     }
 }

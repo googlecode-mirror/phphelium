@@ -43,7 +43,7 @@ class Cache extends Memcache {
      * function: init
      * Loads the cache object
      * @access public
-     * @return [User,boolean]
+     * @return [Cache,boolean]
      */
     public static function init() {
         if (!isset(self::$instance)) {

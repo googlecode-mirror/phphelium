@@ -12,10 +12,16 @@
         
         <form method="POST" action="/login/" id="loginFrm">
             <div class="data">
-                <label for="username">{$LANG[username]}:</label> <span class="inputWrapper"><input type="text" name="username" id="username" size="30" validate="email" required /></span>
+                <label for="username">{$LANG[username]}:</label>
+                <span class="inputWrapper">
+                    <input type="text" name="username" id="username" size="30" placeholder="{$LANG[usernamePlace]}" validate="email" onError="You must enter a valid e-mail address" required />
+                </span>
             </div>
             <div class="data">
-                <label for="password">{$LANG[password]}:</label> <span class="inputWrapper"><input type="password" name="password" id="password" size="30" validate="filled" required /></span>
+                <label for="password">{$LANG[password]}:</label>
+                <span class="inputWrapper">
+                    <input type="password" name="password" id="password" size="30" placeholder="{$LANG[passwordPlace]}" validate="filled" onError="You must supply a password" required />
+                </span>
             </div>
             <div class="data submission">
                 <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[login]}" />
@@ -30,7 +36,7 @@
 
 <script type="text/javascript">
 $('#btnSubmit').click(function(event) {
-    if (Validate.checkAll('loginFrm') == false) alert("There are errors with the form");
+    if (Validate.checkAll('loginFrm') == false) alert("{$LANG[invalidFrm]}");
     else {
         ajax.onSuccess = function(e) {
             if (e['result'] == 'error') {
@@ -62,12 +68,12 @@ $(document).ready(function() {
 
 <tmp:successLogin>
 <div class="success">
-    {$LANG[successLogin]}
+    {$LANG[success]}
 </div>
 </tmp:successLogin>
 
 <tmp:failLogin>
 <div class="error">
-    {$LANG[errorLogin]}
+    {$LANG[error]}
 </div>
 </tmp:failLogin>

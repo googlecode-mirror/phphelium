@@ -93,10 +93,26 @@ class Crypt {
         return $decrypted;
     }
 
+    /**
+     *
+     * function: urlEncode
+     * Encode a URL-ready string
+     * @access public
+     * @param string $input
+     * @return string
+     */
     public function urlEncode($input) {
         return strtr(base64_encode($input), '+/=', '-_,');
     }
 
+    /**
+     *
+     * function: urlDecode
+     * Decode a URL-ready string
+     * @access public
+     * @param string $input
+     * @return string
+     */
     public function urlDecode($input) {
         return base64_decode(strtr($input, '-_,', '+/='));
     }

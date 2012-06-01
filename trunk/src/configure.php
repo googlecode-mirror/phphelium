@@ -40,5 +40,3 @@ function exception_error_handler($errno,$errstr,$errfile,$errline) {
 }
 
 set_error_handler('exception_error_handler', E_ALL);
-
-

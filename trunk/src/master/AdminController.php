@@ -10,15 +10,16 @@
 abstract class AdminController extends Component {
     protected $class;
     protected $template;
-    private $errors;
-    private $reqData;
+    public $reqData, $err;
     
     function __construct($merge=false) {
         $this->reqData = parent::getRequest($merge);
-        
-        if (!$this->user()->isAdmin()) {
-            $this->tmp('error_html')->setVar('errors',array((object)array('id' => EID_BAD_LOGIN,
-                                                                          'message' => 'This is not a valid API user')));
+        $this->err = false;
+
+        if (empty($this->user()->user_id)) header('Location: /login/');
+        elseif ($this->user()->isAdmin() == false) {
+            $this->tmp('error_html')->setVar('errors',array((object)array('id' => (defined('EID_BAD_LOGIN') ? EID_BAD_LOGIN : 0),
+                                                                          'message' => 'This is not a valid administrative user')));
             
             exit($this->tmp('error_html')->render('error',true));
         }

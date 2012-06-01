@@ -17,7 +17,7 @@ var ajaxQueue = {
 
     ensureSingularity: function(container) {
         for(var i in ajaxQueue.list) {
-            if (Page.isNumeric(i)) if (ajaxQueue.list[i]['container'] == container) return false;
+            if ($.isNumeric(i)) if (ajaxQueue.list[i]['container'] == container) return false;
         }
 
         return true;
@@ -30,10 +30,10 @@ var ajaxQueue = {
         }
     },
 
-    request: function(url,method,params,container,onSuccess) {
+    request: function(url,method,params,container,onSuccess,onError,onTimeout) {
         if (!onSuccess) var onSuccess = false;
         if (ajaxQueue.ensureSingularity(container)) {
-            if (!ajaxQueue.noQueue || ajaxQueue.list.length == 0) ajaxQueue.list.push({'url':url,'method':method,'params':params,'container':container,'onSuccess':onSuccess});
+            if (!ajaxQueue.noQueue || ajaxQueue.list.length == 0) ajaxQueue.list.push({'url':url,'method':method,'params':params,'container':container,'onSuccess':onSuccess,'onError':onError,'onTimeout':onTimeout});
             else alert("You must wait");
         }
     },
@@ -50,6 +50,9 @@ var ajaxQueue = {
                 a.submit(el.form,el.container);
             } else {
                 a.onSuccess = el.onSuccess;
+                a.onError = el.onError;
+                a.onTimeout = el.onTimeout;
+
                 a.request(el.url,el.method,el.params,el.container);
             }
         }
@@ -61,16 +64,19 @@ var ajaxQueue = {
 ajax = {
     onSuccess: null,
     onFail: null,
+    onTimeout: null,
 
-    submit: function(formId,container,params,sFunc,fFunc) {
+    submit: function(formId,container,params,sFunc,fFunc,tFunc) {
         if (!formId) console.log('You must supply a formId to submit');
         else {
             if (sFunc) ajax.onSuccess = sFunc;
             if (fFunc) ajax.onFail = fFunc;
+            if (tFunc) ajax.onTimeout = tFunc;
 
             ta = new ajaxSingular();
             if (ajax.onSuccess) ta.onSuccess = ajax.onSuccess;
             if (ajax.onFail) ta.onFail = ajax.onFail;
+            if (ajax.onTimeout) ta.onTimeout = ajax.onTimeout;
             var a = ta.submit(formId,container,params);
 
             ajax.onSuccess = null;
@@ -80,13 +86,15 @@ ajax = {
         }
     },
 
-    request: function(url,method,params,container,sFunc,fFunc) {
+    request: function(url,method,params,container,sFunc,fFunc,tFunc) {
         if (sFunc) ajax.onSuccess = sFunc;
         if (fFunc) ajax.onFail = fFunc;
+        if (tFunc) ajax.onTimeout = tFunc;
 
         ta = new ajaxSingular();
         if (ajax.onSuccess) ta.onSuccess = ajax.onSuccess;
         if (ajax.onFail) ta.onFail = ajax.onFail;
+        if (ajax.onTimeout) ta.onTimeout = ajax.onTimeout;
         var a = ta.request(url,method,params,container);
 
         ajax.onSuccess = null;
@@ -99,6 +107,7 @@ ajax = {
 function ajaxSingular() {
     this.onSuccess = null;
     this.onFail = null;
+    this.onTimeout = null;
     this.loader = false;
 
     this.submit = function(formId,container,params) {
@@ -117,19 +126,24 @@ function ajaxSingular() {
 
         var success = this.onSuccess;
         var fail = this.onFail;
+        var timo = this.onTimeout;
         var loader = this.loader;
         var ret = false;
 
         this.onSuccess = null;
         this.onFail = null;
+        this.onTimeout = null;
 
         if (loader) {
             if ($('#'+container)) {
+                var loaderImg = document.createElement('img');
+                loaderImg.src = '/img/loading.gif';
+
                 var loaderDiv = document.createElement('div');
                 loaderDiv.setAttribute('width','100%');
                 loaderDiv.style.textAlign = 'center';
                 loaderDiv.style.paddingTop = '0.75em';
-                loaderDiv.innerHTML = "<img src='/img/loading.gif' />";
+                loaderDiv.appendChild(loaderImg);
 
                 $('#'+container).update(loaderDiv);
             } else if ($('loader-container')) {
@@ -157,13 +171,16 @@ function ajaxSingular() {
                 if ($('#loader-container') !== null) $('#loader-container').css('display','none');
             },
 
-            error: function(responseText) {
-                if (fail) fail(responseText);
-                ret = false;
+            error: function(responseText,err) {
+                if (err == 'timeout') timo(responseText);
+                else {
+                    if (fail) fail(responseText);
+                    ret = false;
+
+                    if ($('#loader-container') !== null) $('#loader-container').css('display','none');
+                }
 
                 ajaxQueue.fired = false;
-
-                if ($('#loader-container') !== null) $('#loader-container').css('display','none');
             }
         });
 

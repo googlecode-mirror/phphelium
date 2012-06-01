@@ -7,10 +7,12 @@ $cache = Cache::init();
 $pageURI = $_SERVER['PHP_SELF'];
 
 $hd = parse_url($_SERVER['HTTP_HOST']);
-$host = explode('.', $hd['path']);
-$subdomains = array_slice($host,0,count($host)-2);
-if (!empty($subdomains) && count($subdomains) > 0) {
-    if ($subdomains[0] <> (defined('DEFAULT_SUBDOMAIN') == true ? DEFAULT_SUBDOMAIN : 'www')) $pageURI .= '@'.implode('.',$subdomains);
+if (!empty($hd) && !empty($hd['path'])) {
+    $host = explode('.', $hd['path']);
+    $subdomains = array_slice($host,0,count($host)-2);
+    if (!empty($subdomains) && count($subdomains) > 0) {
+        if ($subdomains[0] <> (defined('DEFAULT_SUBDOMAIN') == true ? DEFAULT_SUBDOMAIN : 'www')) $pageURI .= '@'.implode('.',$subdomains);
+    }
 }
 
 $pageData = array();

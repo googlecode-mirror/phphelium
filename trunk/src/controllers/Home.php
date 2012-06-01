@@ -11,13 +11,9 @@ class Home extends StaticController {
     protected $class = 'Home';
     protected $template = 'home';
     public $cache = true;
-    
-    private $errors = array();
-    public $reqData = array();
-	
+
     function __construct($merge=false) {
-        parent::__construct();
-        $this->reqData = $this->getRequest($merge);
+        parent::__construct($merge);
     }
 
     function action() {
@@ -28,7 +24,14 @@ class Home extends StaticController {
         $this->tmp($this->template)->setVar('home','documentation',$this->tmp('documentation')->render());
         return $this->tmp($this->template)->render();
     }
-    
+
+    /**
+     *
+     * function: popupHelp
+     * Controller for home-page popup
+     * @access public
+     * @return string
+     */
     function popupHelp() {
         return $this->tmp($this->template)->render('popupHelp',true);
     }

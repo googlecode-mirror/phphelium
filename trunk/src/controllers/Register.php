@@ -12,16 +12,11 @@ class Register extends StaticController {
     protected $template = 'register';
     public $cache = false;
 
-    private $errors = array();
-    public $reqData = array();
-
     function __construct($merge=false) {
         parent::__construct();
-        $this->reqData = $this->getRequest($merge);
     }
 
     function action() {
-        $this->tmp()->setTemplate($this->template);
         if (!empty($this->reqData['username'])) {
             $info = array();
             if (!empty($this->reqData['first_name'])) $info['first_name'] = $this->reqData['first_name'];
@@ -31,9 +26,9 @@ class Register extends StaticController {
             $user = $user->register($this->reqData['username'],$this->reqData['password'],$info);
             if (!empty($user)) {
                 Session::setUser($user);
-                return json_encode(array('result' => 'success', 'msg' => $this->tmp()->render('successRegister')));
-            } else return json_encode(array('result' => 'error', 'msg' => $this->tmp()->render('failRegister')));
-        } else return json_encode(array('result' => 'error', 'msg' => $this->tmp()->render('failRegister')));
+                return json_encode(array('result' => 'success', 'msg' => $this->tmp($this->template)->render('success')));
+            } else return json_encode(array('result' => 'error', 'msg' => $this->tmp($this->template)->render('fail')));
+        } else return json_encode(array('result' => 'error', 'msg' => $this->tmp($this->template)->render('fail')));
     }
 
     function display() {

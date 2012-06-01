@@ -52,10 +52,17 @@ class Cookie {
         setcookie(VAR_PREPEND.$id,'',strtotime('-1 hour'),'/',Cookie::baseURI(),false,true);
     }
 
+    /**
+     *
+     * function: baseURI
+     * Compile the baseURI for storage
+     * @access public
+     * @return string
+     */
     public function baseURI() {
         $base = '';
         if (defined('DEFAULT_URI')) $base = DEFAULT_URI;
-        if (defined('DEFAULT_SUBDOMAIN')) $base = DEFAULT_SUBDOMAIN.$base;
+        if (defined('DEFAULT_SUBDOMAIN')) $base = DEFAULT_SUBDOMAIN.'.'.$base;
 
         return $base;
     }

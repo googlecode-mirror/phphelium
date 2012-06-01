@@ -10,14 +10,12 @@
 class Cron extends StaticController {
     protected $class = 'Cron';
     protected $template = 'cron';
-    private $classOptions = array('Home'=>array('display'));
+    public $cache = false;
 
-    private $errors = array();
-    private $reqData = array();
+    private $classOptions = array('Home'=>array('display'));
 
     function __construct($merge=false) {
         parent::__construct($merge);
-        $this->reqData = parent::getRequest();
     }
 
     /**
@@ -34,10 +32,10 @@ class Cron extends StaticController {
         if (!empty($this->classOptions[$controller])) {
             $controller = new $controller();
             if (in_array($directive,$this->classOptions[$controller])) return $controller->$directive();
-            else $this->errors[] = array(1,'Disallowed');
-        } else $this->errors[] = array(1,'Disallowed');
+            else $this->err[] = array(1,'Disallowed');
+        } else $this->err[] = array(1,'Disallowed');
 
-        $this->tmp($this->template)->setVar('errors',$this->errors);
+        $this->tmp($this->template)->setVar('errors',$this->err);
         return $this->tmp($this->template)->parse('error');
     }
 }
