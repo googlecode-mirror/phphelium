@@ -1,0 +1,74 @@
+* ---------------------------------------------------------------------
+* FILE: home.tmp
+* By default, this is your home page template file
+* ---------------------------------------------------------------------
+
+<tmp:home>
+<div id="navigation">
+    <div class="tab" id="tHome" makeTitle="Helium - Home">Home</div>
+    <div class="tab" id="tDocumentation" makeTitle="Helium - Documentation">Documentation</div>
+    <div class="tab" id="tContact" makeTitle="Helium - Contact">Contact</div>
+</div>
+
+<div class="clear"></div>
+
+<div class="innerContent">
+    <div id="cHome">
+        <div class="floatRight">
+            <a href="javascript:void(0);" id="moreDetails">Show me a Helium popup...</a>
+        </div>
+
+        <strong>What is Helium?</strong>
+
+	<div style="padding:1.5em 1em 2em 2em;">
+            Helium is a light-weight MVC framework, written in PHP, that is designed to be painless to install, simple to use, and highly extensible and scalable. It is built for a standard LAMP stack and comes coupled with installation scripts designed to handle the framework's package dependencies and configuration.
+	</div>
+
+	<strong>Who made this garbage?</strong>
+
+	<div style="padding:1.5em 1em 2em 2em;">
+            The author of this particular mass of code is an engineer named Bryan Healey.
+	</div>
+
+	<strong>Why make yet <em>another</em> framework?</strong>
+
+	<div style="padding:1.5em 1em 2em 2em;">
+            The genesis of this framework is rooted in utility. I wanted to have an easy to deploy and easy to develop development core that wasn't bloated with a litany of extras that I didn't want or need. So, instead of taking an existing framework and stripping it down, I decided to write a framework from the group up. This also allowed me to take care in how it is engineered, maintaining speed and efficiency as much as possible.
+	</div>
+
+	<strong>Who can us it?</strong>
+
+	<div style="padding:1.5em 1em 2em 2em;">
+            Anyone! Even those without extensive web engineering backgrounds can use it, so long as they have a modest understanding of PHP. Out of the box, it comes ready for deployment, and the basic method for creating new pages and services couldn't be simpler: Create a route, create a controller, and create a template file. Done.
+	</div>
+
+	<strong>What version am I looking at?</strong>
+
+	<div style="padding:1.5em 1em 0.5em 2em;">
+            This package is version <strong>1.2</strong>
+	</div>
+    </div>
+
+    <div id="cDocumentation">
+        {$documentation}
+    </div>
+    
+    <div id="cContact">
+        {$LANG[contact]}
+    </div>
+</div>
+
+<script type="text/javascript">
+navAssist.prepareNav('navigation','Home');
+
+$('#moreDetails').click(function() {
+    popup.trigger("This Is A Popup","/popup-help/");
+});
+</script>
+</tmp:home>
+
+<tmp:popupHelp>
+<div style="padding:1em;">
+    {$LANG[pop]}
+</div>
+</tmp:popupHelp>

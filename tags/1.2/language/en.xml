@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmps>
+    <tmp name="GLOBAL">
+        <phrases>
+            <phrase>
+                <id>title</id>
+                <sub>
+                    <![CDATA[
+                    Helium
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>keywords</id>
+                <sub>
+                    <![CDATA[
+                    PHP, MVC, framework, development, engineering
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>description</id>
+                <sub>
+                    <![CDATA[
+                    Helium is a PHP MVC framework
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>summary</id>
+                <sub>
+                    <![CDATA[
+                    Helium is a PHP MVC framework
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    Error
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="header">
+        <phrases>
+            <phrase>
+                <id>subtitle</id>
+                <sub>
+                    <![CDATA[
+                    A PHP Framework
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="footer">
+        <phrases>
+            <phrase>
+                <id>author</id>
+                <sub>
+                    <![CDATA[
+                    <a href="http://www.phphelium.com" target="_blank">phphelium</a>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>copyYear</id>
+                <sub>
+                    <![CDATA[
+                    2011, 2012
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="home">
+        <phrases>
+            <phrase>
+                <id>homeHead1</id>
+                <sub>
+                    <![CDATA[
+                    What is Helium?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>home1</id>
+                <sub>
+                    <![CDATA[
+                    Helium is a light-weight MVC framework, written in PHP, that is designed to be painless to install, simple to use, and highly extensible and scalable. It is
+                    built for a standard LAMP stack and comes coupled with installation scripts designed to handle the framework's package dependencies.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>home2</id>
+                <sub>
+                    <![CDATA[
+                    Helium is available for free under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU General Public License (v3)</a>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>contact</id>
+                <sub>
+                    <![CDATA[
+                    For contact information, see: <a href="http://www.phphelium.com/contact" target="_blank">phphelium.com</a>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>pop</id>
+                <sub>
+                    <![CDATA[
+                    Creating a popup is easy with Helium!<br />
+                    For more information, see: <a href="http://www.phphelium.com" target="_blank">phphelium.com</a>
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="email">
+        <phrases>
+            <phrase>
+                <id>sincerely</id>
+                <sub>
+                    <![CDATA[
+                    Sincerely
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="error">
+        <phrases>
+            <phrase>
+                <id>errorDesc</id>
+                <sub>
+                    <![CDATA[
+                    The following errors have occured
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="login">
+        <phrases>
+            <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Username
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your e-mail address...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password</id>
+                <sub>
+                    <![CDATA[
+                    Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your password...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>login</id>
+                <sub>
+                    <![CDATA[
+                    Login
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>success</id>
+                <sub>
+                    <![CDATA[
+                    Congratulations! You have successfully logged in!
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    That is not the correct username/password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    There are errors with the form
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="register">
+        <phrases>
+            <phrase>
+                <id>header</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Username
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your e-mail address...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password1</id>
+                <sub>
+                    <![CDATA[
+                    Password
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace1</id>
+                <sub>
+                    <![CDATA[
+                    Enter a password...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password2</id>
+                <sub>
+                    <![CDATA[
+                    Repeat
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace2</id>
+                <sub>
+                    <![CDATA[
+                    Re-enter your password...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>firstName</id>
+                <sub>
+                    <![CDATA[
+                    First Name
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>firstNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your first name...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastName</id>
+                <sub>
+                    <![CDATA[
+                    Last Name
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Enter your last name...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    Register
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>cancel</id>
+                <sub>
+                    <![CDATA[
+                    Cancel
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>success</id>
+                <sub>
+                    <![CDATA[
+                    Congratulations! You have successfully registered!
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    Something went wrong! You are not registered.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    There are errors with the form
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="noroute">
+        <phrases>
+            <phrase>
+                <id>norouteBody</id>
+                <sub>
+                    <![CDATA[
+                    This page is not recognized.<br />
+                    Please check the URL and try again.
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+</tmps>
