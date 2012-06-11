@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tmps>
+    <tmp name="GLOBAL">
+        <phrases>
+            <phrase>
+                <id>title</id>
+                <sub>
+                    <![CDATA[
+                    Helium
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>keywords</id>
+                <sub>
+                    <![CDATA[
+                    PHP, MVC, le cadre, le développement, l'ingénierie
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>description</id>
+                <sub>
+                    <![CDATA[
+                    Helium PHP est un framework MVC
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>summary</id>
+                <sub>
+                    <![CDATA[
+                    Helium PHP est un framework MVC
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    Erreur
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="header">
+        <phrases>
+            <phrase>
+                <id>subtitle</id>
+                <sub>
+                    <![CDATA[
+                    Un framework PHP
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="footer">
+        <phrases>
+            <phrase>
+                <id>author</id>
+                <sub>
+                    <![CDATA[
+                    <a href="http://www.phphelium.com" target="_blank">phphelium</a>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>copyYear</id>
+                <sub>
+                    <![CDATA[
+                    2011, 2012
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="home">
+        <phrases>
+            <phrase>
+                <id>homeHead1</id>
+                <sub>
+                    <![CDATA[
+                    Qu'est-ce que Helium?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeText1</id>
+                <sub>
+                    <![CDATA[
+                    Helium est un cadre léger MVC, écrite en PHP, qui est conçu pour être indolore à installer, simple à utiliser, et très extensible et évolutive. Il est construit pour une pile LAMP standard et est livré avec des scripts d'installation couplée conçus pour traiter les dépendances de paquets le cadre et la configuration.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeHead2</id>
+                <sub>
+                    <![CDATA[
+                    Qui a fait ces ordures?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeText2</id>
+                <sub>
+                    <![CDATA[
+                    L'auteur de cette masse de code particulier est un ingénieur du nom de <a href="http://www.healeyconsult.com" target="_blank">Bryan Healey</a>.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeHead3</id>
+                <sub>
+                    <![CDATA[
+                    Pourquoi faire encore un autre cadre?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeText3</id>
+                <sub>
+                    <![CDATA[
+                    La genèse de ce cadre est ancré dans l'utilité. Je voulais avoir un outil facile à déployer et facile à développer de base de développement qui n'a pas été gonflé avec une litanie de figurants que je n'ai pas envie ou besoin. Donc, au lieu de prendre un cadre existant et le dépouillant, j'ai décidé d'écrire un cadre du groupe vers le haut. Cette m'a aussi permis de prendre soin de la façon dont il est conçu, en maintenant la vitesse et l'efficacité autant que possible.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeHead4</id>
+                <sub>
+                    <![CDATA[
+                    Qui peut nous il?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeText4</id>
+                <sub>
+                    <![CDATA[
+                    N'importe qui! Même ceux qui n'ont pas de vastes horizons d'ingénierie Web peut l'utiliser, tant qu'ils ont une compréhension modeste de PHP. Hors de la boîte, il est prêt pour le déploiement, et la méthode de base pour la création de nouvelles pages et services ne pourraient pas être plus simple: Créer un itinéraire, créer un contrôleur, et de créer un fichier de modèle. Terminé.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeHead5</id>
+                <sub>
+                    <![CDATA[
+                    Quelle version dois-je regarder?
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>homeText5</id>
+                <sub>
+                    <![CDATA[
+                    Ce package est une version <strong>{$setup[globalVersion]}</strong>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>contact</id>
+                <sub>
+                    <![CDATA[
+                    Pour plus d'informations de contact, voir: <a href="http://www.phphelium.com/contact" target="_blank">phphelium.com</a>
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>pop</id>
+                <sub>
+                    <![CDATA[
+                    Création d'un popup dynamique est facile et indolore à Helium!<br />
+                    Il suffit d'appeler une des fonctions suivantes:<br />
+
+                    <div style="padding:1em 0.3em 0.3em 2em;">1. popup.trigger('<em>[TITLE]</em>','<em>[URI]</em>');</div>
+                    <div style="padding:0.3em 0.3em 1em 2em;">2. popup.raw('<em>[TITLE]</em>','<em>[TEXT]</em>');</div>
+
+                    <div style="float:right; margin:0 0.5em 0.5em 0;">
+                        <input type="button" value="Close" onclick="popup.hide();" />
+                    </div>
+
+                    Pour plus d'informations, voir: <a href="http://www.phphelium.com/docs/" target="_blank">phphelium.com</a>
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="email">
+        <phrases>
+            <phrase>
+                <id>sincerely</id>
+                <sub>
+                    <![CDATA[
+                    Sincèrement
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="error">
+        <phrases>
+            <phrase>
+                <id>errorDesc</id>
+                <sub>
+                    <![CDATA[
+                    Les erreurs suivantes ont eu lieu
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="login">
+        <phrases>
+            <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Nom d'utilisateur
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Entrez votre adresse e-mail...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password</id>
+                <sub>
+                    <![CDATA[
+                    Mot de passe
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace</id>
+                <sub>
+                    <![CDATA[
+                    Entrez votre mot de passe...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>login</id>
+                <sub>
+                    <![CDATA[
+                    Login
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    S'inscrire
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>success</id>
+                <sub>
+                    <![CDATA[
+                    Félicitations! Vous avez réussi à vous connecter!
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    Ce n'est pas le bon nom d'utilisateur / mot de passe
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    Il ya des erreurs avec la forme
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="register">
+        <phrases>
+            <phrase>
+                <id>header</id>
+                <sub>
+                    <![CDATA[
+                    S'inscrire
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>username</id>
+                <sub>
+                    <![CDATA[
+                    Nom d'utilisateur
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>usernamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Entrez votre adresse e-mail...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password1</id>
+                <sub>
+                    <![CDATA[
+                    Mot de passe
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace1</id>
+                <sub>
+                    <![CDATA[
+                    Entrez un mot de passe...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>password2</id>
+                <sub>
+                    <![CDATA[
+                    Répéter
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>passwordPlace2</id>
+                <sub>
+                    <![CDATA[
+                    Re-saisissez votre mot de passe...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>firstName</id>
+                <sub>
+                    <![CDATA[
+                    Prénom
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>firstNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Entrez votre prénom...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastName</id>
+                <sub>
+                    <![CDATA[
+                    Nom de famille
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>lastNamePlace</id>
+                <sub>
+                    <![CDATA[
+                    Entrez votre nom de famille...
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>register</id>
+                <sub>
+                    <![CDATA[
+                    S'inscrire
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>cancel</id>
+                <sub>
+                    <![CDATA[
+                    Annuler
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>success</id>
+                <sub>
+                    <![CDATA[
+                    Félicitations! Vous avez enregistré avec succès!
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>error</id>
+                <sub>
+                    <![CDATA[
+                    Quelque chose a mal tourné! Vous n'êtes pas inscrit.
+                    ]]>
+                </sub>
+            </phrase>
+            <phrase>
+                <id>invalidFrm</id>
+                <sub>
+                    <![CDATA[
+                    Il ya des erreurs avec la forme
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+    <tmp name="noroute">
+        <phrases>
+            <phrase>
+                <id>norouteBody</id>
+                <sub>
+                    <![CDATA[
+                    Cette page n'est pas reconnu.<br />
+                    S'il vous plaît vérifier l'URL et essayez à nouveau.
+                    ]]>
+                </sub>
+            </phrase>
+        </phrases>
+    </tmp>
+</tmps>

@@ -1,0 +1,43 @@
+* ---------------------------------------------------------------------
+* FILE: header.tmp
+* This is you primary header template file.
+* This will appear at the top of all non-bypassed pages.
+* ---------------------------------------------------------------------
+
+<tmp:header>
+<div id="headerControls">
+    {$controls}
+    &nbsp;&bull;&nbsp;
+    Language: <select id="toggleLanguage">
+    {$languages}
+    </select>
+
+    <script type="text/javascript">
+    $('#toggleLanguage').change(function() {
+        sys.toggleLanguage($(this).val());
+    });
+    </script>
+</div>
+
+<div class="float_left">
+    <div id="logo">
+        <a href="/"><img src="/images/title.png" border="0" /></a>
+    </div>
+</div>
+</tmp:header>
+
+<tmp:outControls>
+<a href="/login/">Login</a>
+&nbsp;&bull;&nbsp;
+<a href="/register/">Register</a>
+</tmp:outControls>
+
+<tmp:inControls>
+<strong>Hello, {$firstName}!</strong>
+&nbsp;&bull;&nbsp;
+<a href="/logout/">Logout</a>
+</tmp:inControls>
+
+<tmp:languages>
+<option value="{$langId}"{$selected}>{$langId}</option>
+</tmp:languages>
