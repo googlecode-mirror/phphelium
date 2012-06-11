@@ -28,8 +28,6 @@ if ($language = $lang->getLanguage()) {
     Session::setLanguage($language);
 } else Session::setLanguage('en');
 
-$lang->loadLanguage('GLOBAL');
-
 /** -----------------------------------------------
     set a few important helpers...
     ----------------------------------------------- */

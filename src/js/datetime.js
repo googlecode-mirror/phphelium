@@ -114,6 +114,31 @@ var DateData = {
 
     /**
      *
+     * function: measuresUntil
+     * Get the various measures until a certain date
+     * @access public
+     * @param end
+     * @return string
+     */
+    measuresBetween: function(start,end) {
+        var diff = end-start;
+
+        var days = Math.floor(diff/(24*60*60));
+
+        diff = diff-(days*(24*60*60));
+        var hours = Math.floor(diff/(60*60));
+
+        diff = diff-(hours*(60*60));
+        var mins = Math.floor(diff/60);
+
+        diff = diff-(mins*(60));
+        var secs = Math.floor(diff);
+
+        return [days,hours,mins,secs];
+    },
+
+    /**
+     *
      * function: unixtime
      * Get the current unix timestamp
      * @access public
@@ -123,5 +148,18 @@ var DateData = {
         var d = new Date;
         var unixtime_ms = d.getTime();
         return parseInt(unixtime_ms / 1000);
+    },
+
+    /**
+     *
+     * function: stayDuration
+     * Get the amount of time the page has been open
+     * @access public
+     * @return string
+     */
+    stayDuration: function() {
+        var endTime = DateData.unixtime();
+        var startTime = sys.openTime;
+        return DateData.measuresBetween(startTime,endTime);
     }
 };

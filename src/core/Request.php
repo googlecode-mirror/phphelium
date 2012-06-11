@@ -41,7 +41,7 @@ class Request {
             $qstr = array();
             foreach($qstring as $q) {
                 $q = explode('=',$q);
-                $qstr[$q[0]] = $q[1];
+                if (!empty($q) && count($q) == 2) $qstr[$q[0]] = $q[1];
             }
 
             $this->qstr = $qstr;
@@ -135,7 +135,7 @@ class Request {
      * @param array $funcs (optional)
      * @return string
      */
-    public function parse($uri=false,$funcs=array('trim')) {
+    public function parse($uri=false,$funcs=array()) {
         if ($uri === false) $uri = $_SERVER['REQUEST_URI'];
 
         $arr = explode('/', preg_replace('/[?](.*)/', '', $uri));

@@ -8,9 +8,10 @@ root = "{RDIR}"
 src = "{RDIR}src/"
 logs = "/var/log/"
 displayErrors = 1
-debugMode = 1
-cacheAllow = 0
+debugMode = 0
+cacheAllow = 1
 sslAvailable = 0
+version = 1.3
 
 [server]
 subdomain = "www"
@@ -39,7 +40,7 @@ language = "en"
 [email]
 defaultFrom = "Bryan Healey <bryan@bryanhealey.com>"
 
-[other]
+[errorURI]
 UNAUTHORIZED_URI = "/error/401"
 ACCESS_DENIED_URI = "/error/403"
 PAGENOTFOUND_URI = "/error/405"

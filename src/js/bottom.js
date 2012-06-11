@@ -6,5 +6,5 @@
  */
 
 $(document).ready(function() {
-    Hasher.init();
+    sys.init();
 });

@@ -1,0 +1,9 @@
+v1.3
+  - Automatic password salting
+  - Better popup management
+  - Bug fixed: ErrorCode controller rendering
+  - Nested templating (to include variable objects in language files)
+  - Improved JavaScript validation (error bubbles)
+  - Corrected API interface bugs
+  - Improved autoloader and added caching
+  - Demonstration of language packs (and adding of French pack)

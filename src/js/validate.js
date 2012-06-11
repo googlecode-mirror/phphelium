@@ -6,6 +6,8 @@
  */
 
 var Validate = {
+    bubbles: true,
+    
     /**
      *
      * function: checkElement
@@ -75,23 +77,71 @@ var Validate = {
 
                 if (document.getElementById('validResult_'+elem.name)) {
                     document.getElementById('validResult_'+elem.name).src = pass;
-                    document.getElementById('validResult_'+elem.name).title = msg;
+                    
+                    if (Validate.bubbles == false) document.getElementById('validResult_'+elem.name).title = msg;
+                    else {
+                        if (toRet == false) Validate.createBubble(elem.parentNode,elem.name,msg);
+                        else Validate.hideBubble(elem.parentNode,elem.name);
+                    }
                 } else {
                     var validResult = document.createElement('img');
                     validResult.src = pass;
-                    validResult.title = msg;
                     validResult.style.height = '1em';
                     validResult.style.verticalAlign = 'middle';
                     validResult.id = 'validResult_'+elem.name;
+                    if (Validate.bubbles == false) validResult.title = msg;
 
                     elem.parentNode.appendChild(validResult);
+
+                    if (Validate.bubbles == true && toRet == false) Validate.createBubble(elem.parentNode,elem.name,msg);
+                    else Validate.hideBubble(elem.parentNode,elem.name);
                 }
             }
         } else if (document.getElementById('validResult_'+elem.name)) {
             elem.parentNode.removeChild(document.getElementById('validResult_'+elem.name));
+            Validate.hideBubble(elem.name);
         }
 
         return toRet;
+    },
+
+    /**
+     *
+     * function: createBubble
+     * Create a warning bubble
+     * @access public
+     * @param obj
+     * @param pname
+     * @param msg
+     * @return string
+     */
+    createBubble: function(obj,pname,msg) {
+        if (document.getElementById('validResultBubble_'+pname)) {
+            document.getElementById('validResultBubble_'+pname).innerHTML = msg;
+        } else {
+            var bubbleResult = document.createElement('div');
+            bubbleResult.className = 'bubble';
+            bubbleResult.id = 'validResultBubble_'+pname;
+            bubbleResult.innerHTML = msg;
+            bubbleResult.style.left = obj.style.width;
+            
+            obj.appendChild(bubbleResult);
+            pos.rightOf(obj,$('#validResultBubble_'+pname));
+        }
+    },
+
+    /**
+     *
+     * function: hideBubble
+     * Remove a warning bubble
+     * @access public
+     * @param pname
+     * @return string
+     */
+    hideBubble: function(pnode,pname) {
+        if (document.getElementById('validResultBubble_'+pname)) {
+            pnode.removeChild(document.getElementById('validResultBubble_'+pname));
+        }
     },
 
     /**

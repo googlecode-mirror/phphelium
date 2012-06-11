@@ -15,7 +15,7 @@ abstract class APIController extends Component {
     function __construct($merge=false) {
         $this->reqData = parent::getRequest($merge);
         $this->err = false;
-
+        
         if (empty($this->reqData['username']) ||
             empty($this->reqData['key'])) {
                 $this->tmp('error_xml')->setVar('errors',array((object)array('id' => (defined('EID_BAD_DATA') ? EID_BAD_DATA : 0),

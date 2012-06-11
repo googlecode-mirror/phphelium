@@ -8,6 +8,23 @@
 __CARRIAGE = 13;
 
 var sys = {
+    openTime: false,
+
+    init: function() {
+        Hasher.init();
+        $('#popup-container').draggable();
+        sys.openTime = DateData.unixtime();
+    },
+
+    toggleLanguage: function(language) {
+        ajax.onSuccess = function(e) {
+            if (e['result'] == 'success') window.location = window.location.pathname;
+            else alert('An error has occured');
+        }
+
+        ajax.request('/update-language/','POST',{'language':language});
+    },
+    
     getBrowser: function() {
         var browser = "unknown";
         var agent = navigator.userAgent.toLowerCase();
@@ -21,6 +38,13 @@ var sys = {
         }
 
         return browser;
+    }
+};
+
+var pos = {
+    rightOf: function(pnode,obj) {
+        var off = $(pnode).offset();
+        $(obj).offset({ 'top': (off.top+1), 'left': (off.left+$(pnode).width()+20) });
     }
 };
 
@@ -117,11 +141,6 @@ var popup = {
             $('#popup-title').html(title);
         }
 
-        if (sys.getBrowser() == "msie 6") {
-            var selects = document.getElementsByTagName('select');
-            for (i = 0; i < selects.length; i++) selects[i].css('visibility','hidden');
-        }
-
         popup.correct();
 
         if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) {
@@ -141,27 +160,45 @@ var popup = {
         popup.correct();
     },
 
-    trigger: function(title,uri,params) {
-        if (!params) var params = {};
-        params['uri'] = uri;
+    trigger: function(title,uri,appendParams) {
+        if (!appendParams) var appendParams = {};
+
+        var params = {};
+        params['params'] = appendParams;
         params['title'] = title;
+        params['uri'] = uri;
         
         popup.prepare(params);
     },
-    
-    raw: function(title,data,params) {
-        if (!params) var params = {};
-        params['raw'] = data;
+
+    raw: function(title,data,appendParams) {
+        if (!appendParams) var appendParams = {};
+
+        var params = {};
+        params['params'] = appendParams;
         params['title'] = title;
-        
+        params['raw'] = data;
+
         popup.prepare(params);
     },
     
     prepare: function(params) {
+        if ($('#popup-container').css('display') == 'none') {
+            popup.process(params);
+        } else {
+            $('#popup-container').animate({
+                opacity: 0
+            },200,function() {
+                popup.process(params);
+            });
+        }
+    },
+
+    process: function(params) {
         if (params.uri || params.raw) {
             if (!params.params) params.params = {};
             if (!params.method) params.method = 'GET';
-            
+
             if (params.top) params.top = "'"+params.top+"'";
             else params.top = false;
 
@@ -170,22 +207,14 @@ var popup = {
                     setTimeout(function() {
                         popup.load(params.top,params.title);
                     },200);
-                    
+
                     if (popup.loader) popup.loader();
                 }
 
                 ajax.request(params.uri,params.method,params.params,'popup-content');
             } else if (params.raw) {
-                if (!params.nc) {
-                    $('#popup-content').html('');
+                $('#popup-content').html(params.raw);
 
-                    rContainer = document.createElement('div');
-                    rContainer.style.padding = '0.5em';
-                    rContainer.innerHTML = params.raw;
-
-                    document.getElementById('popup-content').appendChild(rContainer);
-                } else $('#popup-content').html(params.raw);
-                
                 setTimeout(function() {
                     popup.load(params.top,params.title);
                 },200);
@@ -200,11 +229,6 @@ var popup = {
         if (!bypassCloser && popup.closer && !popup.closer()) allowClose = false;
 
         if (allowClose) {
-            if (sys.getBrowser() == "msie 6") {
-                var selects = document.getElementsByTagName('select');
-                for (i = 0; i < selects.length; i++) selects[i].css('visibility','visible');
-            }
-
             $('#popup-container').animate({
                 opacity: 0
             },200);
@@ -212,25 +236,18 @@ var popup = {
             setTimeout(function() {
                 $('#popup-container').css('display','none');
             },200);
-        }
+        } else popup.closer();
     },
 
     correct: function() {
-        $('#popup-backdrop').width(($('#popup').width()+28)+"px");
-        $('#popup-backdrop').height(($('#popup').height()+22)+"px");
-
         $('#popup-container').center();
-        $('#popup-backdrop').center();
     }
 };
 
 jQuery.fn.center = function () {
-    var newTop = (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px";
-    var newLeft = (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px";
-
     this.css("position","absolute");
-    this.offset({ top: newTop, left: newLeft });
-
+    this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
+    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
     return this;
 }
 

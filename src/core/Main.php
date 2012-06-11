@@ -25,20 +25,22 @@ class Main extends Component {
     function display() {
         $this->tmp()->setTemplate($this->template);
 
-        if (!empty($this->reqData['pageData']['title'])) $this->tmp()->setVar('main','pageTitle',$this->reqData['pageData']['title']);
-        else $this->tmp()->setVar('main','pageTitle',DEFAULT_TITLE);
+        if (defined('VERSION')) $this->tmp()->setGlobal('setup[globalVersion]',VERSION);
+
+        if (!empty($this->reqData['pageData']['title'])) $this->tmp()->setGlobal('setup[pageTitle]',$this->reqData['pageData']['title']);
+        else $this->tmp()->setGlobal('setup[pageTitle]',DEFAULT_TITLE);
         
-        if (!empty($this->reqData['pageData']['keywords'])) $this->tmp()->setVar('main','pageKeywords',$this->reqData['pageData']['keywords']);
-        else $this->tmp()->setVar('main','pageKeywords',DEFAULT_KEYWORDS);
+        if (!empty($this->reqData['pageData']['keywords'])) $this->tmp()->setGlobal('setup[pageKeywords]',$this->reqData['pageData']['keywords']);
+        else $this->tmp()->setGlobal('setup[pageKeywords]',DEFAULT_KEYWORDS);
 
-        if (!empty($this->reqData['pageData']['description'])) $this->tmp()->setVar('main','pageDescription',$this->reqData['pageData']['description']);
-        else $this->tmp()->setVar('main','pageDescription',DEFAULT_DESCRIPTION);
+        if (!empty($this->reqData['pageData']['description'])) $this->tmp()->setGlobal('setup[pageDescription]',$this->reqData['pageData']['description']);
+        else $this->tmp()->setGlobal('setup[pageDescription]',DEFAULT_DESCRIPTION);
 
-        if (!empty($this->reqData['pageData']['summary'])) $this->tmp()->setVar('main','pageSummary',$this->reqData['pageData']['summary']);
-        else $this->tmp()->setVar('main','pageSummary',DEFAULT_SUMMARY);
+        if (!empty($this->reqData['pageData']['summary'])) $this->tmp()->setGlobal('setup[pageSummary]',$this->reqData['pageData']['summary']);
+        else $this->tmp()->setGlobal('setup[pageSummary]',DEFAULT_SUMMARY);
 
-        $this->tmp()->setVar('main','pageUrl',(substr_count(DEFAULT_URI,'http') ? DEFAULT_URI : 'http://www.'.DEFAULT_URI).$_SERVER['REQUEST_URI']);
-        $this->tmp()->setVar('main','pageImg',(substr_count(DEFAULT_URI,'http') ? DEFAULT_URI : 'http://www.'.DEFAULT_URI).'/images/logo.jpg');
+        $this->tmp()->setGlobal('setup[pageUrl]',(substr_count(DEFAULT_URI,'http') ? DEFAULT_URI : 'http://www.'.DEFAULT_URI).$_SERVER['REQUEST_URI']);
+        $this->tmp()->setGlobal('setup[pageImg]',(substr_count(DEFAULT_URI,'http') ? DEFAULT_URI : 'http://www.'.DEFAULT_URI).'/images/logo.jpg');
 
         if (!empty($this->reqData['pageData']['cache'])) {
             $cached = Pager::getPageCache();
@@ -63,6 +65,17 @@ class Main extends Component {
 
         $this->tmp($this->template)->setVar('main','content',$content);
         return $this->tmp($this->template)->render();
+    }
+
+    function updateLanguage() {
+        if (!empty($this->reqData['language'])) {
+            Session::setLanguage($this->reqData['language']);
+            if (!empty($this->user()->user_id)) {
+                $this->user()->updateUser(array('language' => $this->reqData['language']));
+            }
+
+            return json_encode(array('result' => 'success'));
+        } else return json_encode(array('result' => 'error'));
     }
 }
 

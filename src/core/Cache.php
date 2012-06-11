@@ -64,7 +64,7 @@ class Cache extends Memcache {
      * @return string
      */
     public function get($key) {
-        if (!empty($this->connected) && systemCaching() == true) return parent::get($key);
+        if (!empty($this->connected) && systemCaching() == true) return parent::get(VAR_PREPEND.$key);
         else return false;
     }
 
@@ -81,7 +81,7 @@ class Cache extends Memcache {
      */
     public function set($key,$var,$flag=0,$expire=false) {
         if (empty($expire) && defined('MEMCACHE_DEFAULT_EXPIRY')) $expire = MEMCACHE_DEFAULT_EXPIRY;
-        if (!empty($this->connected)) return parent::set($key,$var,$flag,$expire);
+        if (!empty($this->connected)) return parent::set(VAR_PREPEND.$key,$var,$flag,$expire);
         else return false;
     }
 
@@ -98,7 +98,7 @@ class Cache extends Memcache {
      */
     public function add($key,$var,$flag=0,$expire=false) {
         if (empty($expire) && defined('MEMCACHE_DEFAULT_EXPIRY')) $expire = MEMCACHE_DEFAULT_EXPIRY;
-        if (!empty($this->connected)) return parent::add($key,$var,$flag,$expire);
+        if (!empty($this->connected)) return parent::add(VAR_PREPEND.$key,$var,$flag,$expire);
         else return false;
     }
 
@@ -112,7 +112,7 @@ class Cache extends Memcache {
      * @return string
      */
     public function delete($key,$timeout = 0) {
-        if (!empty($this->connected)) return parent::delete($key,$timeout);
+        if (!empty($this->connected)) return parent::delete(VAR_PREPEND.$key,$timeout);
         else return false;
     }
 

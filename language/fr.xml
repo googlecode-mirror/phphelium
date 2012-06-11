@@ -14,7 +14,7 @@
                 <id>keywords</id>
                 <sub>
                     <![CDATA[
-                    PHP, MVC, framework, development, engineering
+                    PHP, MVC, le cadre, le développement, l'ingénierie
                     ]]>
                 </sub>
             </phrase>
@@ -22,7 +22,7 @@
                 <id>description</id>
                 <sub>
                     <![CDATA[
-                    Helium is a PHP MVC framework
+                    Helium PHP est un framework MVC
                     ]]>
                 </sub>
             </phrase>
@@ -30,7 +30,7 @@
                 <id>summary</id>
                 <sub>
                     <![CDATA[
-                    Helium is a PHP MVC framework
+                    Helium PHP est un framework MVC
                     ]]>
                 </sub>
             </phrase>
@@ -38,7 +38,7 @@
                 <id>error</id>
                 <sub>
                     <![CDATA[
-                    Error
+                    Erreur
                     ]]>
                 </sub>
             </phrase>
@@ -50,7 +50,7 @@
                 <id>subtitle</id>
                 <sub>
                     <![CDATA[
-                    A PHP Framework
+                    Un framework PHP
                     ]]>
                 </sub>
             </phrase>
@@ -82,7 +82,7 @@
                 <id>homeHead1</id>
                 <sub>
                     <![CDATA[
-                    What is Helium?
+                    Qu'est-ce que Helium?
                     ]]>
                 </sub>
             </phrase>
@@ -90,7 +90,7 @@
                 <id>homeText1</id>
                 <sub>
                     <![CDATA[
-                    Helium is a light-weight MVC framework, written in PHP, that is designed to be painless to install, simple to use, and highly extensible and scalable. It is built for a standard LAMP stack and comes coupled with installation scripts designed to handle the framework's package dependencies and configuration.
+                    Helium est un cadre léger MVC, écrite en PHP, qui est conçu pour être indolore à installer, simple à utiliser, et très extensible et évolutive. Il est construit pour une pile LAMP standard et est livré avec des scripts d'installation couplée conçus pour traiter les dépendances de paquets le cadre et la configuration.
                     ]]>
                 </sub>
             </phrase>
@@ -98,7 +98,7 @@
                 <id>homeHead2</id>
                 <sub>
                     <![CDATA[
-                    Who made this garbage?
+                    Qui a fait ces ordures?
                     ]]>
                 </sub>
             </phrase>
@@ -106,7 +106,7 @@
                 <id>homeText2</id>
                 <sub>
                     <![CDATA[
-                    The author of this particular mass of code is an engineer named <a href="http://www.healeyconsult.com" target="_blank">Bryan Healey</a>.
+                    L'auteur de cette masse de code particulier est un ingénieur du nom de <a href="http://www.healeyconsult.com" target="_blank">Bryan Healey</a>.
                     ]]>
                 </sub>
             </phrase>
@@ -114,7 +114,7 @@
                 <id>homeHead3</id>
                 <sub>
                     <![CDATA[
-                    Why make yet <em>another</em> framework?
+                    Pourquoi faire encore un autre cadre?
                     ]]>
                 </sub>
             </phrase>
@@ -122,7 +122,7 @@
                 <id>homeText3</id>
                 <sub>
                     <![CDATA[
-                    The genesis of this framework is rooted in utility. I wanted to have an easy to deploy and easy to develop development core that wasn't bloated with a litany of extras that I didn't want or need. So, instead of taking an existing framework and stripping it down, I decided to write a framework from the group up. This also allowed me to take care in how it is engineered, maintaining speed and efficiency as much as possible.
+                    La genèse de ce cadre est ancré dans l'utilité. Je voulais avoir un outil facile à déployer et facile à développer de base de développement qui n'a pas été gonflé avec une litanie de figurants que je n'ai pas envie ou besoin. Donc, au lieu de prendre un cadre existant et le dépouillant, j'ai décidé d'écrire un cadre du groupe vers le haut. Cette m'a aussi permis de prendre soin de la façon dont il est conçu, en maintenant la vitesse et l'efficacité autant que possible.
                     ]]>
                 </sub>
             </phrase>
@@ -130,7 +130,7 @@
                 <id>homeHead4</id>
                 <sub>
                     <![CDATA[
-                    Who can us it?
+                    Qui peut nous il?
                     ]]>
                 </sub>
             </phrase>
@@ -138,7 +138,7 @@
                 <id>homeText4</id>
                 <sub>
                     <![CDATA[
-                    Anyone! Even those without extensive web engineering backgrounds can use it, so long as they have a modest understanding of PHP. Out of the box, it comes ready for deployment, and the basic method for creating new pages and services couldn't be simpler: Create a route, create a controller, and create a template file. Done.
+                    N'importe qui! Même ceux qui n'ont pas de vastes horizons d'ingénierie Web peut l'utiliser, tant qu'ils ont une compréhension modeste de PHP. Hors de la boîte, il est prêt pour le déploiement, et la méthode de base pour la création de nouvelles pages et services ne pourraient pas être plus simple: Créer un itinéraire, créer un contrôleur, et de créer un fichier de modèle. Terminé.
                     ]]>
                 </sub>
             </phrase>
@@ -146,7 +146,7 @@
                 <id>homeHead5</id>
                 <sub>
                     <![CDATA[
-                    What version am I looking at?
+                    Quelle version dois-je regarder?
                     ]]>
                 </sub>
             </phrase>
@@ -154,7 +154,7 @@
                 <id>homeText5</id>
                 <sub>
                     <![CDATA[
-                    This package is version <strong>{$setup[globalVersion]}</strong>
+                    Ce package est une version <strong>{$setup[globalVersion]}</strong>
                     ]]>
                 </sub>
             </phrase>
@@ -162,7 +162,7 @@
                 <id>contact</id>
                 <sub>
                     <![CDATA[
-                    For contact information, see: <a href="http://www.phphelium.com/contact" target="_blank">phphelium.com</a>
+                    Pour plus d'informations de contact, voir: <a href="http://www.phphelium.com/contact" target="_blank">phphelium.com</a>
                     ]]>
                 </sub>
             </phrase>
@@ -170,8 +170,8 @@
                 <id>pop</id>
                 <sub>
                     <![CDATA[
-                    Creating a dynamic popup is easy and painless with Helium!<br />
-                    Simply call one of the following functions:<br />
+                    Création d'un popup dynamique est facile et indolore à Helium!<br />
+                    Il suffit d'appeler une des fonctions suivantes:<br />
 
                     <div style="padding:1em 0.3em 0.3em 2em;">1. popup.trigger('<em>[TITLE]</em>','<em>[URI]</em>');</div>
                     <div style="padding:0.3em 0.3em 1em 2em;">2. popup.raw('<em>[TITLE]</em>','<em>[TEXT]</em>');</div>
@@ -179,8 +179,8 @@
                     <div style="float:right; margin:0 0.5em 0.5em 0;">
                         <input type="button" value="Close" onclick="popup.hide();" />
                     </div>
-                    
-                    For more information, see: <a href="http://www.phphelium.com/docs/" target="_blank">phphelium.com</a>
+
+                    Pour plus d'informations, voir: <a href="http://www.phphelium.com/docs/" target="_blank">phphelium.com</a>
                     ]]>
                 </sub>
             </phrase>
@@ -192,7 +192,7 @@
                 <id>sincerely</id>
                 <sub>
                     <![CDATA[
-                    Sincerely
+                    Sincèrement
                     ]]>
                 </sub>
             </phrase>
@@ -204,7 +204,7 @@
                 <id>errorDesc</id>
                 <sub>
                     <![CDATA[
-                    The following errors have occured
+                    Les erreurs suivantes ont eu lieu
                     ]]>
                 </sub>
             </phrase>
@@ -216,7 +216,7 @@
                 <id>username</id>
                 <sub>
                     <![CDATA[
-                    Username
+                    Nom d'utilisateur
                     ]]>
                 </sub>
             </phrase>
@@ -224,7 +224,7 @@
                 <id>usernamePlace</id>
                 <sub>
                     <![CDATA[
-                    Enter your e-mail address...
+                    Entrez votre adresse e-mail...
                     ]]>
                 </sub>
             </phrase>
@@ -232,7 +232,7 @@
                 <id>password</id>
                 <sub>
                     <![CDATA[
-                    Password
+                    Mot de passe
                     ]]>
                 </sub>
             </phrase>
@@ -240,7 +240,7 @@
                 <id>passwordPlace</id>
                 <sub>
                     <![CDATA[
-                    Enter your password...
+                    Entrez votre mot de passe...
                     ]]>
                 </sub>
             </phrase>
@@ -256,7 +256,7 @@
                 <id>register</id>
                 <sub>
                     <![CDATA[
-                    Register
+                    S'inscrire
                     ]]>
                 </sub>
             </phrase>
@@ -264,7 +264,7 @@
                 <id>success</id>
                 <sub>
                     <![CDATA[
-                    Congratulations! You have successfully logged in!
+                    Félicitations! Vous avez réussi à vous connecter!
                     ]]>
                 </sub>
             </phrase>
@@ -272,7 +272,7 @@
                 <id>error</id>
                 <sub>
                     <![CDATA[
-                    That is not the correct username/password
+                    Ce n'est pas le bon nom d'utilisateur / mot de passe
                     ]]>
                 </sub>
             </phrase>
@@ -280,7 +280,7 @@
                 <id>invalidFrm</id>
                 <sub>
                     <![CDATA[
-                    There are errors with the form
+                    Il ya des erreurs avec la forme
                     ]]>
                 </sub>
             </phrase>
@@ -292,7 +292,7 @@
                 <id>header</id>
                 <sub>
                     <![CDATA[
-                    Register
+                    S'inscrire
                     ]]>
                 </sub>
             </phrase>
@@ -300,7 +300,7 @@
                 <id>username</id>
                 <sub>
                     <![CDATA[
-                    Username
+                    Nom d'utilisateur
                     ]]>
                 </sub>
             </phrase>
@@ -308,7 +308,7 @@
                 <id>usernamePlace</id>
                 <sub>
                     <![CDATA[
-                    Enter your e-mail address...
+                    Entrez votre adresse e-mail...
                     ]]>
                 </sub>
             </phrase>
@@ -316,7 +316,7 @@
                 <id>password1</id>
                 <sub>
                     <![CDATA[
-                    Password
+                    Mot de passe
                     ]]>
                 </sub>
             </phrase>
@@ -324,7 +324,7 @@
                 <id>passwordPlace1</id>
                 <sub>
                     <![CDATA[
-                    Enter a password...
+                    Entrez un mot de passe...
                     ]]>
                 </sub>
             </phrase>
@@ -332,7 +332,7 @@
                 <id>password2</id>
                 <sub>
                     <![CDATA[
-                    Repeat
+                    Répéter
                     ]]>
                 </sub>
             </phrase>
@@ -340,7 +340,7 @@
                 <id>passwordPlace2</id>
                 <sub>
                     <![CDATA[
-                    Re-enter your password...
+                    Re-saisissez votre mot de passe...
                     ]]>
                 </sub>
             </phrase>
@@ -348,7 +348,7 @@
                 <id>firstName</id>
                 <sub>
                     <![CDATA[
-                    First Name
+                    Prénom
                     ]]>
                 </sub>
             </phrase>
@@ -356,7 +356,7 @@
                 <id>firstNamePlace</id>
                 <sub>
                     <![CDATA[
-                    Enter your first name...
+                    Entrez votre prénom...
                     ]]>
                 </sub>
             </phrase>
@@ -364,7 +364,7 @@
                 <id>lastName</id>
                 <sub>
                     <![CDATA[
-                    Last Name
+                    Nom de famille
                     ]]>
                 </sub>
             </phrase>
@@ -372,7 +372,7 @@
                 <id>lastNamePlace</id>
                 <sub>
                     <![CDATA[
-                    Enter your last name...
+                    Entrez votre nom de famille...
                     ]]>
                 </sub>
             </phrase>
@@ -380,7 +380,7 @@
                 <id>register</id>
                 <sub>
                     <![CDATA[
-                    Register
+                    S'inscrire
                     ]]>
                 </sub>
             </phrase>
@@ -388,7 +388,7 @@
                 <id>cancel</id>
                 <sub>
                     <![CDATA[
-                    Cancel
+                    Annuler
                     ]]>
                 </sub>
             </phrase>
@@ -396,7 +396,7 @@
                 <id>success</id>
                 <sub>
                     <![CDATA[
-                    Congratulations! You have successfully registered!
+                    Félicitations! Vous avez enregistré avec succès!
                     ]]>
                 </sub>
             </phrase>
@@ -404,7 +404,7 @@
                 <id>error</id>
                 <sub>
                     <![CDATA[
-                    Something went wrong! You are not registered.
+                    Quelque chose a mal tourné! Vous n'êtes pas inscrit.
                     ]]>
                 </sub>
             </phrase>
@@ -412,7 +412,7 @@
                 <id>invalidFrm</id>
                 <sub>
                     <![CDATA[
-                    There are errors with the form
+                    Il ya des erreurs avec la forme
                     ]]>
                 </sub>
             </phrase>
@@ -424,8 +424,8 @@
                 <id>norouteBody</id>
                 <sub>
                     <![CDATA[
-                    This page is not recognized.<br />
-                    Please check the URL and try again.
+                    Cette page n'est pas reconnu.<br />
+                    S'il vous plaît vérifier l'URL et essayez à nouveau.
                     ]]>
                 </sub>
             </phrase>
