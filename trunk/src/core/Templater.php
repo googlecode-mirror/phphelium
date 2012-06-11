@@ -11,7 +11,7 @@ ini_set('pcre.backtrack_limit',1000000000);
 
 class Templater {
     private static $instance;
-    private $root, $template, $chunk, $map, $output, $hide, $data, $inherit, $cache;
+    private $root, $template, $chunk, $map, $output, $hide, $data, $inherit, $cache, $langList;
 
     function __construct($root=DEFAULT_TEMPLATE_ROOT) {
         $this->root = $root;
@@ -103,8 +103,8 @@ class Templater {
     public function setTemplate($template,$dir=false,$cache=false) {
         // Load language specific constants for working template before proceeding
         $language = new Language();
-        $language->loadLanguage($template);
-
+        $this->langList = $language->loadLanguage(array('GLOBAL',$template));
+        
         if (!substr_count($template,'.tmp')) $template .= '.tmp';
         if ($dir !== false) $this->setRoot($dir);
         else $this->determineRoot();
@@ -474,7 +474,7 @@ class Templater {
             $this->template = @file_get_contents($filepath);
             $this->cache[$filepath] = $this->template;
         }
-
+        
         $output = $this->mapTemplate($chunk);
         if ($purge === true) $this->purge($chunk);
 
@@ -520,7 +520,26 @@ class Templater {
     private function extractChunk($chunk=null) {
         if ($chunk == null) return $this->template;
         preg_match("/\<tmp:".$chunk."(.*?)\>(.*?)\<\/tmp:".$chunk."\>/s", $this->template, $matches);
-        return (isset($matches[0])) ? $matches[0] : "";
+        $data = (isset($matches[0])) ? $matches[0] : "";
+        return $this->mapLanguage($data);
+    }
+
+    /**
+     *
+     * function: mapLanguage
+     * Map language variables into the template
+     * @access public
+     * @param string $chunk (optional)
+     * @return string
+     */
+    private function mapLanguage($chunk) {
+        if (!empty($this->langList)) {
+            foreach($this->langList as $langId => $langPhrase) {
+                $chunk = str_replace('{$LANG['.$langId.']}',$langPhrase,$chunk);
+            }
+        }
+
+        return $chunk;
     }
 
     /**

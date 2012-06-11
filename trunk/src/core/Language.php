@@ -35,28 +35,35 @@ class Language {
      * @param string $lang (optional)
      * @return string
      */
-    public function loadLanguage($ltmp='GLOBAL',$lang=false) {
+    public function loadLanguage($ltmps=array('GLOBAL'),$lang=false,$preload=false) {
+        if (!is_array($ltmps)) $ltmps = array($ltmps);
         $root = str_replace('src/core','',realpath(dirname(__FILE__)));
         
         if (empty($lang)) $lang = Session::getLanguage();
-        if (substr_count($ltmp,'.tmp')) $ltmp = str_replace('.tmp','',$ltmp);
 
-        $cache = Cache::init();
-        if (defined('VAR_PREPEND')) $langList = $cache->get(VAR_PREPEND.'store[environment[language]['.$ltmp.'-'.$lang.']');
-        if (empty($langList)) {
-            $langFile = Language::loadLanguageFile($lang);
-            if (!empty($langFile) && !empty($langFile[$ltmp])) {
-                $langList = $langFile[$ltmp];
-                if (defined('VAR_PREPEND')) $cache->set(VAR_PREPEND.'store[environment[language]['.$ltmp.'-'.$lang.']',serialize($langList));
-            }
-        } else $langList = unserialize($langList);
-        
-        if (!empty($langList)) {
-            $tmp = Templater::init();
-            foreach($langList as $pid => $phrase) {
-                $tmp->setGlobal('LANG['.$pid.']',$phrase);
-            }
+        $langList = array();
+        foreach($ltmps as $ltmp) {
+            if (substr_count($ltmp,'.tmp')) $ltmp = str_replace('.tmp','',$ltmp);
+
+            $cache = Cache::init();
+            $tmpList = $cache->get('store[environment[language]['.$ltmp.'-'.$lang.']');
+            if (empty($tmpList)) {
+                $langFile = Language::loadLanguageFile($lang);
+                if (!empty($langFile) && !empty($langFile[$ltmp])) {
+                    $langList = array_merge($langList,$langFile[$ltmp]);
+                    $cache->set('store[environment[language]['.$ltmp.'-'.$lang.']',serialize($langFile[$ltmp]));
+                }
+            } else $langList = array_merge($langList,unserialize($tmpList));
         }
+        
+        if ($preload === true) {
+            if (!empty($langList)) {
+                $tmp = Templater::init();
+                foreach($langList as $pid => $phrase) {
+                    $tmp->setGlobal('LANG['.$pid.']',$phrase);
+                }
+            }
+        } else return $langList;
     }
 
     public function loadLanguageFile($lang=false) {
@@ -69,10 +76,8 @@ class Language {
         else $langFile = $root.'language/'.$lang.'.xml';
         
         $cache = Cache::init();
-        if (defined('VAR_PREPEND')) {
-            $langList = $cache->get(VAR_PREPEND.'store[environment[languageFile]['.md5($langFile).']');
-            if (!empty($langList)) return unserialize($langList);
-        }
+        $langList = $cache->get('store[environment[languageFile]['.md5($langFile).']');
+        if (!empty($langList)) return unserialize($langList);
         
         if (file_exists($langFile)) $xml = (array)simplexml_load_file($langFile);
         if (!empty($xml)) {
@@ -100,13 +105,26 @@ class Language {
             unset($langBlocks);
         }
         
-        if (defined('VAR_PREPEND')) $cache->set(VAR_PREPEND.'store[environment[languageFile]['.md5($langFile).']',serialize($langList));
+        $cache->set('store[environment[languageFile]['.md5($langFile).']',serialize($langList));
         return $langList;
     }
 
     public function getSub($id,$ltmp='GLOBAL',$lang=false) {
         $language = Language::loadLanguageFile($lang);
         return $language[$ltmp][$id];
+    }
+
+    public function available() {
+        $packs = array();
+        if ($handle = opendir(ROOT.'language')) {
+            while (false !== ($entry = readdir($handle))) {
+                if (!in_array($entry,array('.','..'))) {
+                    $packs[] = $entry;
+                }
+            }
+        }
+
+        return $packs;
     }
 }
 

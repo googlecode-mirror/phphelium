@@ -12,16 +12,16 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="/images/micro.png" rel="shortcut icon">
 
-    <meta name="keywords" content="{$pageKeywords}{$storyKeywords}" />
-    <meta name="description" content="{$pageSummary}" />
+    <meta name="keywords" content="{$setup[pageKeywords]}" />
+    <meta name="description" content="{$setup[pageSummary]}" />
 
-    <meta property="og:title" content="{$pageTitle}"/>
-    <meta property="og:url" content="{$pageUrl}"/>
-    <meta property="og:image" content="{$pageImg}"/>
+    <meta property="og:title" content="{$setup[pageTitle]}"/>
+    <meta property="og:url" content="{$setup[pageUrl]}"/>
+    <meta property="og:image" content="{$setup[pageImg]}"/>
     <meta property="og:description"
-      content="{$pageDescription}"/>
+      content="{$setup[pageDescription]}"/>
 
-    <title>{$pageTitle}</title>
+    <title>{$setup[pageTitle]}</title>
 
     <link href="/css/main.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="/css/page.css" rel="stylesheet" type="text/css" media="screen" />
@@ -59,7 +59,6 @@
     </div>
 
     <div id="popup-container">
-        <div id="popup-backdrop" class="shade">&nbsp;</div>
         <span id="popup">
             <div id="popup-close" onClick="popup.hide();">
                 <img src="/images/close_small.png" />

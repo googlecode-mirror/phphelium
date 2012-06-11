@@ -23,10 +23,25 @@ class Header extends Component {
     }
 
     function display() {
-        if (empty($this->user()->user_id)) {
-            $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('outControls',true));
-        } else {
-            $this->tmp('header')->setVar('header','controls',$this->tmp('header')->render('inControls',true));
+        $language = new Language();
+        $packs = $language->available();
+
+        $languageData = array();
+        if (!empty($packs)) {
+            foreach($packs as $pack) {
+                $pack = str_replace('.xml','',$pack);
+                $languageData[] = (object)array('langId' => $pack,
+                                                'selected' => (Session::getLanguage() == $pack ? ' selected' : ''));
+            }
+        }
+
+        $this->tmp($this->template)->setVar('languages',$languageData);
+        $this->tmp($this->template)->setVar('header','languages',$this->tmp($this->template)->render('languages',true));
+
+        if (empty($this->user()->user_id)) $this->tmp($this->template)->setVar($this->template,'controls',$this->tmp('header')->render('outControls',true));
+        else {
+            $this->tmp($this->template)->setVar($this->template,'firstName',$this->user()->first_name);
+            $this->tmp($this->template)->setVar($this->template,'controls',$this->tmp($this->template)->render('inControls',true));
         }
 
         return $this->tmp($this->template)->render();

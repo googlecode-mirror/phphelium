@@ -10,14 +10,12 @@
 class ErrorCodes extends StaticController {
     protected $class = 'ErrorCodes';
     protected $template = 'error_codes';
+    public $cache = false;
+
     private $codeMap = array(401,403,404);
-    
-    private $errors = array();
-    private $reqData = array();
 
     function __construct($merge=false) {
         parent::__construct($merge);
-        $this->reqData = parent::getRequest();
     }
 
     function action() {

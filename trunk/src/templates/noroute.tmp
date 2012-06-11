@@ -4,6 +4,8 @@
 * ---------------------------------------------------------------------
 
 <tmp:noroute>
-<strong style="color:red;">{$LANG[error]}</strong><br />
-{$LANG[norouteBody]}
+<div class="innerContent">
+    <strong style="color:red;">{$LANG[error]}</strong><br />
+    {$LANG[norouteBody]}
+</div>
 </tmp:noroute>

@@ -6,12 +6,8 @@
 require_once('core/Cache.php');
 require_once('core/Constants.php');
 require_once('core/DB.php');
-require_once('core/Language.php');
-require_once('core/Main.php');
-require_once('core/Model.php');
-require_once('core/Pager.php');
 require_once('core/Session.php');
-require_once('core/Templater.php');
+require_once('core/Language.php');
 
 /**
  *
@@ -69,7 +65,7 @@ function loadRoutes($iniFile) {
 
     if (file_exists($iniFile)) {
         $cache = Cache::init();
-        $routesList = $cache->get(VAR_PREPEND.'store[environment[routes]['.md5($iniFile).']]');
+        $routesList = $cache->get('store[environment[routes]['.md5($iniFile).']]');
 
         if (!empty($routesList)) $routesList = unserialize($routesList);
         else $routesList = array();
@@ -92,7 +88,7 @@ function loadRoutes($iniFile) {
                                            'matching' => (!empty($route['matching']) ? true : false));
         }
 
-        $cache->set(VAR_PREPEND.'store[environment[routes]['.md5($iniFile).']]',serialize($routesList));
+        $cache->set('store[environment[routes]['.md5($iniFile).']]',serialize($routesList));
     }
 
     unset($cache);
@@ -142,42 +138,39 @@ function isMobileBrowser() {
  * @return null
  */
 function __autoload($class) {
-    $root = str_replace('src','',realpath(dirname(__FILE__)));
-    $src = $root.'src/';
+    $cache = Cache::init();
+    $croute = $cache->get('store[environment[autoload]]['.$class.']');
+    if (empty($croute)) {
+        $croute = false;
+        
+        $root = str_replace('src','',realpath(dirname(__FILE__)));
+        $src = $root.'src/';
 
-    if (file_exists($src.'master/'.$class.'.php')) {
-        require_once($src.'master/'.$class.'.php');
-        return;
-    } elseif (file_exists($src.'core/'.$class.'.php')) {
-        require_once($src.'core/'.$class.'.php');
-        return;
-    } elseif (file_exists($src.'models/'.$class.'.php')) {
-        require_once($src.'models/'.$class.'.php');
-        return;
-    } elseif (file_exists($src.'controllers/'.$class.'.php')) {
-        require_once($src.'controllers/'.$class.'.php');
-        return;
-    } elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'])) {
-        if (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php')) {
-            require_once($root.'custom/'.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php');
-            return;
-        } elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php')) {
-            require_once($root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php');
-            return;
-        } elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php')) {
-            require_once($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php');
-            return;
-        }
-    } elseif (file_exists($src.'utilities')) {
-        if ($handle = opendir($src.'utilities')) {
-            while (false !== ($entry = readdir($handle))) {
-                if (!in_array($entry,array('.','..')) && file_exists($src.'utilities/'.$entry.'/'.$class.'.php')) {
-                    require_once($src.'utilities/'.$entry.'/'.$class.'.php');
-                    return;
+        if (file_exists($src.'master/'.$class.'.php')) $croute = $src.'master/'.$class.'.php';
+        elseif (file_exists($src.'core/'.$class.'.php')) $croute = $src.'core/'.$class.'.php';
+        elseif (file_exists($src.'models/'.$class.'.php')) $croute = $src.'models/'.$class.'.php';
+        elseif (file_exists($src.'controllers/'.$class.'.php')) $croute = $src.'controllers/'.$class.'.php';
+        elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'])) {
+            if (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php')) $croute = $root.'custom/'.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php';
+            elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php')) $croute = $root.'custom/'.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php';
+            elseif (file_exists($root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php')) $croute = $root.'custom/'.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php';
+        } elseif (file_exists($src.'utilities')) {
+            if ($handle = opendir($src.'utilities')) {
+                while (false !== ($entry = readdir($handle))) {
+                    if (!in_array($entry,array('.','..')) && file_exists($src.'utilities/'.$entry.'/'.$class.'.php')) {
+                        $croute = $src.'utilities/'.$entry.'/'.$class.'.php';
+                        break;
+                    }
                 }
             }
         }
     }
+    
+    if (!empty($croute)) {
+        $cache->set('store[environment[autoload]]['.$class.']',$croute);
+        require_once($croute);
+        return;
+    } else throw new Error('That file does not exist',0,E_USER_ERROR);
 }
 
 /** -----------------------------------------------
@@ -199,3 +192,7 @@ if (!$c->checkConstants()) {
 
     if (!empty($constants)) $c->setConstants($constants);
 }
+
+// turn on or off the debug mode...
+if (!empty($constants['DEBUG_MODE'])) $_SESSION['system']['DEBUG'] = true;
+else $_SESSION['system']['DEBUG'] = false;

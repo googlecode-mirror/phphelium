@@ -94,11 +94,13 @@ class Constants {
         $constants['LOCAL_FILE_LOC'] = $constants['ROOT'].'files/';
 
         $constants['DISPLAY_ERRORS'] = (isset($ini['system']['displayErrors']) ? $ini['system']['displayErrors'] : 1);
-        $constants['DEBUG_MODE'] = (isset($ini['system']['debugMode']) ? $ini['system']['debugMode'] : 1);
+        $constants['DEBUG_MODE'] = (isset($ini['system']['debugMode']) ? $ini['system']['debugMode'] : 0);
         
         $constants['CACHE_ALLOW'] = (isset($ini['system']['cacheAllow']) ? $ini['system']['cacheAllow'] : 1);
         $constants['SSL_AVAILABLE'] = (isset($ini['system']['sslAvailable']) ? $ini['system']['sslAvailable'] : 0);
-
+        
+        $constants['VERSION'] = (isset($ini['system']['version']) ? $ini['system']['version'] : 1);
+        
         // ----------------------------------------
         // server-specific constants..
         // ----------------------------------------
@@ -129,7 +131,8 @@ class Constants {
             $constants['MEMCACHE_SERVERS'] = $ini['memcache']['serverList'];
             $constants['MEMCACHE_DEFAULT_EXPIRY'] = (isset($ini['memcache']['defaultExpiry']) ? $ini['memcache']['defaultExpiry'] : 86400);
         }
-
+$constants['MEMCACHE_SERVERS'] = 'localhost@11211';
+$constants['MEMCACHE_DEFAULT_EXPIRY'] = 86400;
         // ----------------------------------------
         // environment-specific constants..
         // ----------------------------------------

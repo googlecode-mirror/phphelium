@@ -7,6 +7,16 @@
 <tmp:header>
 <div id="headerControls">
     {$controls}
+    &nbsp;&bull;&nbsp;
+    Language: <select id="toggleLanguage">
+    {$languages}
+    </select>
+
+    <script type="text/javascript">
+    $('#toggleLanguage').change(function() {
+        sys.toggleLanguage($(this).val());
+    });
+    </script>
 </div>
 
 <div class="float_left">
@@ -23,7 +33,11 @@
 </tmp:outControls>
 
 <tmp:inControls>
-<strong>Hello!</strong>
+<strong>Hello, {$firstName}!</strong>
 &nbsp;&bull;&nbsp;
 <a href="/logout/">Logout</a>
 </tmp:inControls>
+
+<tmp:languages>
+<option value="{$langId}"{$selected}>{$langId}</option>
+</tmp:languages>

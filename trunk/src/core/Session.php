@@ -47,6 +47,21 @@ class Session {
 
     /**
      *
+     * function: setLanguage
+     * Sets the system language
+     * @access public
+     * @param string $lang
+     * @return null
+     */
+    public function setLanguage($lang) {
+        if (!empty($_SESSION)) {
+            unset($_SESSION['language']);
+            $_SESSION['language'] = $lang;
+        }
+    }
+
+    /**
+     *
      * function: isMobile
      * Determine if the experience should be in mobile
      * @access public
@@ -70,21 +85,6 @@ class Session {
     public function noMobile() {
         $_SESSION['noMobile'] = true;
         return true;
-    }
-
-    /**
-     *
-     * function: setLanguage
-     * Sets the system language
-     * @access public
-     * @param string $lang
-     * @return null
-     */
-    public function setLanguage($lang) {
-        if (!empty($_SESSION)) {
-            unset($_SESSION['language']);
-            $_SESSION['language'] = $lang;
-        }
     }
 
     /**

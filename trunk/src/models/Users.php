@@ -11,6 +11,7 @@ class Users extends Model {
     protected $class = 'Users';
     protected $table = 'users';
     protected $primary = 'user_id';
+    private $saltKey = false;
 
     public $validate = array(
         'username'=>array('filled',true),
@@ -32,7 +33,11 @@ class Users extends Model {
         'create_date'=>array('type'=>'timestamp','isNull'=>false,'defaultValue'=>'CURRENT_TIMESTAMP')
     );
 
-    function __construct() {}
+    function __construct($saltKey=false) {
+        if (defined('SALT_KEY')) $this->saltKey = SALT_KEY;
+        elseif (!empty($saltKey)) $this->saltKey = $saltKey;
+        else $this->saltKey = 'helium';
+    }
 
     /**
      *
@@ -45,8 +50,9 @@ class Users extends Model {
      * @return [boolean,User]
      */
     public function login($username,$password,$sticky=false) {
-        $sql = 'SELECT '.$this->primary.' FROM '.$this->table.' WHERE username = ? AND password = ? AND is_active = 1;';
-        $results = $this->getOne($sql,array($username,md5($password)));
+        $sql = 'SELECT '.$this->primary.' FROM '.$this->table.' WHERE 
+                username = ? AND password = AES_DECRYPT(?,?) AND is_active = 1;';
+        $results = $this->getOne($sql,array($username,md5($password),$this->saltKey));
         if (empty($results)) return false;
         else {
             $user = new Users();
@@ -70,8 +76,8 @@ class Users extends Model {
      * @return [boolean,User]
      */
     public function register($username,$password,$info=false) {
-        $sql = 'INSERT INTO '.$this->table.' (username,password) VALUES (?,?);';
-        $userId = $this->insert($sql,array($username,md5($password)));
+        $sql = 'INSERT INTO '.$this->table.' (username,password) VALUES (?,AES_ENCRYPT(?,?));';
+        $userId = $this->insert($sql,array($username,md5($password),$this->saltKey));
         if (empty($userId)) return false;
         else {
             if (!empty($info)) Users::updateUser($info,$userId);

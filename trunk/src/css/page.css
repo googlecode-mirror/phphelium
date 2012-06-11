@@ -10,11 +10,30 @@ body {
     color:#474848;
 }
 
+select {
+    padding:0 0.5em 0 0.5em;
+    border:1px solid silver;
+    margin:0 0.5em 0 0.5em;
+    cursor:pointer;
+    border-radius:10px;
+    font-size:10px;
+
+}
+
 input[type="button"] {
-    padding:0.3em 0.5em 0.3em 0.5em;
+    padding:0.5em 1em 0.5em 1em;
     border:1px solid silver;
     margin-top:0.3em;
+    cursor:pointer;
+    border-radius:10px;
 }
+
+input[type="button"]:hover {
+    background:gray;
+    border:1px solid gray;
+    color:white;
+}
+
 
 span.inputWrapper {
     display:inline-block;
@@ -65,7 +84,7 @@ span.inputWrapper input[type="password"] {
 }
 
 .innerContent {
-    border:1px solid silver;
+    border:1px solid gray;
     border-radius:10px;
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
@@ -97,6 +116,11 @@ span.inputWrapper input[type="password"] {
     cursor:pointer;
 }
 
+#navigation a {
+    text-decoration:none;
+    color:black;
+}
+
 #navigation .tab:hover {
     background:gray;
     color:white;
@@ -107,15 +131,16 @@ span.inputWrapper input[type="password"] {
 #navigation .active {
     background:#eeeeee;
     color:black;
-    border:1px solid silver;
+    border:1px solid gray;
     border-bottom:0;
 }
 
 label {
-    width:6em;
-    text-align: right;
-    margin-right: 0.5em;
-    display: inline-block;
+    min-width:6em;
+    text-align:right;
+    margin-right:0.5em;
+    display:inline-block;
+    white-space:nowrap;
 }
 
 .data {
@@ -132,25 +157,21 @@ label {
 }
 
 .button {
-    padding: 5px 10px;
+    padding: 5px 20px;
     display: inline;
     border: none;
-    color: #fff;
+    color: white;
+    background: gray;
+    font-size:20px;
     cursor: pointer;
     font-weight: bold;
     border-radius: 5px;
     text-shadow: 1px 1px #666;
+    margin-top:0.5em;
 }
 
 .button:hover {
-    background-position: 0 center;
-}
-
-.button:active {
-    background-position: 0 top;
-    position: relative;
-    top: 1px;
-    padding: 6px 10px 4px;
+    background:green;
 }
 
 input[type="text"], textarea {
@@ -221,4 +242,16 @@ span.inputWrapper textarea { border:0; background:white; margin:0.3em; }
 #logo {
     float:left;
     padding-right:0.5em;
+}
+
+.bubble {
+    position:absolute;
+    border:1px solid red;
+    border-left:3px solid red;
+    border-radius:0 10px 10px 0;
+    padding:0.5em 1em 0.5em 0.5em;
+    font-style:italic;
+    font-size:0.8em;
+    background:#eeeeee;
+    box-shadow: 3px 3px 3px #000;
 }

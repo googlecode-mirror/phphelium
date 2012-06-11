@@ -61,9 +61,20 @@ abstract class Pager {
                 if (!empty($data['cache'])) $cached = $this->setPageCache($html);
                 return trim($html);
             }
+        }
 
-            throw new Error('Page failed to build');
-        } else throw new Error('Page failed to build');
+        return;
+    }
+
+    /**
+     *
+     * function: getPageKey
+     * Get the key for page caching
+     * @access public
+     * @return string
+     */
+    public function getPageKey() {
+        return 'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']';
     }
 
     /**
@@ -75,7 +86,8 @@ abstract class Pager {
      */
     public function getPageCache() {
         $cache = Cache::init();
-        $pageCache = $cache->get(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']');
+        $pageCache = $cache->get('store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']');
+        
         if (!empty($pageCache)) return $pageCache;
         else return false;
     }
@@ -90,7 +102,10 @@ abstract class Pager {
      */
     public function setPageCache($html) {
         $cache = Cache::init();
-        $cache->set(VAR_PREPEND.'store[environment[pageCache]['.md5($_SERVER['REQUEST_URI']).']',$html);
+        $key = Pager::getPageKey();
+
+        $cache->delete($key);
+        $cache->set($key,$html);
     }
 }
 

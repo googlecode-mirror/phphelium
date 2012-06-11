@@ -16,7 +16,7 @@ if (!empty($hd) && !empty($hd['path'])) {
 }
 
 $pageData = array();
-$pagesList = $cache->get(VAR_PREPEND.'store[environment[pages]]');
+$pagesList = $cache->get('store[environment[pages]]');
 if (!empty($pagesList)) {
     $pagesList = unserialize($pagesList);
     if (!empty($pagesList[$pageURI])) $pageData =  $pagesList[$pageURI];
@@ -118,7 +118,7 @@ if (empty($pageData)) {
                               'pager' => ($pages[0]->secure ? 'PageSSL' : 'Page'),
                               'params' => unserialize($pages[0]->params),
                               'bypass' => ($pages[0]->bypass ? true : false),
-                              'cache' => ($pages[0]->cache ? true : false),
+                              'cache' => ($pages[0]->cache ? $pages[0]->cache : false),
                               'matching' => ($pages[0]->matching ? true : false));
         } else {
             $sql = 'SELECT base,uri,title,keywords,description,summary,controller,directive,secure,params,bypass,cache,matching
@@ -140,9 +140,13 @@ if (empty($pageData)) {
                                   'pager' => ($pages[0]->secure ? 'PageSSL' : 'Page'),
                                   'params' => unserialize($pages[0]->params),
                                   'bypass' => ($pages[0]->bypass ? true : false),
-                                  'cache' => ($pages[0]->cache ? true : false),
+                                  'cache' => ($pages[0]->cache ? $pages[0]->cache : false),
                                   'matching' => ($pages[0]->matching ? true : false));
             } else {
+                // we're going to need the Request class,
+                // so let's load it...
+                require_once('core/Request.php');
+
                 $req = new Request();
                 if ($req->uri[1] == 'c') {
                     $pageData['bypass'] = 1;
@@ -157,14 +161,31 @@ if (empty($pageData)) {
     }
 }
 
-$cache->set(VAR_PREPEND.'store[environment[pages]]',serialize($pagesList));
+$cache->set('store[environment[pages]]',serialize($pagesList));
 
 /** -----------------------------------------------
     Build our page...
     ----------------------------------------------- */
-$pager = new $pageData['pager']();
-if (!empty($pageData['class'])) echo $pager->build($pageData);
-else {
-    $pageData['class'] = 'NoRoute';
-    echo $pager->build($pageData);
+if ((int)$pageData['cache'] == 2) {
+    $pageCache = Pager::getPageCache();
+    if (!empty($pageCache)) $content = $pageCache;
 }
+
+if (empty($content)) {
+    // okay, without a cache we're going to need this stuff...
+    require_once('core/Model.php');
+    require_once('core/Pager.php');
+    require_once('core/Templater.php');
+    
+    $pager = new $pageData['pager']();
+    if (!empty($pageData['class'])) $content = $pager->build($pageData);
+    else {
+        $pageData['class'] = 'NoRoute';
+        $content = $pager->build($pageData);
+    }
+
+    if ((int)$pageData['cache'] == 2) Pager::setPageCache($content);
+}
+
+if (!empty($content)) echo $content;
+else throw new Error('Page failed to build');

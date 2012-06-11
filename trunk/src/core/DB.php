@@ -8,6 +8,7 @@
  */
 
 class DB {
+    private static $log = array();
     private $pointers = array('master' => false, 'slave' => false);
     private $pointer = false;
     private $trans = false;
@@ -180,6 +181,11 @@ class DB {
     private function query($query) {
         if (!$this->status()) $this->connect();
         if ($this->status()) {
+            if (!empty($_SESSION['system']['DEBUG'])) {
+                dump("what",false);
+                self::$log[] = $query;
+            }
+            
             $result = mysql_query($query,$this->instance);
 
             if ($result) return $result;
@@ -387,6 +393,16 @@ class DB {
        if (!empty($this->instance) && is_resource($this->instance)) mysql_close($this->instance);
        unset($this->instance);
        $this->pointer = false;
+    }
+
+    /**
+     * Returns log.
+     *
+     * @access public
+     * @return Array
+     */
+    public function getLog() {
+        return self::$log;
     }
 }
 

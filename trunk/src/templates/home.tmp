@@ -15,38 +15,44 @@
 <div class="innerContent">
     <div id="cHome">
         <div class="floatRight">
-            <a href="javascript:void(0);" id="moreDetails">Show me a Helium popup...</a>
+            <input type="button" id="durationCheck" value="How long have I been here?" style="margin-left:1em;" />
         </div>
 
-        <strong>What is Helium?</strong>
+        <div class="floatRight">
+            <input type="button" id="moreDetails" value="Show me a Helium popup..." />
+        </div>
 
-	<div style="padding:1.5em 1em 2em 2em;">
-            Helium is a light-weight MVC framework, written in PHP, that is designed to be painless to install, simple to use, and highly extensible and scalable. It is built for a standard LAMP stack and comes coupled with installation scripts designed to handle the framework's package dependencies and configuration.
-	</div>
+        <div style="padding-top:1em;">
+            <strong>{$LANG[homeHead1]}</strong>
 
-	<strong>Who made this garbage?</strong>
+            <div style="padding:2em 1em 2.5em 2em;">
+                {$LANG[homeText1]}
+            </div>
 
-	<div style="padding:1.5em 1em 2em 2em;">
-            The author of this particular mass of code is an engineer named Bryan Healey.
-	</div>
+            <strong>{$LANG[homeHead2]}</strong>
 
-	<strong>Why make yet <em>another</em> framework?</strong>
+            <div style="padding:2em 1em 2.5em 2em;">
+                {$LANG[homeText2]}
+            </div>
 
-	<div style="padding:1.5em 1em 2em 2em;">
-            The genesis of this framework is rooted in utility. I wanted to have an easy to deploy and easy to develop development core that wasn't bloated with a litany of extras that I didn't want or need. So, instead of taking an existing framework and stripping it down, I decided to write a framework from the group up. This also allowed me to take care in how it is engineered, maintaining speed and efficiency as much as possible.
-	</div>
+            <strong>{$LANG[homeHead3]}</strong>
 
-	<strong>Who can us it?</strong>
+            <div style="padding:2em 1em 2.5em 2em;">
+                {$LANG[homeText3]}
+            </div>
 
-	<div style="padding:1.5em 1em 2em 2em;">
-            Anyone! Even those without extensive web engineering backgrounds can use it, so long as they have a modest understanding of PHP. Out of the box, it comes ready for deployment, and the basic method for creating new pages and services couldn't be simpler: Create a route, create a controller, and create a template file. Done.
-	</div>
+            <strong>{$LANG[homeHead4]}</strong>
 
-	<strong>What version am I looking at?</strong>
+            <div style="padding:2em 1em 2.5em 2em;">
+                {$LANG[homeText4]}
+            </div>
 
-	<div style="padding:1.5em 1em 0.5em 2em;">
-            This package is version <strong>1.2</strong>
-	</div>
+            <strong>{$LANG[homeHead5]}</strong>
+
+            <div style="padding:2em 1em 0.5em 2em;">
+                {$LANG[homeText5]}
+            </div>
+        </div>
     </div>
 
     <div id="cDocumentation">
@@ -63,6 +69,12 @@ navAssist.prepareNav('navigation','Home');
 
 $('#moreDetails').click(function() {
     popup.trigger("This Is A Popup","/popup-help/");
+});
+
+$('#durationCheck').click(function() {
+    var duration = DateData.stayDuration();
+    var checkStr = '<div style="padding:1em;">You have been here for:<br /><br />'+duration[0]+' Days, '+duration[1]+' Hours, '+duration[2]+' Minutes, and '+duration[3]+' Seconds</div>';
+    popup.raw('Duration Check',checkStr);
 });
 </script>
 </tmp:home>
