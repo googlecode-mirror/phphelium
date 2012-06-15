@@ -1,0 +1,12 @@
+* ---------------------------------------------------------------------
+* FILE: api.tmp
+* API-specific template, in XML formatting
+* ---------------------------------------------------------------------
+
+<tmp:info>
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <uri>{$uri}</uri>
+    <title>{$title}</title>
+</info>
+</tmp:info>

@@ -1,0 +1,51 @@
+[database]
+master = "{MYSERV};hel@{MYUSER};{MYPASS}"
+slave = "{MYSERV};hel@{MYUSER};{MYPASS}"
+default = "hel"
+
+[system]
+root = "{RDIR}"
+src = "{RDIR}src/"
+logs = "/var/log/"
+displayErrors = 1
+debugMode = 0
+cacheAllow = 1
+sslAvailable = 0
+version = 1.3
+
+[server]
+subdomain = "www"
+uri = "{SERVNAME}"
+varPrepend = "HEL_"
+timezone = "UTC"
+
+[mobile]
+autoMobile = 0
+mobileSubdomain = "mobile"
+
+[api]
+sharedKey = "DEFAULT"
+
+[memcache]
+serverList = "localhost@11211"
+defaultExpiry = 86400
+
+[environment]
+title = LANG['title']
+keywords = LANG['keywords']
+description = LANG['description']
+summary = LANG['summary']
+language = "en"
+
+[email]
+defaultFrom = "Bryan Healey <bryan@bryanhealey.com>"
+
+[errorURI]
+UNAUTHORIZED_URI = "/error/401"
+ACCESS_DENIED_URI = "/error/403"
+PAGENOTFOUND_URI = "/error/405"
+
+[errorCodes]
+EID_BAD_LOGIN = 1
+EID_ACCESS_DENIED = 2
+EID_BAD_DATA = 3

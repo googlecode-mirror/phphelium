@@ -1,0 +1,79 @@
+* ---------------------------------------------------------------------
+* FILE: login.tmp
+* User login template
+* ---------------------------------------------------------------------
+
+<tmp:login>
+<div class="clear"></div>
+<div class="innerContent" style="margin-top:1.5em;">
+    <div id="loginContainer">
+        <div id="response"></div>
+        <h2>Login</h2>
+        
+        <form method="POST" action="/login/" id="loginFrm">
+            <div class="data">
+                <label for="username">{$LANG[username]}:</label>
+                <span class="inputWrapper">
+                    <input type="text" name="username" id="username" size="30" placeholder="{$LANG[usernamePlace]}" validate="email" onError="You must enter a valid e-mail address" required />
+                </span>
+            </div>
+            <div class="data">
+                <label for="password">{$LANG[password]}:</label>
+                <span class="inputWrapper">
+                    <input type="password" name="password" id="password" size="30" placeholder="{$LANG[passwordPlace]}" validate="filled" onError="You must supply a password" required />
+                </span>
+            </div>
+            <div class="data submission">
+                <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[login]}" />
+                &nbsp;
+                <input type="button" name="btnRegister" id="btnRegister" value="{$LANG[register]}" />
+                &nbsp;
+                <input type="checkbox" name="rememberMe" id="rememberMe" /> Remember me
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('#btnSubmit').click(function(event) {
+    if (Validate.checkAll('loginFrm') == false) alert("{$LANG[invalidFrm]}");
+    else {
+        ajax.onSuccess = function(e) {
+            if (e['result'] == 'error') {
+                formAssist.clear('loginFrm');
+                Validate.clearAll('loginFrm');
+
+                $('#response').html(e['msg']);
+                $('#response').css('display','block');
+                setTimeout(function() { $('#response').css('display','none'); },2000);
+            } else {
+                $('#loginContainer').html(e['msg']);
+                setTimeout(function() { window.location = '/'; },2000);
+            }
+        }
+        
+        ajax.submit('loginFrm');
+    }
+});
+
+$('#btnRegister').click(function(event) {
+    window.location = '/register/';
+});
+
+$(document).ready(function() {
+    Validate.autoValidate('loginFrm');
+});
+</script>
+</tmp:login>
+
+<tmp:successLogin>
+<div class="success">
+    {$LANG[success]}
+</div>
+</tmp:successLogin>
+
+<tmp:failLogin>
+<div class="error">
+    {$LANG[error]}
+</div>
+</tmp:failLogin>
