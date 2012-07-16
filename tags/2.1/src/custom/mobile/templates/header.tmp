@@ -1,0 +1,9 @@
+* ---------------------------------------------------------------------
+* FILE: custom/mobile/header.tmp
+* This is you primary mobile header template file.
+* This will appear at the top of all non-bypassed mobile pages.
+* ---------------------------------------------------------------------
+
+<tmp:header>
+<h1>{@LANG[title]}</h1>
+</tmp:header>

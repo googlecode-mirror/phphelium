@@ -1,0 +1,66 @@
+* ---------------------------------------------------------------------
+* FILE: custom/mobile/main.tmp
+* This is you primary wrapper template file for mobile.
+* All controllers that are not explicitly bypassed will
+*   route through this controller to get all needed headers and footers
+*   for all mobile browsers.
+* ---------------------------------------------------------------------
+
+<tmp:main>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="user-scalable=no, width=device-width" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="/images/micro.png" rel="shortcut icon">
+
+    <meta name="keywords" content="{$setup[pageKeywords]}" />
+    <meta name="description" content="{$setup[pageSummary]}" />
+
+    <meta property="og:title" content="{$setup[pageTitle]}"/>
+    <meta property="og:url" content="{$setup[pageUrl]}"/>
+    <meta property="og:image" content="{$setup[pageImg]}"/>
+    <meta property="og:description"
+      content="{$setup[pageDescription]}"/>
+
+    <title>{$setup[pageTitle]}</title>
+
+    <link href="/css/main.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/css/mobile.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="/js/constants.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <script type="text/javascript" src="/js/ajax.js"></script>
+    <script type="text/javascript" src="/js/datetime.js"></script>
+    <script type="text/javascript" src="/js/validate.js"></script>
+    <script type="text/javascript" src="/js/hash.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <!-- CONTENT HEADER -->
+            {$header}
+        </div>
+
+        <div class="clear"></div>
+
+        <div id="content">
+            <!-- CONTENT BODY -->
+            {$content}
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div id="footer">
+        <!-- FOOTER -->
+        {$footer}
+    </div>
+    
+    <script type="text/javascript" src="/js/bottom.js"></script>
+</body>
+</html>
+</tmp:main>
