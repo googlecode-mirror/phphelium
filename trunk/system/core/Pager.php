@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Pager.php
@@ -23,8 +22,9 @@ abstract class Pager {
         if (!empty($data['class'])) {
             if (!empty($data['cache'])) $cached = $this->getPageCache();
             
-            $data['params']['pageData'] = array('content' => $data['class']);
+            $data['params']['pageData'] = array('content' => $data['class'], 'title' => 'Untitled');
             if (!empty($data['title'])) $data['params']['pageData']['title'] = $data['title'];
+            if (defined('DEFAULT_TITLE')) $data['params']['pageData']['title'] .= ' - '.DEFAULT_TITLE;
             
             if (!empty($data['keywords'])) $data['params']['pageData']['keywords'] = $data['keywords'];
             if (!empty($data['description'])) $data['params']['pageData']['description'] = $data['description'];

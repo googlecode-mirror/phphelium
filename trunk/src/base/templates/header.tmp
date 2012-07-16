@@ -8,7 +8,7 @@
 <div id="headerControls">
     {$controls}
     &nbsp;&bull;&nbsp;
-    {$LANG[language]}: <select id="toggleLanguage">
+    {@LANG[language]}: <select id="toggleLanguage">
     {$languages}
     </select>
 

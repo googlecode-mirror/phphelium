@@ -12,21 +12,21 @@
         
         <form method="POST" action="/login/" id="loginFrm">
             <div class="data">
-                <label for="username">{$LANG[username]}:</label>
+                <label for="username">{@LANG[username]}:</label>
                 <span class="inputWrapper">
-                    <input type="text" name="username" id="username" size="30" placeholder="{$LANG[usernamePlace]}" validate="email" onError="You must enter a valid e-mail address" required />
+                    <input type="text" name="username" id="username" size="30" placeholder="{@LANG[usernamePlace]}" validate="email" onError="email={@LANG[usernameError]}" required />
                 </span>
             </div>
             <div class="data">
-                <label for="password">{$LANG[password]}:</label>
+                <label for="password">{@LANG[password]}:</label>
                 <span class="inputWrapper">
-                    <input type="password" name="password" id="password" size="30" placeholder="{$LANG[passwordPlace]}" validate="filled" onError="You must supply a password" required />
+                    <input type="password" name="password" id="password" size="30" placeholder="{@LANG[passwordPlace]}" validate="minLength" charMin="5" onError="minLength={@LANG[passwordError]}" required />
                 </span>
             </div>
             <div class="data submission">
-                <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[login]}" />
+                <input type="button" name="btnSubmit" id="btnSubmit" value="{@LANG[login]}" />
                 &nbsp;
-                <input type="button" name="btnRegister" id="btnRegister" value="{$LANG[register]}" />
+                <input type="button" name="btnRegister" id="btnRegister" value="{@LANG[register]}" />
                 &nbsp;
                 <input type="checkbox" name="rememberMe" id="rememberMe" /> Remember me
             </div>
@@ -36,7 +36,7 @@
 
 <script type="text/javascript">
 $('#btnSubmit').click(function(event) {
-    if (Validate.checkAll('loginFrm') == false) alert("{$LANG[invalidFrm]}");
+    if (Validate.checkAll('loginFrm') == false) alert("{@LANG[invalidFrm]}");
     else {
         ajax.onSuccess = function(e) {
             if (e['result'] == 'error') {
@@ -68,12 +68,12 @@ $(document).ready(function() {
 
 <tmp:successLogin>
 <div class="success">
-    {$LANG[success]}
+    {@LANG[success]}
 </div>
 </tmp:successLogin>
 
 <tmp:failLogin>
 <div class="error">
-    {$LANG[error]}
+    {@LANG[error]}
 </div>
 </tmp:failLogin>

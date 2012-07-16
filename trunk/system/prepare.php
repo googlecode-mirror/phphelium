@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /** -----------------------------------------------
     pre-load files that will always be required...
@@ -79,7 +78,7 @@ function loadRoutes($iniFile) {
             $uriAssoc = $route['uri'].(!empty($route['base']) ? '@'.$route['base'] : '');
             $routesList[$uriAssoc] = array('base' => (!empty($route['base']) ? $route['base'] : false),
                                            'uri' => $route['uri'],
-                                           'title' => (!empty($route['title']) ? DEFAULT_TITLE.' - '.$route['title'] : DEFAULT_TITLE),
+                                           'title' => (!empty($route['title']) ? $route['title'] : DEFAULT_TITLE),
                                            'keywords' => (!empty($route['keywords']) ? $route['keywords'] : ''),
                                            'description' => (!empty($route['description']) ? $route['description'] : ''),
                                            'summary' => (!empty($route['summary']) ? $route['summary'] : ''),
@@ -158,8 +157,15 @@ function autoloader($class) {
             if (file_exists($cust.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php')) $croute = $cust.$_SERVER['SERVER_NAME'].'/core/'.$class.'.php';
             elseif (file_exists($cust.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php')) $croute = $cust.$_SERVER['SERVER_NAME'].'/models/'.$class.'.php';
             elseif (file_exists($cust.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php')) $croute = $cust.$_SERVER['SERVER_NAME'].'/controllers/'.$class.'.php';
+        } else {
+            $cExt = substr($_SERVER['SERVER_NAME'],0,strpos($_SERVER['SERVER_NAME'],'.'));
+            if (file_exists($cust.$cExt)) {
+                if (file_exists($cust.$cExt.'/core/'.$class.'.php')) $croute = $cust.$cExt.'/core/'.$class.'.php';
+                elseif (file_exists($cust.$cExt.'/models/'.$class.'.php')) $croute = $cust.$cExt.'/models/'.$class.'.php';
+                elseif (file_exists($cust.$cExt.'/controllers/'.$class.'.php')) $croute = $cust.$cExt.'/controllers/'.$class.'.php';
+            }
         }
-
+        
         if (empty($croute)) {
             if (file_exists($sys.'master/'.$class.'.php')) $croute = $sys.'master/'.$class.'.php';
             elseif (file_exists($sys.'core/'.$class.'.php')) $croute = $sys.'core/'.$class.'.php';
@@ -183,7 +189,7 @@ function autoloader($class) {
         $cache->set('store[environment[autoload]]['.$class.']',$croute);
         require_once($croute);
         return;
-    } else throw new Error('That file does not exist',0,E_USER_ERROR);
+    } else throw new ErrorManager('That file does not exist',0,E_USER_ERROR);
 }
 
 spl_autoload_register('Helium\autoloader');

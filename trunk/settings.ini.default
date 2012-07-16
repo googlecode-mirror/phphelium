@@ -5,13 +5,12 @@ default = "hel"
 
 [system]
 root = "{RDIR}"
-src = "{RDIR}src/"
 logs = "/var/log/"
 displayErrors = 1
 debugMode = 0
 cacheAllow = 1
 sslAvailable = 0
-version = 1.3
+version = 2.1
 
 [server]
 subdomain = "www"

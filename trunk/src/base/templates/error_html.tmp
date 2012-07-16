@@ -5,7 +5,7 @@
 
 <tmp:error>
 <div class="error">
-    {$LANG[errorDesc]}:
+    {@LANG[errorDesc]}:
 
     <ul>
         <tmp:errors>

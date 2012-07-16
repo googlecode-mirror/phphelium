@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Component.php
@@ -15,31 +14,6 @@ abstract class Component extends DB {
     function __construct() {
         $this->tmp = Templater::init();
         $this->prepareReq();
-    }
-
-    /**
-     *
-     * function: clearAll
-     * Clear page cache data
-     * @access public
-     * @return string
-     */
-    function clearAll() {
-        $cache = Cache::init();
-        $cache->flush();
-    }
-
-    /**
-     *
-     * function: uri
-     * Get a URI chunk
-     * @access public
-     * @param int $level
-     * @return null
-     */
-    function uri($level,$from=false) {
-        if (empty($from)) return Request::getURI($level);
-        else return Request::getURIFrom($level);
     }
 
     /**
@@ -72,6 +46,51 @@ abstract class Component extends DB {
 
     /**
      *
+     * function: clearAll
+     * Clear page cache data
+     * @access public
+     * @return string
+     */
+    function clearAll() {
+        $cache = Cache::init();
+        $cache->flush();
+
+        $apc = new APC();
+        $apc->clearCache();
+    }
+
+    /**
+     *
+     * function: uri
+     * Get a URI chunk
+     * @access public
+     * @param int $level
+     * @return null
+     */
+    function uri($level,$from=false) {
+        if (empty($from)) return Request::getURI($level);
+        else return Request::getURIFrom($level);
+    }
+
+    /**
+     *
+     * function: cookie
+     * Gets cookie object for manipulation by controller, or sets cookie application variable
+     * @access public
+     * @param string $el [optional]
+     * @param string $var [optional]
+     * @return mixed
+     */
+    function cookie($el=false,$var=false) {
+        $cookie = new Cookie();
+        if (!empty($el)) {
+            if (!empty($var)) return $cookie->setCookie($el,$var);
+            else return $cookie->getCookie($el);
+        } else return $cookie;
+    }
+
+    /**
+     *
      * function: session
      * Gets session object for manipulation by controller, or sets session application variable
      * @access public
@@ -89,8 +108,8 @@ abstract class Component extends DB {
 
     /**
      *
-     * function: process
-     * Gets process object
+     * function: service
+     * Gets Services object for cUrl calls
      * @access public
      * @param String $uri [optional]
      * @param boolean $getData [optional]
@@ -98,17 +117,17 @@ abstract class Component extends DB {
      * @param String $password [optional]
      * @return mixed
      */
-    function process($uri=false,$data=false,$getData=false,$username=false,$password=false) {
-        $process = new Process();
+    function service($uri=false,$data=false,$getData=false,$username=false,$password=false) {
+        $service = new Services();
         if (!empty($uri)) {
             if (empty($getData)) $func = 'outbound';
             else $func = 'service';
 
             if (!empty($username) && !empty($password)) {
                 $func = 'auth'.ucwords($func);
-                $results = $process->$func($uri,$data,$username,$password);
-            } else $results = $process->$func($uri,$data);
-        } else return $process;
+                $results = $service->$func($uri,$data,$username,$password);
+            } else $results = $service->$func($uri,$data);
+        } else return $service;
     }
 
     /**
@@ -124,6 +143,22 @@ abstract class Component extends DB {
             if (!empty($var)) return $cache->set($el,$var);
             else return $cache->get($el);
         } else return $cache;
+    }
+
+    /**
+     *
+     * function: lang
+     * Gets language object
+     * @access public
+     * @param string $id [optional]
+     * @param string $tmp [optional]
+     * @param string $lang (default: 'en')
+     * @return Mixed
+     */
+    function lang($id=false,$tmp=false,$lang='en') {
+        $language = new Language();
+        if (!empty($id)) return $language->getSub($id,$tmp,$lang);
+        else return $language;
     }
 
     /**
@@ -217,8 +252,16 @@ abstract class Component extends DB {
      * @access public
      * @return [User,boolean]
      */
-    function user() {
-        return Session::getUser();
+    function user($id=false) {
+        if (empty($id)) return Session::getUser();
+        else {
+            $user = new Users();
+            $user->load($id);
+
+            return $user;
+        }
+
+        return false;
     }
 
     /**

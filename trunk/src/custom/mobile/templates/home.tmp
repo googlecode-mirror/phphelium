@@ -5,6 +5,6 @@
 
 <tmp:home>
 <div style="padding:1em;">
-    <strong>{$LANG[homeHead1]}</strong> {$LANG[home1]}
+    <strong>{@LANG[homeHead1]}</strong> {@LANG[homeText1]}
 </div>
 </tmp:home>

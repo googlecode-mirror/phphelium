@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Model.php
@@ -129,28 +128,6 @@ abstract class Model extends DB {
 
     /**
      *
-     * function: setData
-     * Sets data into the store to be saved
-     * @access public
-     * @param string $data
-     * @param string $value (optional)
-     * @return boolean
-     */
-    public function setData($data,$value=false) {
-        if (empty($value) && is_array($data)) {
-            foreach($data as $did => $dval) {
-                $this->dataStore[$did] = $dval;
-            }
-            
-            return true;
-        } elseif (!empty($value) && is_string($data)) {
-            $this->dataStore[$data] = $value;
-            return true;
-        } else return false;
-    }
-
-    /**
-     *
      * function: clear
      * Clears the cache
      * @access public
@@ -183,25 +160,37 @@ abstract class Model extends DB {
      * @param int $id
      * @return boolean
      */
-    public function open($id=false) {
+    public function open($id=false,$data=false) {
         $this->clearStore();
         if (empty($id)) $this->isUpdate = $id;
-        else $this->isUpdate = false;
+        elseif (!is_array($id)) $this->isUpdate = false;
 
+        if (!empty($data)) $this->store($data);
+        elseif (is_array($id)) $this->store($id);
+        
         return true;
     }
 
     /**
      *
-     * function: validate
-     * Checks rules for model against data set
+     * function: store
+     * Sets data into the store to be saved
      * @access public
-     * @param array $data
+     * @param string $data
+     * @param string $value (optional)
      * @return boolean
      */
-    public function validate($data=false) {
-        if (empty($data) && !empty($this->dataStore)) $data = $this->dataStore;
-        return Validate::checkAll($data,$this->validate);
+    public function store($data,$value=false) {
+        if (empty($value) && is_array($data)) {
+            foreach($data as $did => $dval) {
+                $this->dataStore[$did] = $dval;
+            }
+            
+            return true;
+        } elseif (!empty($value) && is_string($data)) {
+            $this->dataStore[$data] = $value;
+            return true;
+        } else return false;
     }
 
     /**
@@ -218,23 +207,24 @@ abstract class Model extends DB {
         foreach($this->schema as $column => $details) {
             if (empty($this->dataStore[$column]) &&
                 empty($details['isNull']) &&
+                !isset($details['defaultValue']) &&
                 $column <> $this->primary) {
-                    return false;
+                    throw new ErrorManager('You are missing required data: '.$column);
             }
         }
-        
+
         foreach($this->dataStore as $column => $details) {
             if (empty($this->schema[$column])) unset($this->dataStore[$column]);
         }
-        
+
         if (empty($this->isUpdate)) {
-            $xml = $this->buildSQL($this->dataStore,false);
-            if ($results = $this->insert($xml['sql'],$xml['inputs'])) {
+            $sql = $this->buildSQL($this->dataStore,false);
+            if ($results = $this->insert($sql['sql'],$sql['inputs'])) {
                 $this->clearStore();
                 return $results;
             } else return false;
         } else {
-            $xml = $this->buildSQL($this->dataStore,$this->isUpdate);
+            $sql = $this->buildSQL($this->dataStore,$this->isUpdate);
             if ($results = $this->update($xml['sql'],$xml['inputs'])) {
                 $this->clearStore();
                 return $results;
@@ -257,14 +247,15 @@ abstract class Model extends DB {
             $ins = array();
 
             foreach($this->schema as $did => $opts) {
-                if ($did <> $this->primary) {
-                    $els[] = $did;
-                    $ins[] = (!empty($data[$did]) ? $data[$did] : false);
+                if ($did <> $this->primary &&
+                    isset($data[$did])) {
+                        $els[] = $did;
+                        $ins[] = (!empty($data[$did]) ? $data[$did] : false);
                 }
             }
 
             $sql = 'INSERT INTO '.$this->table.' ('.implode(',',$els).') VALUES (?';
-            for($subs=2;$subs<=count($this->schema)-1;$subs++) $sql .= ',?';
+            for($subs=2;$subs<=count($data);$subs++) $sql .= ',?';
             $sql .= ');';
 
             return array('sql' => $sql,'inputs' => $ins);
@@ -276,7 +267,7 @@ abstract class Model extends DB {
                 $els[] = $did;
                 $ins[] = (!empty($data[$did]) ? $data[$did] : false);
             }
-            
+
             $sql = 'UPDATE '.$this->table.' SET ';
 
             foreach($data as $did => $dval) {
@@ -285,9 +276,22 @@ abstract class Model extends DB {
 
             $sql .= implode(', '.$statements).' WHERE '.$this->primary.' = ?;';
             $ins[] = $pid;
-            
+
             return array('sql' => $sql,'inputs' => $ins);
         }
+    }
+
+    /**
+     *
+     * function: validate
+     * Checks rules for model against data set
+     * @access public
+     * @param array $data
+     * @return boolean
+     */
+    public function validate($data=false) {
+        if (empty($data) && !empty($this->dataStore)) $data = $this->dataStore;
+        return Validate::checkAll($data,$this->validate);
     }
 
     /**

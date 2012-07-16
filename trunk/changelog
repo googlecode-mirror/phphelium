@@ -1,7 +1,2 @@
-v2.0
-  - Namespaces
-  - Restructuring directory handling to become more intuitive
-  - Separating HTML-only content from system functionality
-  - Proper password salting with bcrypt
-  - Small popup bug fix
-  - Bug fix in Constants.php (detectHost)
+v2.2
+    - [none yet]

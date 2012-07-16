@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Home.php
@@ -22,9 +21,6 @@ class Home extends StaticController {
     }
 
     function display() {
-        $users = new Users();
-        $users->login('healeyb@gmail.com','test');
-        
         $this->tmp($this->template)->setVar('home','documentation',$this->tmp('documentation')->render());
         return $this->output();
     }

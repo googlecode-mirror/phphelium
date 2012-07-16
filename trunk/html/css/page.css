@@ -255,3 +255,11 @@ span.inputWrapper textarea { border:0; background:white; margin:0.3em; }
     background:#eeeeee;
     box-shadow: 3px 3px 3px #000;
 }
+
+.bubblePoint {
+    position:absolute;
+    margin-left:-10px;
+    height:1.2em;
+    margin-top:5px;
+    vertical-align:middle;
+}
