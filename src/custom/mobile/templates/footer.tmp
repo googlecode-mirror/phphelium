@@ -6,6 +6,6 @@
 
 <tmp:footer>
 <div id="footer">
-    &copy; {$LANG[copyYear]} {$LANG[author]}
+    &copy; {@LANG[copyYear]} {@LANG[author]}
 </div>
 </tmp:footer>

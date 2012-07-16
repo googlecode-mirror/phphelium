@@ -1,4 +1,4 @@
-<?php
+<?php namespace Helium;
 
 if (!empty($timeStart)) {
     $timeEnd = microtime(true);

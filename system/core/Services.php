@@ -1,14 +1,13 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
- * Process.php
+ * Services.php
  * Copyright: Bryan Healey 2010, 2011 (bryan@bryanhealey.com)
  * License: GNU General Public License (v3)
  * Purpose: Handle all outgoing service requests
  */
 
-class Process {
+class Services {
     private $proc = false;
     private $data = false;
 

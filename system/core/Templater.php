@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Templater.php
@@ -52,7 +51,7 @@ class Templater {
      */
     public function setRoot($dir = '') {
         if (empty($dir)) $dir = SRC.'/base/templates/';
-        if (!@is_dir($dir)) throw new Error('Template directory does not exist.');
+        if (!@is_dir($dir)) throw new ErrorManager('Template directory does not exist.');
 
         if (substr($dir,-1) != '/') $dir .= '/';
 
@@ -70,13 +69,32 @@ class Templater {
         if (!empty($_SERVER['SERVER_NAME'])) {
             if (defined('DEFAULT_URI') && $_SERVER['SERVER_NAME'] <> DEFAULT_URI && substr_count($_SERVER['SERVER_NAME'],DEFAULT_URI)) $subChk = str_replace('.'.DEFAULT_URI,'',$_SERVER['SERVER_NAME']);
             else $subChk = $_SERVER['SERVER_NAME'];
-            
+
             $tmp = SRC.'custom/'.$subChk.'/templates/';
             if (file_exists($tmp)) $this->setRoot($tmp);
             else $this->setRoot(SRC.'base/templates/');
         } else $this->setRoot(SRC.'base/templates/');
 
         return $this->getRoot();
+    }
+
+    /**
+     *
+     * function: subSite
+     * Determines if the software is operating a sub-site
+     * @access public
+     * @return string
+     */
+    public function subSite() {
+        if (!empty($_SERVER['SERVER_NAME'])) {
+            if (defined('DEFAULT_URI') && $_SERVER['SERVER_NAME'] <> DEFAULT_URI && substr_count($_SERVER['SERVER_NAME'],DEFAULT_URI)) $subChk = str_replace('.'.DEFAULT_URI,'',$_SERVER['SERVER_NAME']);
+            else $subChk = $_SERVER['SERVER_NAME'];
+            
+            $tmp = SRC.'custom/'.$subChk;
+            if (file_exists($tmp)) return $subChk;
+        }
+
+        return false;
     }
 
     /**
@@ -101,21 +119,24 @@ class Templater {
      * @return null
      */
     public function setTemplate($template,$dir=false,$cache=false) {
+        $bundles = array('DEFAULT');
+        if ($this->subSite()) $bundles[] = $this->subSite();
+        
         // Load language specific constants for working template before proceeding
         $language = new Language();
-        $this->langList = $language->loadLanguage(array('GLOBAL',$template));
+        $this->langList = $language->loadLanguage($bundles,array('GLOBAL',$template));
         
         if (!substr_count($template,'.tmp')) $template .= '.tmp';
         if ($dir !== false) $this->setRoot($dir);
         else $this->determineRoot();
 
         $filepath = $this->root.$template;
-
         if (!@file_exists($filepath)) {
-            if (file_exists(SRC.'/templates/'.$template)) {
-                $this->setRoot(SRC.'/templates/');
+            $filepath = SRC.'base/templates/'.$template;
+            if (file_exists($filepath)) {
+                $this->setRoot(SRC.'base/templates/');
                 $filepath = $this->root.$template;
-            } else throw new Error('Template does not exist');
+            } else throw new ErrorManager('Template does not exist');
         }
 
         if ($cache === true && !key_exists($filepath, $this->cache)) $this->cache[$filepath] = @file_get_contents($filepath);
@@ -131,7 +152,7 @@ class Templater {
      * @return string
      */
     public function getTemplate() {
-        if (!isset($this->template)) throw new Error('Template does not exist');
+        if (!isset($this->template)) throw new ErrorManager('Template does not exist');
         return $this->template;
     }
 
@@ -474,7 +495,7 @@ class Templater {
             $this->template = @file_get_contents($filepath);
             $this->cache[$filepath] = $this->template;
         }
-        
+
         $output = $this->mapTemplate($chunk);
         if ($purge === true) $this->purge($chunk);
 
@@ -534,8 +555,12 @@ class Templater {
      */
     private function mapLanguage($chunk) {
         if (!empty($this->langList)) {
-            foreach($this->langList as $langId => $langPhrase) {
-                $chunk = str_replace('{$LANG['.$langId.']}',$langPhrase,$chunk);
+            foreach($this->langList as $langBundle => $langList) {
+                foreach($langList as $langTmp => $tmpPhrases) {
+                    foreach($tmpPhrases as $langId => $langPhrase) {
+                        $chunk = str_replace('{@LANG['.$langId.']}',$langPhrase,$chunk);
+                    }
+                }
             }
         }
 
@@ -636,41 +661,122 @@ class Templater {
      * @return string
      */
     private function mapTransforms($template) {
-        preg_match_all("/\{[$]CURRENCY\[([^}]*)\]\}/si", $template, $currency);
+        preg_match_all("/\{[@]CURRENCY\[([^}]*)\]\}/si", $template, $currency);
         if (!empty($currency[1])) {
             foreach($currency[1] as $t) {
-                if (is_numeric($t)) $template = str_replace('{$CURRENCY['.$t.']}','$'.number_format($t,2,'.',','),$template);
+                if (is_numeric($t)) $template = str_replace('{@CURRENCY['.$t.']}','$'.number_format($t,2,'.',','),$template);
             }
         }
 
-        preg_match_all("/\{[$]UPPER\[([^}]*)\]\}/si", $template, $upper);
+        preg_match_all("/\{[@]PROPER\[([^}]*)\]\}/si", $template, $upper);
         if (!empty($upper[1])) {
             foreach($upper[1] as $t) {
-                $template = str_replace('{$UPPER['.$t.']}',strtoupper($t),$template);
+                $mapping = '';
+                preg_match_all('/([^\.\?!]+[\.\?!])/',$t,$sentences);
+
+                foreach($sentences[0] as $sentence) {
+                    $sentence = trim($sentence);
+                    $mapping .= strtoupper(substr($sentence,0,1)).substr($sentence,1).' ';
+                }
+
+                $template = str_replace('{@PROPER['.$t.']}',trim($mapping),$template);
             }
         }
 
-        preg_match_all("/\{[$]LOWER\[([^}]*)\]\}/si", $template, $lower);
+        preg_match_all("/\{[@]UPPER\[([^}]*)\]\}/si", $template, $upper);
+        if (!empty($upper[1])) {
+            foreach($upper[1] as $t) {
+                $template = str_replace('{@UPPER['.$t.']}',strtoupper($t),$template);
+            }
+        }
+
+        preg_match_all("/\{[@]LOWER\[([^}]*)\]\}/si", $template, $lower);
         if (!empty($lower[1])) {
             foreach($lower[1] as $t) {
                 $template = str_replace('{$LOWER['.$t.']}',strtolower($t),$template);
             }
         }
-        
-        preg_match_all("/\{[$]TRIM\[([^}]*)\]\}/si", $template, $trim);
+
+        preg_match_all("/\{[@]TRIM\[([^}]*)\]\}/si", $template, $trim);
         if (!empty($trim[1])) {
             foreach($trim[1] as $t) {
-                $template = str_replace('{$TRIM['.$t.']}',trim($t),$template);
+                $template = str_replace('{@TRIM['.$t.']}',trim($t),$template);
             }
         }
-        
-        preg_match_all("/\{[$]DATE\[([^}]*)\]\}/si", $template, $date);
+
+        preg_match_all("/\{[@]REPLACE\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $tr = explode(',',$t);
+
+                $val = str_replace($tr[1],$tr[2],$tr[0]);
+                $template = str_replace('{@REPLACE['.$t.']}',$val,$template);
+            }
+        }
+
+        preg_match_all("/\{[@]DATE\[([^}]*)\]\}/si", $template, $date);
         if (!empty($date[1])) {
             foreach($date[1] as $t) {
                 $tp = explode(',',$t);
-                if (!is_numeric($tp[1])) $tp[1] = strtotime($tp[1]);
-                
-                $template = str_replace('{$DATE['.$t.']}',(string)date(str_replace('\'','',$tp[0]),$tp[1]),$template);
+                if (!empty($tp[1]) && !is_numeric($tp[1])) $tp[1] = strtotime($tp[1]);
+                elseif (empty($tp[1])) $tp[1] = time();
+
+                $template = str_replace('{@DATE['.$t.']}',(string)date(str_replace('\'','',$tp[0]),$tp[1]),$template);
+            }
+        }
+
+        preg_match_all("/\{[@]NL2BR\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $template = str_replace('{@NL2BR['.$t.']}',nl2br(trim($t)),$template);
+            }
+        }
+
+        preg_match_all("/\{[@]MD5\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $template = str_replace('{@MD5['.$t.']}',md5(trim($t)),$template);
+            }
+        }
+
+        preg_match_all("/\{[@]MAIL\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $template = str_replace('{@MAIL['.$t.']}','<a href="mailto:'.trim($t).'">'.trim($t).'</a>',$template);
+            }
+        }
+
+        preg_match_all("/\{[@]PHONE\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $tp = explode(',',$t);
+                $tp[0] = preg_replace('/[^0-9]/i','',$tp[0]);
+                switch(strlen($tp[0])) {
+                    case 7: $tp[0] = substr($tp[0],0,3).'-'.substr($tp[0],3); break;
+                    case 10: $tp[0] = substr($tp[0],0,3).'-'.substr($tp[0],3,3).'-'.substr($tp[0],6); break;
+                    case 11: $tp[0] = '1-'.substr($tp[0],1,3).'-'.substr($tp[0],4,3).'-'.substr($tp[0],7); break;
+                    default: $tp[0] = $tp[0];
+                }
+
+                $val = (!empty($tp[1]) ? '<a href="tel:'.trim($tp[0]).'">'.$tp[0].'</a>' : $tp[0]);
+                $template = str_replace('{@PHONE['.$t.']}',$val,$template);
+            }
+        }
+
+        preg_match_all("/\{[@]LINK\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $tp = explode(',',$t);
+
+                $val = (empty($tp[1]) ? '<a href="'.trim($tp[0]).'">'.$tp[0].'</a>' : '<a href="'.trim($tp[1]).'">'.$tp[0].'</a>');
+                $template = str_replace('{@LINK['.$t.']}',$val,$template);
+            }
+        }
+
+        preg_match_all("/\{[@]URLENCODE\[([^}]*)\]\}/si", $template, $trim);
+        if (!empty($trim[1])) {
+            foreach($trim[1] as $t) {
+                $template = str_replace('{@URLENCODE['.$t.']}',urlencode(trim($t)),$template);
             }
         }
 
@@ -734,9 +840,9 @@ class Templater {
             $this->output[$chunk] = str_replace('$','\$',$this->output[$chunk]);
             $this->template = preg_replace('/\<tmp:'.$chunk.'(.*?)\>(.*?)\<\/tmp:'.$chunk.'\>/s', trim($this->output[$chunk]), $this->template);
         }
-        
+
         foreach ($this->output as $chunk => $val) $this->template = str_replace('{__$tmp:'.$chunk.'}', $val, $this->template);
-        
+
         unset($this->data[$chunk]);
         unset($this->output[$chunk]);
 

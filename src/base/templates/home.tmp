@@ -5,9 +5,9 @@
 
 <tmp:home>
 <div id="navigation">
-    <div class="tab" id="tHome" makeTitle="{$LANG[navHomeTitle]}">{$LANG[navHome]}</div>
-    <div class="tab" id="tDocumentation" makeTitle="{$LANG[navDocTitle]}">{$LANG[navDoc]}</div>
-    <div class="tab" id="tContact" makeTitle="{$LANG[navContactTitle]}">{$LANG[navContact]}</div>
+    <div class="tab" id="tHome" makeTitle="{@LANG[navHomeTitle]}">{@LANG[navHome]}</div>
+    <div class="tab" id="tDocumentation" makeTitle="{@LANG[navDocTitle]}">{@LANG[navDoc]}</div>
+    <div class="tab" id="tContact" makeTitle="{@LANG[navContactTitle]}">{@LANG[navContact]}</div>
 </div>
 
 <div class="clear"></div>
@@ -15,42 +15,42 @@
 <div class="innerContent">
     <div id="cHome">
         <div class="floatRight">
-            <input type="button" id="durationCheck" value="{$LANG[durationCheck]}" style="margin-left:1em;" />
+            <input type="button" id="durationCheck" value="{@LANG[durationCheck]}" style="margin-left:1em;" />
         </div>
 
         <div class="floatRight">
-            <input type="button" id="moreDetails" value="{$LANG[popupExample]}" />
+            <input type="button" id="moreDetails" value="{@LANG[popupExample]}" />
         </div>
 
         <div style="padding-top:1em;">
-            <strong>{$LANG[homeHead1]}</strong>
+            <strong>{@LANG[homeHead1]}</strong>
 
             <div style="padding:2em 1em 2.5em 2em;">
-                {$LANG[homeText1]}
+                {@LANG[homeText1]}
             </div>
 
-            <strong>{$LANG[homeHead2]}</strong>
+            <strong>{@LANG[homeHead2]}</strong>
 
             <div style="padding:2em 1em 2.5em 2em;">
-                {$LANG[homeText2]}
+                {@LANG[homeText2]}
             </div>
 
-            <strong>{$LANG[homeHead3]}</strong>
+            <strong>{@LANG[homeHead3]}</strong>
 
             <div style="padding:2em 1em 2.5em 2em;">
-                {$LANG[homeText3]}
+                {@LANG[homeText3]}
             </div>
 
-            <strong>{$LANG[homeHead4]}</strong>
+            <strong>{@LANG[homeHead4]}</strong>
 
             <div style="padding:2em 1em 2.5em 2em;">
-                {$LANG[homeText4]}
+                {@LANG[homeText4]}
             </div>
 
-            <strong>{$LANG[homeHead5]}</strong>
+            <strong>{@LANG[homeHead5]}</strong>
 
             <div style="padding:2em 1em 0.5em 2em;">
-                {$LANG[homeText5]}
+                {@LANG[homeText5]}
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
     </div>
     
     <div id="cContact">
-        {$LANG[contact]}
+        {@LANG[contact]}
     </div>
 </div>
 
@@ -81,6 +81,6 @@ $('#durationCheck').click(function() {
 
 <tmp:popupHelp>
 <div style="padding:1em;">
-    {$LANG[pop]}
+    {@LANG[pop]}
 </div>
 </tmp:popupHelp>

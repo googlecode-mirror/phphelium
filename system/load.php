@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /** -----------------------------------------------
     determine proper routing behavior for page...
@@ -111,7 +110,7 @@ if (empty($pageData)) {
         if (!empty($pages)) {
             $pageData = array('base' => (!empty($pages[0]->base) ? $pages[0]->base : false),
                               'uri' => $pages[0]->uri,
-                              'title' => (!empty($pages[0]->title) ? DEFAULT_TITLE.' - '.$pages[0]->title : DEFAULT_TITLE),
+                              'title' => (!empty($pages[0]->title) ? $pages[0]->title : DEFAULT_TITLE),
                               'keywords' => $pages[0]->keywords,
                               'description' => $pages[0]->description,
                               'summary' => $pages[0]->summary,
@@ -134,7 +133,7 @@ if (empty($pageData)) {
             if (!empty($pages)) {
                 $pageData = array('base' => (!empty($pages[0]->base) ? $pages[0]->base : false),
                                   'uri' => $pages[0]->uri,
-                                  'title' => (!empty($pages[0]->title) ? DEFAULT_TITLE.' - '.$pages[0]->title : DEFAULT_TITLE),
+                                  'title' => (!empty($pages[0]->title) ? $pages[0]->title : DEFAULT_TITLE),
                                   'keywords' => $pages[0]->keywords,
                                   'description' => $pages[0]->description,
                                   'summary' => $pages[0]->summary,
@@ -195,4 +194,4 @@ if (empty($content)) {
 }
 
 if (!empty($content)) echo $content;
-else throw new Error('Page failed to build');
+else throw new ErrorManager('Page failed to build');

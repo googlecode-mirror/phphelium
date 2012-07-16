@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 /*
  * Constants.php
@@ -86,9 +85,15 @@ class Constants {
         // system-specific constants..
         // ----------------------------------------
         $constants['ROOT'] = ((!empty($ini['system']['root']) && $ini['system']['root'] <> '@detect') ? $ini['system']['root'] : str_replace('system/core','',realpath(dirname(__FILE__))));
-        $constants['SRC'] = ((!empty($ini['system']['src']) && $ini['system']['src'] <> '@detect') ? $ini['system']['src'] : $constants['ROOT'].'src/');
+        $constants['SRC'] = $constants['ROOT'].'src/';
         
-        $constants['LOG_LOCATION'] = (!empty($ini['system']['logs']) ? $ini['system']['logs'] : '/var/log/');
+        if (!empty($ini['system']['logs'])) $constants['LOG_LOCATION'] = $ini['system']['logs'];
+        else {
+            $logPath = ini_get('error_log');
+            if (empty($logPath)) $constants['LOG_LOCATION'] = '/var/log/';
+            else $constants['LOG_LOCATION'] = $logPath;
+        }
+
         $constants['DEFAULT_TEMPLATE_ROOT'] = $constants['ROOT'].'templates/';
 
         $constants['BASE_LOC'] = $constants['ROOT'];

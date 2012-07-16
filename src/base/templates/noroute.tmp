@@ -5,7 +5,7 @@
 
 <tmp:noroute>
 <div class="innerContent">
-    <strong style="color:red;">{$LANG[error]}</strong><br />
-    {$LANG[norouteBody]}
+    <strong style="color:red;">{@LANG[error]}</strong><br />
+    {@LANG[norouteBody]}
 </div>
 </tmp:noroute>

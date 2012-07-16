@@ -8,43 +8,43 @@
 <div class="innerContent" style="margin-top:1.5em;">
     <div id="registerContainer">
         <div id="response"></div>
-        <h2>{$LANG[header]}</h2>
+        <h2>{@LANG[header]}</h2>
 
         <form method="POST" action="/register/" id="registerFrm">
             <div class="data">
-                <label for="username">{$LANG[username]}:</label>
+                <label for="username">{@LANG[username]}:</label>
                 <span class="inputWrapper">
-                    <input type="text" name="username" id="username" size="30" placeholder="{$LANG[usernamePlace]}" validate="email" onError="You must include a valid e-mail address" required />
+                    <input type="text" name="username" id="username" size="30" placeholder="{@LANG[usernamePlace]}" validate="email" onError="email={@LANG[usernameError]}" required />
                 </span>
             </div>
             <div class="data">
-                <label for="password1">{$LANG[password1]}:</label>
+                <label for="password1">{@LANG[password1]}:</label>
                 <span class="inputWrapper">
-                    <input type="password" name="password" id="password" size="30" placeholder="{$LANG[passwordPlace1]}" validate="filled" onError="You must supply a password" required />
+                    <input type="password" name="password" id="password" size="30" placeholder="{@LANG[passwordPlace1]}" validate="filled minLength" charMin="5" onError="filled={@LANG[passwordError1]}|minLength={@LANG[passwordError2]}" required />
                 </span>
             </div>
             <div class="data">
                 <label for="password2"></label>
                 <span class="inputWrapper">
-                    <input type="password" name="password2" id="password2" size="30" placeholder="{$LANG[passwordPlace2]}" validate="mimic" mimic="password" onError="Your passwords must match" required />
+                    <input type="password" name="password2" id="password2" size="30" placeholder="{@LANG[passwordPlace2]}" validate="mimic minLength" charMin="5" mimic="password" onError="mimic={@LANG[passwordError3]}|minLength={@LANG[passwordError2]}" required />
                 </span>
             </div>
             <div class="data">
-                <label for="first_name">{$LANG[firstName]}:</label>
+                <label for="first_name">{@LANG[firstName]}:</label>
                 <span class="inputWrapper">
-                    <input type="text" name="first_name" id="first_name" size="30" placeholder="{$LANG[firstNamePlace]}" validate="filled" onError="You must enter your first name" required />
+                    <input type="text" name="first_name" id="first_name" size="30" placeholder="{@LANG[firstNamePlace]}" validate="filled" onError="filled={@LANG[firstNameError]}" required />
                 </span>
             </div>
             <div class="data">
-                <label for="last_name">{$LANG[lastName]}:</label>
+                <label for="last_name">{@LANG[lastName]}:</label>
                 <span class="inputWrapper">
-                    <input type="text" name="last_name" id="last_name" size="30" placeholder="{$LANG[lastNamePlace]}" validate="filled" onError="You must enter your last name" required />
+                    <input type="text" name="last_name" id="last_name" size="30" placeholder="{@LANG[lastNamePlace]}" validate="filled" onError="filled={@LANG[lastNameError]}" required />
                 </span>
             </div>
             <div class="data submission">
-                <input type="button" name="btnSubmit" id="btnSubmit" value="{$LANG[register]}" />
+                <input type="button" name="btnSubmit" id="btnSubmit" value="{@LANG[register]}" />
                 &nbsp;
-                <input type="button" name="btnCancel" id="btnCancel" value="{$LANG[cancel]}" />
+                <input type="button" name="btnCancel" id="btnCancel" value="{@LANG[cancel]}" />
             </div>
         </form>
     </div>
@@ -52,7 +52,7 @@
 
 <script type="text/javascript">
 $('#btnSubmit').click(function(event) {
-    if (Validate.checkAll('registerFrm') == false) alert("{$LANG[invalidFrm]}");
+    if (Validate.checkAll('registerFrm') == false) alert("{@LANG[invalidFrm]}");
     else {
         ajax.onSuccess = function(e) {
             if (e['result'] == 'error') {
@@ -84,12 +84,12 @@ $(document).ready(function() {
 
 <tmp:success>
 <div class="success">
-    {$LANG[success]}
+    {@LANG[success]}
 </div>
 </tmp:success>
 
 <tmp:fail>
 <div class="error">
-    {$LANG[error]}
+    {@LANG[error]}
 </div>
 </tmp:fail>

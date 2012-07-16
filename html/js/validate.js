@@ -24,68 +24,123 @@ var Validate = {
         else if (elem.getAttribute("required") == null && elem.value.replace(" ","") == "") check = false;
 
         if (check) {
-            var pass = false;
+            var validResult = {};
             var validate = elem.getAttribute("validate");
+
             if (validate !== null) {
-                if (elem.value.replace(" ","") !== "") {
-                    switch(validate) {
+                var msgOptions = {};
+                validate = validate.split(' ');
+                for(var vi in validate) {
+                    var ruleId = validate[vi];
+                    msgOptions[ruleId] = {'error':'An error has occured',
+                                          'success':'Correct!'};
+
+                    switch(ruleId) {
                         case "filled":
-                            if (elem.value.replace(' ','') == '') pass = false;
-                            else pass = true;
+                            if (elem.value.replace(' ','') == '') validResult[ruleId] = false;
+                            else validResult[ruleId] = true;
 
                         break;
 
                         case "datetime":
                             var rule = /^(\d{4})-(\d{2})-(\d{2})$/;
-                            if (rule.test(elem.value)) pass = true;
+                            if (rule.test(elem.value)) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
 
                         break;
 
                         case "email":
                             var rule = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                            if (rule.test(elem.value)) pass = true;
+                            if (rule.test(elem.value)) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
 
                         break;
 
                         case "phone":
                             var rule = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
-                            if (rule.test(elem.value)) pass = true;
+                            if (rule.test(elem.value)) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
 
                         break;
 
                         case "mimic":
                             var mimic = elem.getAttribute("mimic");
-                            if (document.getElementById(mimic).value == elem.value) pass = true;
+                            if (document.getElementById(mimic).value == elem.value) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
+
+                        break;
+
+                        case "minLength":
+                            var charMin = elem.getAttribute("charMin");
+                            if (elem.value.length >= charMin) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
+
+                        break;
+
+                        case "maxLength":
+                            var charMax = elem.getAttribute("charMax");
+                            if (elem.value.length <= charMax) validResult[ruleId] = true;
+                            else validResult[ruleId] = false;
 
                         break;
                     }
                 }
 
-                toRet = pass;
+                if (elem.getAttribute("onError")) {
+                    var onErrorMsg = elem.getAttribute("onError");
+                    onErrorMsg = onErrorMsg.split('|');
+                    for(oemi in onErrorMsg) {
+                        var msgOpt = onErrorMsg[oemi].split('=');
+                        msgOptions[msgOpt[0]]['error'] = msgOpt[1];
+                    }
+                }
 
-                if (pass) {
-                    if (elem.getAttribute("onSuccess") == null) msg = 'Correct!';
-                    else msg = elem.getAttribute("onSuccess");
+                if (elem.getAttribute("onSuccess")) {
+                    var onSuccessMsg = elem.getAttribute("onSuccess");
+                    onSuccessMsg = onSuccessMsg.split('|');
+                    for(osmi in onSuccessMsg) {
+                        var msgOpt = onSuccessMsg[osmi].split('=');
+                        msgOptions[msgOpt[0]]['success'] = msgOpt[1];
+                    }
+                }
 
-                    pass = "/images/success.gif";
+                var pass = true;
+                var errorMessaging = [];
+                var successMessaging = [];
+                for(var vri in validResult) {
+                    if (validResult[vri] == false) {
+                        pass = false;
+                        errorMessaging.push(msgOptions[vri]['error']);
+                    } else successMessaging.push(msgOptions[vri]['success']);
+                }
+                
+                errorMessaging = errorMessaging.join('<br />');
+                successMessaging = successMessaging.join('<br />');
+
+                var imgSrc = false;
+                if (pass == true) {
+                    if (successMessaging == '') msg = 'Correct!';
+                    else msg = successMessaging;
+
+                    imgSrc = "/images/success.gif";
                 } else {
-                    if (elem.getAttribute("onError") == null) msg = 'An error has occured';
-                    else msg = elem.getAttribute("onError");
+                    if (errorMessaging == '') msg = 'An error has occured';
+                    else msg = errorMessaging;
 
-                    pass = "/images/error.png";
+                    imgSrc = "/images/error.png";
                 }
 
                 if (document.getElementById('validResult_'+elem.name)) {
-                    document.getElementById('validResult_'+elem.name).src = pass;
-                    
+                    if (imgSrc !== false) document.getElementById('validResult_'+elem.name).src = imgSrc;
+
                     if (Validate.bubbles == false) document.getElementById('validResult_'+elem.name).title = msg;
                     else {
-                        if (toRet == false) Validate.createBubble(elem.parentNode,elem.name,msg);
+                        if (pass == false) Validate.createBubble(elem.parentNode,elem.name,msg);
                         else Validate.hideBubble(elem.parentNode,elem.name);
                     }
                 } else {
                     var validResult = document.createElement('img');
-                    validResult.src = pass;
+                    validResult.src = imgSrc;
                     validResult.style.height = '1em';
                     validResult.style.verticalAlign = 'middle';
                     validResult.id = 'validResult_'+elem.name;
@@ -93,7 +148,7 @@ var Validate = {
 
                     elem.parentNode.appendChild(validResult);
 
-                    if (Validate.bubbles == true && toRet == false) Validate.createBubble(elem.parentNode,elem.name,msg);
+                    if (Validate.bubbles == true && pass == false) Validate.createBubble(elem.parentNode,elem.name,msg);
                     else Validate.hideBubble(elem.parentNode,elem.name);
                 }
             }
@@ -102,7 +157,7 @@ var Validate = {
             Validate.hideBubble(elem.name);
         }
 
-        return toRet;
+        return pass;
     },
 
     /**
@@ -117,15 +172,30 @@ var Validate = {
      */
     createBubble: function(obj,pname,msg) {
         if (document.getElementById('validResultBubble_'+pname)) {
-            document.getElementById('validResultBubble_'+pname).innerHTML = msg;
+            document.getElementById('validResultBubbleText_'+pname).innerHTML = msg;
         } else {
             var bubbleResult = document.createElement('div');
-            bubbleResult.className = 'bubble';
             bubbleResult.id = 'validResultBubble_'+pname;
-            bubbleResult.innerHTML = msg;
             bubbleResult.style.left = obj.style.width;
+            bubbleResult.style.display = 'none';
+
+            bubblePoint = document.createElement('img');
+            bubblePoint.className = 'bubblePoint';
+            bubblePoint.id = 'validResultBubblePoint_'+pname;
+            bubblePoint.src = '/images/left-red.png';
+            bubblePoint.style.verticalAlign = 'middle';
+
+            bubbleResult.appendChild(bubblePoint);
             
+            var bubbleText = document.createElement('span');
+            bubbleText.className = 'bubble';
+            bubbleText.id = 'validResultBubbleText_'+pname;
+            bubbleText.innerHTML = msg;
+
+            bubbleResult.appendChild(bubbleText);
             obj.appendChild(bubbleResult);
+            
+            document.getElementById('validResultBubble_'+pname).style.display = 'block';
             pos.rightOf(obj,$('#validResultBubble_'+pname));
         }
     },
@@ -191,8 +261,13 @@ var Validate = {
     autoValidate: function(frm) {
         $('form#'+frm+' :input').each(function(i) {
             if (this.type == 'text' || this.type == 'password' || this.type == 'textarea') {
-                this.onblur = function() { Validate.checkElement(this); };
-                this.onchange = function() { Validate.checkElement(this); };
+                this.onblur = function() {
+                    if (this.value.replace(' ','') !== '') Validate.checkElement(this);
+                };
+
+                this.onchange = function() {
+                    if (this.value.replace(' ','') !== '') Validate.checkElement(this);
+                };
             }
         });
     }

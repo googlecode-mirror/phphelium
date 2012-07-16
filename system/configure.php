@@ -1,5 +1,4 @@
-<?php
-namespace Helium;
+<?php namespace Helium;
 
 set_include_path(".:".SRC."/default:/usr/share/php");
 date_default_timezone_set(TIMEZONE);

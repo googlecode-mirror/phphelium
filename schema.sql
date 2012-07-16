@@ -1,4 +1,6 @@
-CREATE TABLE IF NOT EXISTS `pages` (
+CREATE DATABASE `hel`;
+
+CREATE TABLE IF NOT EXISTS `hel`.`pages` (
     `page_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `title` varchar(100) DEFAULT NULL,
     `keywords` varchar(75) DEFAULT NULL,
@@ -16,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
     PRIMARY KEY (`page_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `email_queue` (
+CREATE TABLE IF NOT EXISTS `hel`.`email_queue` (
     `email_queue_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `recipient` varchar(100) NOT NULL,
     `sender` varchar(100) NOT NULL,
@@ -28,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `email_queue` (
     PRIMARY KEY (`email_queue_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `hel`.`users` (
     `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `username` varchar(100) NOT NULL,
     `password` varchar(100) NOT NULL,

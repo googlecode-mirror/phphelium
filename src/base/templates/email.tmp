@@ -14,7 +14,7 @@
 <tmp:footer>
     <br />
     <br />
-    {$LANG[sincerely]},<br />
+    {@LANG[sincerely]},<br />
     <br />
     {$title}<br />
     {$email}<br />
