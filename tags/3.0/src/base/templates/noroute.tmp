@@ -1,0 +1,11 @@
+* ---------------------------------------------------------------------
+* FILE: noroute.tmp
+* Data for handling bad routing information
+* ---------------------------------------------------------------------
+
+<tmp:noroute>
+<div class="innerContent">
+    <strong style="color:red;">{@LANG[error]}</strong><br />
+    {@LANG[norouteBody]}
+</div>
+</tmp:noroute>

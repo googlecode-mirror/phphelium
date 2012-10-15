@@ -1,0 +1,86 @@
+* ---------------------------------------------------------------------
+* FILE: home.tmp
+* By default, this is your home page template file
+* ---------------------------------------------------------------------
+
+<tmp:home>
+<div id="navigation">
+    <div class="tab" id="tHome" makeTitle="{@LANG[navHomeTitle]}">{@LANG[navHome]}</div>
+    <div class="tab" id="tDocumentation" makeTitle="{@LANG[navDocTitle]}">{@LANG[navDoc]}</div>
+    <div class="tab" id="tContact" makeTitle="{@LANG[navContactTitle]}">{@LANG[navContact]}</div>
+</div>
+
+<div class="clear"></div>
+
+<div class="innerContent">
+    <div id="cHome">
+        <div class="floatRight">
+            <input type="button" id="durationCheck" value="{@LANG[durationCheck]}" style="margin-left:1em;" />
+        </div>
+
+        <div class="floatRight">
+            <input type="button" id="moreDetails" value="{@LANG[popupExample]}" />
+        </div>
+
+        <div style="padding-top:1em;">
+            <strong>{@LANG[homeHead1]}</strong>
+
+            <div style="padding:2em 1em 2.5em 2em;">
+                {@LANG[homeText1]}
+            </div>
+
+            <strong>{@LANG[homeHead2]}</strong>
+
+            <div style="padding:2em 1em 2.5em 2em;">
+                {@LANG[homeText2]}
+            </div>
+
+            <strong>{@LANG[homeHead3]}</strong>
+
+            <div style="padding:2em 1em 2.5em 2em;">
+                {@LANG[homeText3]}
+            </div>
+
+            <strong>{@LANG[homeHead4]}</strong>
+
+            <div style="padding:2em 1em 2.5em 2em;">
+                {@LANG[homeText4]}
+            </div>
+
+            <strong>{@LANG[homeHead5]}</strong>
+
+            <div style="padding:2em 1em 0.5em 2em;">
+                {@LANG[homeText5]}
+            </div>
+        </div>
+    </div>
+
+    <div id="cDocumentation">
+        {$documentation}
+    </div>
+    
+    <div id="cContact">
+        {@LANG[contact]}
+    </div>
+</div>
+
+<script type="text/javascript">
+navAssist.prepareNav('navigation','Home');
+
+$('#moreDetails').click(function() {
+    popup.trigger("This Is A Popup","/popup-help/");
+});
+
+$('#durationCheck').click(function() {
+    var duration = DateData.stayDuration();
+    var checkStr = '<div style="padding:1em;">You have been here for:<br /><br />'+duration[0]+' Days, '+duration[1]+' Hours, '+duration[2]+' Minutes, and '+duration[3]+' Seconds</div>';
+    popup.raw('Duration Check',checkStr);
+});
+</script>
+</tmp:home>
+
+<tmp:popupHelp>
+<div style="padding:1em;">
+    {@LANG[pop]}
+</div>
+</tmp:popupHelp>
