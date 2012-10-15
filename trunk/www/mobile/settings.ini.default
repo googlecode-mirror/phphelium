@@ -1,0 +1,61 @@
+/* ------------------
+*    DATABASE
+* ------------------- */
+database.master = "{MYSERV};hel@{MYUSER};{MYPASS}"
+database.slave = "{MYSERV};hel@{MYUSER};{MYPASS}"
+database.default = "hel"
+
+/* ------------------
+*    SYSTEM
+* ------------------- */
+system.displayErrors = 1
+system.debugMode = 0
+system.cacheAllow = 1
+system.sslAvailable = 0
+
+/* ------------------
+*    SERVER
+* ------------------- */
+server.subdomain = "www"
+server.uri = "{SERVNAME}"
+server.varPrepend = "HEL_"
+server.timezone = "UTC"
+
+/* ------------------
+*    MOBILE
+* ------------------- */
+mobile.autoMobile = 0
+mobile.mobileSubdomain = "mobile"
+
+/* ------------------
+*    API
+* ------------------- */
+api.sharedKey = "DEFAULT"
+
+/* ------------------
+*    ENVIRONMENT
+* ------------------- */
+environment.title = LANG['title']
+environment.keywords = LANG['keywords']
+environment.description = LANG['description']
+environment.summary = LANG['summary']
+environment.language = "en"
+
+/* ------------------
+*    EMAIL
+* ------------------- */
+email.defaultFrom = "phphelium <info@phphelium.com>"
+
+/* ------------------
+*    ERROR
+* ------------------- */
+errorURI.UNAUTHORIZED_URI = "/error/401"
+errorURI.ACCESS_DENIED_URI = "/error/403"
+errorURI.PAGENOTFOUND_URI = "/error/405"
+
+/* ------------------
+*    ERRORCODES
+* ------------------- */
+errorCodes.EID_BAD_LOGIN = 1
+errorCodes.EID_ACCESS_DENIED = 2
+errorCodes.EID_BAD_DATA = 3
