@@ -10,6 +10,7 @@ Full documentation available at: http://www.phphelium.com/docs
         php5-memcache
         php5-curl
         apache2-dev
+		helium (core files - see http://www.phphelium.com for more)
 
     PECL dependencies:
         pecl install apc
@@ -56,16 +57,15 @@ Full documentation available at: http://www.phphelium.com/docs
         3. Add a directive to the routes.ini file in the root directory (or into the database table “pages” as specified by the model Pages) to handle requests based on the desired URI (and be sure the URI is unique):
 
             Routes.ini example entry:
-
-                [home]
-                uri = "/home/"
-                title = "Home Page"
-                class = "Home"
-                directive = "init"
-                secure = 0
-                bypass = 1
-                matching = 1
-                cache = 0
+	
+                home.uri = "/home/"
+                home.title = "Home Page"
+                home.class = "Home"
+                home.directive = "init"
+                home.secure = 0
+                home.bypass = 1
+                home.matching = 1
+                home.cache = 0
 
         4. Modify your new controller file, added to the [../src/controllers] directory, with the following needed parameters:
             1. protected $class = '[CLASS_NAME]'

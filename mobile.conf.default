@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+    ServerName mobile.{SERVNAME}
+    ServerAlias mobile.{SERVNAME}
+    DocumentRoot {WWWDIR}mobile/html
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory {WWWDIR}mobile/html/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ErrorLog /var/log/mobile.{SERVNAME}_error.log
+    LogLevel warn
+
+    CustomLog /var/log/mobile.{SERVNAME}_access.log combined
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_URI} !^/css/
+    RewriteCond %{REQUEST_URI} !^/js/
+    RewriteCond %{REQUEST_URI} !^/images/
+
+    RewriteRule . /index.php [L]
+</VirtualHost>
